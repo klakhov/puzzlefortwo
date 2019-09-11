@@ -1,0 +1,8 @@
+.puzzle-content-holder{
+  position: relative;
+  margin-left: 10vh;
+}
+.scroll-defender{
+   height:100%;
+   overflow:hidden;
+}
