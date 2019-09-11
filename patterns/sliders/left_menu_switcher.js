@@ -25,4 +25,3 @@ function setListener(item,index) {
 for(let i=0;i<buttons.length;i++){
   setListener(buttons[i],i);
 };
-hideAll(content);
