@@ -1,6 +1,6 @@
 <?php session_start() ?>
 <!DOCTYPE html>
-<script type="text/javascript" src="../../service/impo/jquery-3.4.1.min.js"></script>
+<?php include '../../service/apps/allimports/allimports.php'; ?>
 <html lang="en" dir="ltr">
   <?php include_once '../html_patterns/meta.html'; ?>
 

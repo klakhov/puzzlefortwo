@@ -1,0 +1,12 @@
+.warnin{
+  height: 25vh;
+  text-align: center;
+  padding-top: 15vh;
+}
+.warnin span{
+  font-size:28px;
+  font-family: Arial;
+  font-weight: 500;
+  color:black;
+  margin-left: 30px;
+}

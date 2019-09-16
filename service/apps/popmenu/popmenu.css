@@ -1,0 +1,79 @@
+.quick-settings {
+
+    box-sizing: border-box;
+    background-color: #383838;
+    opacity: 0;
+    top: -250px;
+    position: absolute;
+    z-index: 0;
+
+    left:50%;
+    transform-origin: 50% 50%;
+    transform: translate(-50%);
+
+    width: 620px;
+    height: 340px;
+    border-radius: 5px;
+    transition-duration: 0.18s;
+}
+
+.quick-settings header {
+    box-sizing: border-box;
+    padding: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    background-color: #252525;
+    width: 520px;
+    height: 20px;
+}
+
+
+.opened-settings {
+    z-index: 100;
+    width: 520px;
+    top: 15vh;
+    opacity: 1;
+}
+
+
+.opened-settings main {
+    box-sizing: border-box;
+    padding: 20px 60px 20px 60px;
+}
+
+.opened-settings header {
+    width: 520px;
+}
+
+.settings-back {
+    z-index: 0;
+    opacity: 0.0;
+    display: none;
+    position: fixed;
+    background-color: rgb(16,16,16);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    -webkit-filter: blur(15px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: blur(15px);
+}
+
+.opened-settings-back {
+    display: block;
+    opacity: 0.23;
+    z-index: 99;
+}
+.modal-message{
+  font-size:22px;
+  font-family: Arial;
+  font-weight: 600;
+  color:white;
+  text-align: center;
+  display: block;
+  margin-top: 24%;
+}
