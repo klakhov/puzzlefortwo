@@ -14,7 +14,7 @@ class User
 
   function __construct($nick)
   {
-    $this->$login = $nick;
+    $this->login = $nick;
   }
 
 
@@ -34,7 +34,7 @@ class User
   {
     $data = array();
     $data["id"] = $this->id;
-    $data["login"] = $this->$login;
+    $data["login"] = $this->login;
     $data["password"] = $this->password;
     $data["email"] = $this->email;
     $data["status"] = $this->status;

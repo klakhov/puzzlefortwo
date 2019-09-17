@@ -1,11 +1,11 @@
 <?php
-include_once '../../classes/Udentified.php';
+include_once '../../classes/Undentified.php';
 $login = $_POST['login'];
 $password = $_POST['password'];
 $email = $_POST['email'];
 
 $password = password_hash($password,PASSWORD_DEFAULT);
-$user = new Udentified($login,$password,$email);
+$user = new Undentified($login,$password,$email);
 
 $response = array();
 if($user->loginExists()){
@@ -17,6 +17,6 @@ if($user->loginExists()){
   $response["result"] = "UserCreated";
 }
 $response = json_encode($response);
-echo $response;
+echo "$response";
 
 ?>
