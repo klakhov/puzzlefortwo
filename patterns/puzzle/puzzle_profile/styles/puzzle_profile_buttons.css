@@ -1,0 +1,21 @@
+
+#profile-window #profile-buttons button{
+    background-color: inherit;
+    border: 0px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    color: #000;
+    font-size: 22px;
+}
+
+#profile-window #profile-buttons button:hover{
+    outline: none;
+    background-color: #ddddddcc;
+/*    opacity: 0.8;*/
+}
+
+#profile-window #profile-buttons button:focus{
+    outline: none;
+    background-color: #ddd;
+/*    opacity: 0.99;*/
+}

@@ -7,8 +7,12 @@
   margin-left: 10vh;
   margin-right: 10vh;
 
+  min-width: 640px;
+
   display: grid;
   grid-template-columns: 20% 80%;
+
+  overflow: hidden;
 }
 
 .room-list{
@@ -28,6 +32,8 @@
   margin-left: 5%;
   list-style: none;
   padding: 10px;
+
+  min-width: 110px;
 }
 .room-menu-switcher-li{
   margin:10px 0;
@@ -48,7 +54,7 @@
   padding: 1%;
   border: 2px solid black;
   display:grid;
-  grid-template-columns: 20% 60% 14% 6%;
+  grid-template-columns: 20% 20% 44% 6%;
 }
 .room-span{
   display: inline-block;
@@ -79,6 +85,24 @@
   color:rgb(183,158,115);
   padding-top: 5px;
   padding-left: 5px;
+  margin-left: 60%;
+}
+.room-join-unavaible{
+  grid-column: 3/4;
+  font-size: 18px;
+  cursor: default;
+  color:gray;
+  padding-top: 5px;
+  padding-left: 5px;
+  margin-left: 60%;
+}
+@media screen and (max-width:1070px) {
+  .room-join{
+    margin-left: 10%;
+  }
+  .room-join-unavaible{
+    margin-left: 10%;
+  }
 }
 .room-img{
   grid-column: 4/5;
@@ -88,7 +112,7 @@
 }
 .room-create{
   display:grid;
-  grid-template-rows: 10% 10% 10% 10% 10%;
+  grid-template-rows: 80px 80px 80px 80px 80px;
 }
 .room-create-header{
   grid-row: 2/3;
@@ -145,6 +169,8 @@
   font-size: 14px;
 
   cursor: pointer;
+
+  max-height: 45px;
 }
 .room-create-submit:hover{
   color:rgb(183,158,115);

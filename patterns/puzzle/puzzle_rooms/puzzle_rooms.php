@@ -13,7 +13,7 @@
     <form class="room-switcher room-create hidden" action="../../service/apps/room/room-create.php" method="post">
         <span class="room-create-header">Создайте свою комнату</span>
         <input class="room-create-desctiption" type="text" name="desctiption" value="" placeholder="Описание комнаты" maxlength="100"
-        required id="room-create-desctiption">
+        required id="room-create-desctiption" autocomplete="off">
         <select class="room-create-img" name="img-name" id="room-create-img" required>
           <option value="img-1">img-1</option>
           <option value="img-2">img-2</option>
@@ -24,7 +24,7 @@
     <div class="room" style="display:none" id="room">
       <span class="room-span room-nick-1" id="room-nick-1">Nick-1</span>
       <span class="room-span room-desctiption" id="room-desctiption">Desctiption</span>
-      <span class="room-span room-join">Присоедениться</span>
+      <span class="room-span room-join" id="room-join">Присоедениться</span>
       <span class="room-span room-img" id="room-img">img-1</span>
     </div>
   </div>

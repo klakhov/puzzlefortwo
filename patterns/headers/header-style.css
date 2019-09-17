@@ -34,7 +34,9 @@
 }
 .entrance{
   width:20%;
-  height: 50%;
+  height: 23px;
+  min-width: 60px;
+  min-height: 23px;
   margin-left: 40%;
   margin-top: 1.5%;
   background: rgb(183,158,115);
