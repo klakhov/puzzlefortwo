@@ -1,4 +1,6 @@
-
+button{
+  outline:none;
+}
 .room-folder{
   position: relative;
   top:5vh;
@@ -86,6 +88,9 @@
   padding-top: 5px;
   padding-left: 5px;
   margin-left: 60%;
+
+  background: none;
+  border: none;
 }
 .room-join-unavaible{
   grid-column: 3/4;
@@ -95,6 +100,9 @@
   padding-top: 5px;
   padding-left: 5px;
   margin-left: 60%;
+
+  background: none;
+  border: none;
 }
 @media screen and (max-width:1070px) {
   .room-join{

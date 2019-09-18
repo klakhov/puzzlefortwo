@@ -21,20 +21,29 @@
         </select>
         <button class="room-create-submit" type="button" name="button" id="room-create-submit">Создать</button>
     </form>
-    <div class="room" style="display:none" id="room">
+    <form class="room" style="display:none" id="room" method="post" action="../../pages/game-room/game-room.php">
       <span class="room-span room-nick-1" id="room-nick-1">Nick-1</span>
       <span class="room-span room-desctiption" id="room-desctiption">Desctiption</span>
-      <span class="room-span room-join" id="room-join">Присоедениться</span>
+      <button class="room-span room-join" id="room-join" type="submit">Присоедениться</button>
       <span class="room-span room-img" id="room-img">img-1</span>
-    </div>
+      <input type="hidden" name="room-uid" value="" id="room-uid">
+    </form>
   </div>
   <div class="quick-settings">
       <header>модальное окно</header>
       <span class="modal-message" id="modal-message"></span>
+      <form style="display:none"  method="post" action="../../pages/game-room/game-room.php" id="second-player-accept">
+        <input type="hidden" name="opponent-nick" value="" id="opponent-nick">
+        <input type="hidden" name="image-playing" value="" id="image-playing">
+        <input type="hidden" name="player-number" value="" id="player-number">
+      </form>
+      <button class="modal-accept-room-join" id="modal-accept-room-join" type="submit" form="second-player-accept">Приступить к игре</button>
   </div>
+
   <div class="settings-back closed-settings-back"></div>
 </div>
 <script type="text/javascript" src="../../patterns/puzzle/puzzle_rooms/room_switcher.js"></script>
 <script type="text/javascript" src="../../service/apps/room/room-view.js"></script>
 <script type="text/javascript" src="../../service/apps/room/room-create.js"></script>
 <script type="text/javascript" src="../../service/apps/popmenu/popmenu.js"></script>
+<script type="text/javascript" src="../../service/apps/room/room-join-vaiting.js"></script>

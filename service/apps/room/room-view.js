@@ -15,11 +15,13 @@ function roomView() {
           roomExample.children("#room-nick-1").text(result['rows'][i]['nick1']);
           roomExample.children("#room-desctiption").text(result['rows'][i]['description']);
           roomExample.children("#room-img").text(result['rows'][i]['img']);
+          roomExample.children("#room-uid").val(result['rows'][i]['uid']);
           roomList.append(roomExample);
           roomExample.css({'display':'grid'});
           if(roomExample.children("#room-nick-1").text() == nick){
             roomExample.children("#room-join").removeClass('room-join');
             roomExample.children("#room-join").addClass('room-join-unavaible');
+            roomExample.children("#room-join").attr("disabled","disabled");
           };
         }
       }
