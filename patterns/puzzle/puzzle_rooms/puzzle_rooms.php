@@ -33,9 +33,7 @@
       <header>модальное окно</header>
       <span class="modal-message" id="modal-message"></span>
       <form style="display:none"  method="post" action="../../pages/game-room/game-room.php" id="second-player-accept">
-        <input type="hidden" name="opponent-nick" value="" id="opponent-nick">
-        <input type="hidden" name="image-playing" value="" id="image-playing">
-        <input type="hidden" name="player-number" value="" id="player-number">
+        <input type="hidden" name="room-uid" value="" id="room-uid">
       </form>
       <button class="modal-accept-room-join" id="modal-accept-room-join" type="submit" form="second-player-accept">Приступить к игре</button>
   </div>

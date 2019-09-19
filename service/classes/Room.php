@@ -14,6 +14,8 @@ class Room
   public $uid;
   public $status;
 
+  public $test = "hello";
+
   function __construct($uid)
   {
     $this->uid = $uid;
@@ -21,7 +23,12 @@ class Room
 
   public function create($login,$time,$image,$description)
   {
-    include '../connect/connections.php';
+    $iclusion = include '../../service/apps/connect/connections.php';
+    if(!$inclusion){
+      include '../connect/connections.php';
+    }else{
+      include '../../service/apps/connect/connections.php';
+    }
 
     $query = "INSERT INTO `rooms` (user1, user2, timestep, image, description,uid,status)
     VALUES('$login','not-set','$time','$image','$description','$this->uid','waiting')";
@@ -29,8 +36,11 @@ class Room
   }
   public function construct()
   {
-    include '../connect/connections.php';
-
+    if(file_exists('../../service/apps/connect/connections.php')){
+      include '../../service/apps/connect/connections.php';
+    }else{
+      include '../connect/connections.php';
+    };
     $query = "SELECT * FROM rooms WHERE uid='$this->uid'";
     $result = $connect->query($query);
 
@@ -43,6 +53,15 @@ class Room
     $this->image = $row[4];
     $this->description = $row[5];
     $this->status = $row[7];
+  }
+  public function updateStatus($login)
+  {
+    include '../../service/apps/connect/connections.php';
+
+    $query = "UPDATE rooms
+    SET user2='$login', status='playing'
+    WHERE uid='$this->uid'";
+    $connect->query($query);
   }
 }
 

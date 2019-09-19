@@ -15,9 +15,7 @@ function roomAccepted() {
         stg_back.toggleClass("opened-settings-back");
 
         acceptForm = $("#second-player-accept");
-        acceptForm.children("#opponent-nick").val(result['opponentNick']);
-        acceptForm.children("#player-number").val(1);
-        acceptForm.children("#image-playing").val(result['imagePlaying']);
+        acceptForm.children("#room-uid").val(result['room-uid'])
         acceptButton = $("#modal-accept-room-join");
         acceptButton.css({'display':'block'});
       }else{
@@ -27,4 +25,4 @@ function roomAccepted() {
     }
   });
 }
-// roomAccepted();
+roomAccepted();
