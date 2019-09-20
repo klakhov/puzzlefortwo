@@ -6,6 +6,7 @@ $("#register-submit").on("click",function(){
   let login = $("#register-login-text").val();
   let password = $("#register-password-text").val();
   let email = $("#register-email-text").val();
+  console.log(login, password, email);
 
   let errorLog = $("#register-error-type");
 

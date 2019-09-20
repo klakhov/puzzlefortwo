@@ -17,6 +17,6 @@ if($user->loginExists()){
   $response["result"] = "UserCreated";
 }
 $response = json_encode($response);
-echo "$response";
+echo $response;
 
 ?>

@@ -100,7 +100,7 @@
     display: block;
 }
 
-#profile-window #profile-name {
+#profile-window .profile-name {
     font-size: 28px;
     text-decoration: underline;
     cursor: pointer;

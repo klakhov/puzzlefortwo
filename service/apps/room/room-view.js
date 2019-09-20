@@ -8,21 +8,14 @@ function roomView() {
     success:function(data){
       result = JSON.parse(data);
       var roomCanvas = $("#room");
-      nick = result.login;
       if(result.number-roomExamples>0){
         for(var i=roomExamples; i<result.number; i++){
           let roomExample = roomCanvas.clone();
           roomExample.children("#room-nick-1").text(result['rows'][i]['nick1']);
           roomExample.children("#room-desctiption").text(result['rows'][i]['description']);
           roomExample.children("#room-img").text(result['rows'][i]['img']);
-          roomExample.children("#room-uid").val(result['rows'][i]['uid']);
           roomList.append(roomExample);
           roomExample.css({'display':'grid'});
-          if(roomExample.children("#room-nick-1").text() == nick){
-            roomExample.children("#room-join").removeClass('room-join');
-            roomExample.children("#room-join").addClass('room-join-unavaible');
-            roomExample.children("#room-join").attr("disabled","disabled");
-          };
         }
       }
       setTimeout(roomView, 3000);

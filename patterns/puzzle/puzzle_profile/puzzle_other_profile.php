@@ -1,3 +1,4 @@
+<!--
 <link rel="stylesheet" href="../../patterns/puzzle/left_menu_switcher.css">
 <link rel="stylesheet" href="../../patterns/puzzle/puzzle_profile/styles/puzzle_profile.css">
 <link rel="stylesheet" href="../../patterns/puzzle/puzzle_profile/styles/puzzle_profile_main.css">
@@ -6,7 +7,8 @@
 <link rel="stylesheet" href="../../patterns/puzzle/puzzle_profile/styles/puzzle_profile_last_events.css">
 <link rel="stylesheet" href="../../patterns/puzzle/puzzle_profile/styles/puzzle_profile_settings.css">
 <link rel="stylesheet" href="../../patterns/puzzle/puzzle_profile/styles/puzzle_profile_follows.css">
-<div class="left_menu_switcher" id="my-profile">
+-->
+<div class="left_menu_switcher hidden" id="other-profile">
     <main id="profile-window">
         <div class="profile-left">
             <div id="profile-main">
@@ -17,20 +19,24 @@
                         </div>
                         <div id="profile-hint">
                             <p>
-                                Участие в создании PFT
+                                Участие в создании PFT!!
                             </p>
                         </div>
                     </div>
                 </div>
                 <div id=profile-without-image>
-                    <div class="profile-name" id="my-profile-name">
+                    <div class="profile-name" id="other-profile-name">
 <!--                        -->
                     </div>
                     <div id="profile-description">
                         Член коллектива в каком-то из смыслов
                     </div>
                     <div id="profile-buttons">
-                        <button id="edit-profile">Редактировать</button>
+                        <button id="follow-profile">
+                          <!--  -->
+                        </button>
+                        <button id="invite-profile">Пригласить</button>
+                        <button id="connect-profile">Присоединиться</button>
                     </div>
                 </div>
             </div>
@@ -178,46 +184,61 @@
             </div>
         </div>
         <div class="profile-right">
-            <div class="section-name" class="stg-email" id="my-stg-email">
-                Настройки аккаунта
-            </div>
-            <div id="settings-elems">
-                <div class="settings-checkbox-elem">
-                    <input class="checkbox" type="checkbox">
-                    <label class="checkbox-label">Закрытый аккаунт</label>
-                </div>
-                <div class="settings-checkbox-elem">
-                    <input class="checkbox" type="checkbox">
-                    <label class="checkbox-label">Нецензурная лексика в чате</label>
-                </div>
-                <div class="settings-checkbox-elem">
-                    <input class="checkbox" type="checkbox">
-                    <label class="checkbox-label">Уведомления о достижениях</label>
-                </div>
-                <div class="settings-checkbox-elem">
-                    <input class="checkbox" type="checkbox">
-                    <label class="checkbox-label">Включить приглашения</label>
-                </div>
-                <div class="settings-checkbox-elem">
-                    <input class="checkbox" type="checkbox">
-                    <label class="checkbox-label">Прочее говно</label>
-                </div>
-            </div>
-            <div class="section-name" id="stg_email">
+            <div class="section-name">
                 Друзья
             </div>
             <div id="follows-overflow">
-
-                <?php
-                include '../../service/apps/profile/profile-follows-start.php';
-                ?>
-
+                <div class="friend-main">
+                    <div class="friend-image"></div>
+                    <div class="friend-other">
+                        <div class="friend-name">
+                            Silas
+                        </div>
+                        <div class="friend-description">
+                            Я рожден чтобы создать модальное окно..
+                        </div>
+                    </div>
+                </div>
+                <div class="friend-main">
+                    <div class="friend-image"></div>
+                    <div class="friend-other">
+                        <div class="friend-name">
+                            Silas
+                        </div>
+                        <div class="friend-description">
+                            Я рожден чтобы создать модальное окно..
+                        </div>
+                    </div>
+                </div>
+                <div class="friend-main">
+                    <div class="friend-image"></div>
+                    <div class="friend-other">
+                        <div class="friend-name">
+                            Silas
+                        </div>
+                        <div class="friend-description">
+                            Я рожден чтобы создать модальное окно..
+                        </div>
+                    </div>
+                </div>
+                <div class="friend-main">
+                    <div class="friend-image"></div>
+                    <div class="friend-other">
+                        <div class="friend-name">
+                            Silas
+                        </div>
+                        <div class="friend-description">
+                            Я рожден чтобы создать модальное окно..
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="find-by-id">
-                Найти аккаунт игрока: <input type="text" id="input-id">
+            <div id=warning-other-profile>
+                Напоминаем Вам, что это <b><i>чужой аккаунт</i></b> во избежание путаницы в чем-либо
             </div>
+            <button id="to-my-profile">Вернуться</button>
         </div>
     </main>
-    <script type="text/javascript" src="../../service/apps/profile/profile-get.js"></script>
-    <script type="text/javascript" src="../../service/apps/find-by-nick/find-by-nick.js"></script>
+    <script type="text/javascript" src="../../patterns/puzzle/puzzle_profile/puzzle_profile_buttons.js"></script>
+<!--    <script type="text/javascript" src="to-home.js"></script>-->
 </div>

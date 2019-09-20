@@ -12,7 +12,7 @@
     <div class="super-hed"></div>
     <form class="login" id="login"  action="../../service/apps/entrance/login.php" method="post">
       <span class="top-spans">Вход</span>
-      <input type="text" name="" value="" class="form-input" placeholder="Логин" autocomplete="off" min="3" maxlength="11"
+      <input type="text" name="" value="" class="form-input" placeholder="Логин" autocomplete="off" min="3" maxlength="10"
       id="login-login-text"><br>
       <input type="password" name="" value="" class="form-input" placeholder="Пароль" autocomplete="off" min="6" maxlength="10"
       id="login-password-text">
@@ -23,7 +23,7 @@
     </form>
     <form class="register" id="register">
       <span class="top-spans">Регистрация</span>
-      <input type="text" name="login" value="" class="form-input" placeholder="Логин" autocomplete="off" min="3" maxlength="11"
+      <input type="text" name="login" value="" class="form-input" placeholder="Логин" autocomplete="off" min="3" maxlength="10"
       id="register-login-text"><br>
       <input type="password" name="password" value="" class="form-input" placeholder="Пароль" autocomplete="off" min="6" maxlength="10"
       id="register-password-text"><br>

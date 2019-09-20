@@ -18,10 +18,32 @@ function setListener(item,index) {
     hideAll(content);
     content[index].classList.remove('hidden');
 
+    if(index == 0) {
+      updateProfileDinamicElements();
+    }
+
     unselectAll(buttons);
     item.classList.add('left-menu-active');
   });
 };
+
+function updateProfileDinamicElements() {
+  $.ajax({
+        type:"POST",
+        url:"../../service/apps/profile/profile-follows.php",
+        data:{},
+        success:function(data){
+          let response = JSON.parse(data);
+          console.log(response["response"]);
+          $("#follows-overflow").html("");
+          response["response"].forEach(function(item, i, arr) {
+            $("#follows-overflow").html($("#follows-overflow").html() + item);
+          })
+        }
+  })
+
+}
+
 for(let i=0;i<buttons.length;i++){
   setListener(buttons[i],i);
 };

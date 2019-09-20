@@ -77,25 +77,3 @@
   display: block;
   margin-top: 24%;
 }
-.modal-accept-room-join{
-  text-align: center;
-  width:30%;
-  height:10%;
-  margin-left:35%;
-  margin-top: 10%;
-  background: rgb(183,158,115);
-  color:white;
-  font-family: Arial;
-  font-size: 14px;
-  border: 1px solid rgb(183,158,115);
-  cursor: pointer;
-  text-align: center;
-
-  display: none;
-}
-.modal-accept-room-join:hover{
-  color:rgb(183,158,115);
-  background: #373737;
-  border: 1px solid rgb(183,158,115);
-
-}
