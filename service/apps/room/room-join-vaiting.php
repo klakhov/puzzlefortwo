@@ -7,14 +7,14 @@ include '../../classes/Room.php';
 
 $time = time()-300;
 
-$query = "SELECT * FROM rooms WHERE user1='$login' AND status='playing'";
+$query = "SELECT * FROM rooms WHERE user1='$login' AND status='waiting'";
 $result = $connect->query($query);
 $row = mysqli_num_rows($result);
 if($row>0){
   $row = mysqli_fetch_row($result);
   $uid = $row[6];
   $room = new Room($uid);
-  $room->construct();
+  $room->constructByUid();
   $data = array('success' =>'roomFull' , 'room-uid'=>$room->uid, 'opponentNick'=>$room->user2);
 }else{
   $data = array('success' => 'roomEmpty');

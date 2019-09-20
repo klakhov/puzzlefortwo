@@ -30,14 +30,14 @@
     </form>
   </div>
   <div class="quick-settings">
-      <header>модальное окно</header>
+      <header>Получено подтверждение</header>
       <span class="modal-message" id="modal-message"></span>
+      <span class="timer" id="timer"></span>
       <form style="display:none"  method="post" action="../../pages/game-room/game-room.php" id="second-player-accept">
         <input type="hidden" name="room-uid" value="" id="room-uid">
       </form>
       <button class="modal-accept-room-join" id="modal-accept-room-join" type="submit" form="second-player-accept">Приступить к игре</button>
   </div>
-
   <div class="settings-back closed-settings-back"></div>
 </div>
 <script type="text/javascript" src="../../patterns/puzzle/puzzle_rooms/room_switcher.js"></script>

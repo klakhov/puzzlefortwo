@@ -11,11 +11,14 @@
     $login = $_SESSION['login'];
     $uid = $_POST['room-uid'];
     $room = new Room($uid);
-    $room->construct();
+    $room->constructByUid();
     if($room->user1 != $login){
-      $room->updateStatusToPlaying($login);
+      $room->updateStatusToWaiting($login);
+    }elseif($room->user1 == $login){
+      $room->updateStatusToPlaying();
     };
   ?>
   <?php include '../../patterns/puzzle/puzzle_game-room/puzzle_game-room.php'; ?>
+
 </body>
 </html>

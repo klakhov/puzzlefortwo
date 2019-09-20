@@ -5,7 +5,7 @@ $login = $_SESSION['login'];
 
 $time = time() - 300;
 
-$query = "SELECT * FROM rooms WHERE timestep > '$time' AND status='waiting'";
+$query = "SELECT * FROM rooms WHERE timestep > '$time' AND status='lobby'";
 $result = $connect->query($query);
 
 $rows = mysqli_num_rows($result);
