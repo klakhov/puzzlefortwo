@@ -23,12 +23,11 @@ class Room
 
   public function create($login,$time,$image,$description)
   {
-    $iclusion = include '../../service/apps/connect/connections.php';
-    if(!$inclusion){
-      include '../connect/connections.php';
-    }else{
+    if(file_exists('../../service/apps/connect/connections.php')){
       include '../../service/apps/connect/connections.php';
-    }
+    }else{
+      include '../connect/connections.php';
+    };
 
     $query = "INSERT INTO `rooms` (user1, user2, timestep, image, description,uid,status)
     VALUES('$login','not-set','$time','$image','$description','$this->uid','waiting')";
@@ -54,12 +53,12 @@ class Room
     $this->description = $row[5];
     $this->status = $row[7];
   }
-  public function updateStatus($login)
+  public function updateStatusToPlaying($user2)
   {
     include '../../service/apps/connect/connections.php';
 
     $query = "UPDATE rooms
-    SET user2='$login', status='playing'
+    SET user2='$user2', status='playing'
     WHERE uid='$this->uid'";
     $connect->query($query);
   }

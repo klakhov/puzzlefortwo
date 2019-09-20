@@ -9,14 +9,13 @@ $time = time()-300;
 
 $query = "SELECT * FROM rooms WHERE user1='$login' AND status='playing'";
 $result = $connect->query($query);
-
-if($result){
+$row = mysqli_num_rows($result);
+if($row>0){
   $row = mysqli_fetch_row($result);
   $uid = $row[6];
   $room = new Room($uid);
   $room->construct();
   $data = array('success' =>'roomFull' , 'room-uid'=>$room->uid, 'opponentNick'=>$room->user2);
-
 }else{
   $data = array('success' => 'roomEmpty');
 }

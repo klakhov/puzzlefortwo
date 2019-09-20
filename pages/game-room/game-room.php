@@ -13,7 +13,7 @@
     $room = new Room($uid);
     $room->construct();
     if($room->user1 != $login){
-      $room->updateStatus($login);
+      $room->updateStatusToPlaying($login);
     };
   ?>
   <?php include '../../patterns/puzzle/puzzle_game-room/puzzle_game-room.php'; ?>
