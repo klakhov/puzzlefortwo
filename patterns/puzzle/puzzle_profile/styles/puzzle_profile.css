@@ -1,10 +1,8 @@
 #profile-window {
     border: 1px solid #000;
     height: 800px;
-/*    width: 1400px;*/
-    margin-left: 10vh;
-    margin-right: 10vh;
-/*    margin: auto;*/
+    width: 1720px;
+    margin-left: 100px;
     margin-top: 40px;
     
     display: grid;
@@ -44,7 +42,7 @@
     grid-row-gap: 10px;
 }
 
-#profile-window #achievements-overflow, #events-overflow{
+#profile-window #achievements-overflow, #events-overflow, #follows-overflow {
     border: 1px solid #383838;
     width: 100%;
     margin: auto;
@@ -59,6 +57,10 @@
 
 #profile-window #events-overflow {
     height: 680px;
+}
+
+#profile-window #follows-overflow {
+    height: 300px;
 }
 
 #profile-window .checkbox-label {

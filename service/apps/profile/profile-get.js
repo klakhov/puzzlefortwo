@@ -5,6 +5,8 @@ $.ajax({
       data:{},
       success:function(data){
         let response = JSON.parse(data);
-        $("#stg_email").text($("#stg_email").text() + response["email"]);
+        $("#my-profile-name").text(response["login"]);
+        $("#my-stg-email").text($("#my-stg-email").text() + response["email"]);
+        // console.log("!!!AAAAAAAA", response["follows"]);
       }
 })
