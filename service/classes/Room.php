@@ -65,6 +65,8 @@ class Room
 
     $time = time();
 
+    $this->user2 = $user2;
+    
     $query = "UPDATE rooms
     SET user2='$user2', status='waiting', timestep_accept='$time'
     WHERE uid='$this->uid'";

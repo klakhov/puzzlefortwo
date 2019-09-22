@@ -6,6 +6,11 @@
 
 <body style="margin:0">
   <?php include_once '../../service/apps/headerswitcher/header_switcher.php'; ?>
+  
+
+  <div class="block1-zone" id="zone1"></div>
+
+
 </body>
 </html>
 

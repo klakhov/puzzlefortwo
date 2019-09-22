@@ -35,7 +35,7 @@
 .entrance{
   width:20%;
   height: 23px;
-  min-width: 60px;
+  min-width: 90px;
   min-height: 23px;
   margin-left: 40%;
   margin-top: 1.5%;
@@ -50,6 +50,8 @@
   display: block;
   margin-bottom: 3%;
   text-decoration: none;
+
+  overflow: hidden;
 }
 .entrance:hover{
   color:rgb(183,158,115);

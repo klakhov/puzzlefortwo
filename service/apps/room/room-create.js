@@ -2,6 +2,7 @@ $("#room-create-submit").on("click",function(){
   imgName = $("#room-create-img").val();
   desctiption = $("#room-create-desctiption").val();
   message = $("#modal-message");
+  console.log(message);
   if(desctiption == ''){
     message.text("Заполните описание комнаты!");
     stg = $(".quick-settings");
@@ -16,7 +17,6 @@ $("#room-create-submit").on("click",function(){
       data:{'img-name':imgName,'desctiption':desctiption},
       success:function(data){
         let response = JSON.parse(data);
-        console.log(response);
         if(response.success == 'roomCreated'){
           message.text("Комнaта создана!");
         }else if (response.success == 'roomAlreadySet') {
