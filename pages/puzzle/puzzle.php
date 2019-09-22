@@ -11,8 +11,12 @@
     <?php include '../../patterns/sliders/left_menu.php';?>
 
     <div class="puzzle-content-holder" >
+      
       <?php include '../../patterns/puzzle/puzzle_profile/puzzle_profile.php'; ?>
       <?php include '../../patterns/puzzle/puzzle_rooms/puzzle_rooms.php'; ?>
+
+      <?php include '../../patterns/puzzle/puzzle_profile/puzzle_other_profile.php'; ?>
+
     </div>
   <?php }else{ ?>
     <?php include '../../patterns/puzzle/puzzle_unlogged_warning/unlogged-warning.html'; ?>
