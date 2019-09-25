@@ -6,7 +6,7 @@ $("#top-exit").on("click",function(event) {
     type:"POST",
     url:"../../service/apps/exit/top_exit.php",
     success:function(){
-      //$(location).attr('href',"https://puzzlefortwo.000webhostapp.com/pages/entrance/entrance.php");
+      // $(location).attr('href',"https://puzzlefortwo.000webhostapp.com/pages/entrance/entrance.php");
       $(location).attr('href',"http://puzzlefortwo/pages/entrance/entrance.php");
     }
   });

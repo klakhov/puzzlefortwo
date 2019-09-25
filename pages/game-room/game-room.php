@@ -10,7 +10,7 @@
   <?php
     $login = $_SESSION['login'];
     $uid = $_POST['room-uid'];
-    $_SESSION['uid'] = $uid;
+    $_SESSION['room-uid'] = $uid;
     $room = new Room($uid);
     $room->constructByUid();
     if($room->user1 != $login){

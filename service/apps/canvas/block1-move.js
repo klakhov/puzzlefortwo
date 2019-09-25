@@ -5,7 +5,6 @@ let zone1 = document.getElementById('zone1');
 let offX;
 let offY;
 
-
 class Zone {
   constructor(id) {
     let zone = document.getElementById(id);
@@ -41,7 +40,6 @@ function blockUpdate(num, top, left) {
     url:"../../service/apps/room/canvas-update.php",
     data:{'top':top, 'left':left, 'block':num},
     success:function () {
-      alert("Block data updated");
     }
   })
 }
@@ -69,37 +67,10 @@ block1.addEventListener("dragend",function(event) {
     let left = (event.pageX - 100 - offX) + 'px';
     block1.style.top = top;
     block1.style.left = left;
-    blockUpdate(1, top, left);
     block1.style.opacity = 1;
+    blockUpdate(1, top, left);
+
   }else{
     this.style.opacity = 1;
   };
-});
-
-
-block2.addEventListener("dragstart",function (event) {
-  offX = event.offsetX;
-  offY = event.offsetY;
-  this.style.opacity = 0.001;
-});
-
-block2.addEventListener("dragend",function(event) {
-  console.log(event.pageX, event.pageY);
-  zone1 = new Zone('zone2');
-  let dotY = event.pageY - offY;
-  let dotX = event.pageX - offX;
-  let dotY2 = dotY + 100;
-  let dotX2 = dotX + 100;
-
-  if(zone1.blockInZone(dotX, dotY, dotX2, dotY2)){
-    let top = (event.pageY - 100 - offY) + 'px';
-    let left = (event.pageX - 100 - offX) + 'px';
-    block2.style.top = top;
-    block2.style.left = left;
-    blockUpdate(2, top, left);
-    block2.style.opacity = 1;
-  }else{
-    this.style.opacity = 1;
-  };
-
 });

@@ -15,7 +15,8 @@ class Room
   public $status;
   public $timestep_accept;
 
-  public $test = "hello";
+  public $block1;
+  public $block2;
 
   function __construct($uid)
   {
@@ -29,9 +30,16 @@ class Room
     }else{
       include '../connect/connections.php';
     };
+    $block1 = array('top' => '300px', 'left' => '600px');
+    $block2 = array('top' => '300px', 'left' => '1100px');
 
-    $query = "INSERT INTO `rooms` (user1, user2, timestep, image, description,uid,status,timestep_accept)
-    VALUES('$login','not-set','$time','$image','$description','$this->uid','lobby',0)";
+    $block1 = serialize($block1);
+    $block2 = serialize($block2);
+
+    $query = "INSERT INTO `rooms` (user1, user2, timestep, image, description,
+      uid,status,timestep_accept, block1, block2)
+    VALUES('$login','not-set','$time','$image','$description','$this->uid',
+      'lobby',0, '$block1','$block2')";
     $connect->query($query);
   }
   public function constructByUid()
@@ -54,6 +62,9 @@ class Room
     $this->description = $row[5];
     $this->status = $row[7];
     $this->timestep_accept = $row[8];
+
+    $this->block1 = unserialize($row[9]);
+    $this->block2 = unserialize($row[10]);
   }
   public function updateStatusToWaiting($user2)
   {
@@ -66,7 +77,7 @@ class Room
     $time = time();
 
     $this->user2 = $user2;
-    
+
     $query = "UPDATE rooms
     SET user2='$user2', status='waiting', timestep_accept='$time'
     WHERE uid='$this->uid'";

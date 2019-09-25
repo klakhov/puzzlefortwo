@@ -15,7 +15,14 @@
   </div>
   <div class="block1" draggable="true" id="block1"></div>
   <div class="block2" draggable="true" id="block2"></div>
-  <script type="text/javascript" src="../../service/apps/canvas/canvas.js"></script>
+
+  <?php if($login == $room->user1){?>
+    <script type="text/javascript" src="../../service/apps/canvas/block1-move.js"></script>
+    <script type="text/javascript" src="../../service/apps/canvas/block2-update.js"></script>
+  <?php }elseif($login == $room->user2){ ?>
+    <script type="text/javascript" src="../../service/apps/canvas/block2-move.js"></script>
+    <script type="text/javascript" src="../../service/apps/canvas/block1-update.js"></script>
+  <?php } ?>
 
 
   <div class="player2">

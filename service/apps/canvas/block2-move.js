@@ -41,7 +41,6 @@ function blockUpdate(num, top, left) {
     url:"../../service/apps/room/canvas-update.php",
     data:{'top':top, 'left':left, 'block':num},
     success:function () {
-      alert("Block data updated");
     }
   })
 }
@@ -50,31 +49,6 @@ zone1.addEventListener("click",function (event) {
   console.log(event.pageX, event.pageY);
 })
 
-block1.addEventListener("dragstart",function (event) {
-  offX = event.offsetX;
-  offY = event.offsetY;
-  this.style.opacity = 0.001;
-});
-
-block1.addEventListener("dragend",function(event) {
-  console.log(event.pageX, event.pageY);
-  zone1 = new Zone('zone1');
-  let dotY = event.pageY - offY;
-  let dotX = event.pageX - offX;
-  let dotY2 = dotY + 100;
-  let dotX2 = dotX + 100;
-
-  if(zone1.blockInZone(dotX, dotY, dotX2, dotY2)){
-    let top = (event.pageY - 100 - offY) + 'px';
-    let left = (event.pageX - 100 - offX) + 'px';
-    block1.style.top = top;
-    block1.style.left = left;
-    blockUpdate(1, top, left);
-    block1.style.opacity = 1;
-  }else{
-    this.style.opacity = 1;
-  };
-});
 
 
 block2.addEventListener("dragstart",function (event) {

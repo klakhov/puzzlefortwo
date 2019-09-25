@@ -14,7 +14,6 @@ if($my_login != $login) {
   if(count($row) > 0) {
 
       // By class User??;
-      session_start();
       $_SESSION['other-login'] = $login;
 
       $data = array();

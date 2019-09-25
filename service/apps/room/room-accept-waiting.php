@@ -3,7 +3,7 @@ session_start();
 include '../connect/connections.php';
 include '../../classes/Room.php';
 
-$uid = $_SESSION['uid'];
+$uid = $_SESSION['room-uid'];
 $room = new Room($uid);
 $room->constructByUid();
 $time_close = $room->timestep_accept + 60;
