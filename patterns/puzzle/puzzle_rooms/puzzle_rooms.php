@@ -7,9 +7,7 @@
       <li class="room-menu-switcher-li room-menu-switcher-li-active">Список комнат</li>
       <li class="room-menu-switcher-li">Создать комнату</li>
     </ul>
-
     <div class="room-switcher room-list" id="room-list"></div>
-
     <form class="room-switcher room-create hidden" action="../../service/apps/room/room-create.php" method="post">
         <span class="room-create-header">Создайте свою комнату</span>
         <input class="room-create-desctiption" type="text" name="desctiption" value="" placeholder="Описание комнаты" maxlength="100"

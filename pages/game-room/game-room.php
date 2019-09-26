@@ -13,9 +13,9 @@
     $_SESSION['room-uid'] = $uid;
     $room = new Room($uid);
     $room->constructByUid();
-    if($room->user1 != $login){
+    if(($room->user1 != $login) && ($room->checkStatus() != 'waiting')){
       $room->updateStatusToWaiting($login);
-    }elseif($room->user1 == $login){
+    }elseif(($room->user1 == $login) && ($room->checkStatus() != 'playing')){
       $room->updateStatusToPlaying();
     };
   ?>

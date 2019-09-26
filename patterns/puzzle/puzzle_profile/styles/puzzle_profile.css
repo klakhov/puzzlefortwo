@@ -4,11 +4,11 @@
     width: 1720px;
     margin-left: 100px;
     margin-top: 40px;
-    
+
     display: grid;
     grid-template-columns: 600px 500px 1fr;
     grid-column-gap: 10px;
-    
+
     padding: 15px 25px;
     box-sizing: border-box;
 }
@@ -26,7 +26,7 @@
     display: grid;
     grid-template-columns: 220px 1fr;
     grid-column-gap: 2px;
-    
+
     margin-bottom: 20px;
     padding-bottom: 50px;
     border-bottom: 1px solid #555;

@@ -83,6 +83,18 @@ class Room
     WHERE uid='$this->uid'";
     $connect->query($query);
   }
+  public function checkStatus()
+  {
+    if(file_exists('../../service/apps/connect/connections.php')){
+      include '../../service/apps/connect/connections.php';
+    }else{
+      include '../connect/connections.php';
+    };
+    $query = "SELECT * FROM rooms WHERE uid='$this->uid'";
+    $result = $connect->query($query);
+    $row = mysqli_fetch_row($result);
+    return $row[7];
+  }
   public function updateStatusToPlaying()
   {
     if(file_exists('../../service/apps/connect/connections.php')){

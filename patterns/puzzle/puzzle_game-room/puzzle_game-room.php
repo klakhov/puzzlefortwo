@@ -30,7 +30,7 @@
     <span id="player2-stats"class="stats-span">stats 2</span>
   </div>
 </div>
-<?php if($login != $room->user1){ ?>
+<?php if(($login != $room->user1) && ($room->checkStatus() != 'playing')){ ?>
   <div class="quick-settings-unhideble">
       <header>Ожидание</header>
       <span class="modal-message" id="modal-message">Ожидание игрока <?=$room->user1?></span>
