@@ -22,7 +22,7 @@
     <form class="room" style="display:none" id="room" method="post" action="../../pages/game-room/game-room.php">
       <span class="room-span room-nick-1" id="room-nick-1">Nick-1</span>
       <span class="room-span room-desctiption" id="room-desctiption">Desctiption</span>
-      <button class="room-span room-join" id="room-join" type="submit">Присоедениться</button>
+      <button class="room-span room-join" id="room-join" type="submit">Присоединиться</button>
       <span class="room-span room-img" id="room-img">img-1</span>
       <input type="hidden" name="room-uid" value="" id="room-uid">
     </form>

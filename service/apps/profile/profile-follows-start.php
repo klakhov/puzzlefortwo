@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 $follows = unserialize($_SESSION["follows"]);
 
 foreach ($follows as $person) {

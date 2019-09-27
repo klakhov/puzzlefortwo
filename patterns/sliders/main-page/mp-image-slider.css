@@ -1,0 +1,30 @@
+/* img{
+opacity:0.8;
+-moz-opacity:0.8;
+filter: alpha(opacity=80) black;
+-khtml-opacity: 0.8;
+background-color:#000;
+} */
+
+
+.slider{
+  height:350px;
+  width: 1000px;
+  padding-top: 150px;
+  background-image: url("../../sliders/main-page/img/img_nature_wide.jpg")
+  /* background-repeat:no-repeat; */
+}
+.content-info{
+  text-align: center;
+  font-family: Arial;
+  color:white;
+
+}
+.content-info-big{
+  text-align: center;
+  font-size: 38px;
+  font-weight: 700;
+}
+.content-info-small{
+text-align: center;
+}

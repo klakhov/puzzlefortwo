@@ -33,7 +33,6 @@
 .left-menu-li{
     display: block;
     width: calc(100%-5px);
-    height:30px;
 
     margin:10px 0;
     margin-top: -100px;
@@ -48,6 +47,9 @@
     transition-property: margin;
     transition-duration: 0.14s;
     transition-delay: .0s;
+
+    border-top:3px solid rgb(56,56,56);
+    border-bottom:3px solid rgb(56,56,56);
 
 }
 .left-menu-li:hover{
