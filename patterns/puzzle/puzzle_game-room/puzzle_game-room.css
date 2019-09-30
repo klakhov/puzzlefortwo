@@ -43,3 +43,18 @@
   text-align: center;
   margin-top: 20%;
 }
+.puzzle{
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.zone1{
+  margin: 10%;
+  grid-column: 1/2;
+  border: 2px solid blue;
+
+}
+.zone2{
+  grid-column: 2/3;
+  margin: 10%;
+  border: 2px solid red;
+}

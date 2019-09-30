@@ -6,7 +6,6 @@
 class User
 {
   public $login;
-  // public $password;
   public $email;
   public $id;
   public $status;
@@ -39,7 +38,6 @@ class User
     $data = array();
     $data["id"] = $this->id;
     $data["login"] = $this->login;
-    // $data["password"] = $this->password;
     $data["email"] = $this->email;
     $data["status"] = $this->status;
     $data["follows"] = $this->follows;

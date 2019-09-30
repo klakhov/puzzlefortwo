@@ -15,7 +15,8 @@ $("#login-submit").on("click",function(){
       success:function(response) {
         let result = JSON.parse(response);
         if(result['status'] == "SuccessfulLogin"){
-          $(location).attr('href',"http://puzzlefortwo/pages/main_page/main_page.php");
+           // $(location).attr('href',"https://puzzlefortwo.000webhostapp.com/pages/main_page/main_page.php");
+          $(location).attr('href',"../../pages/main_page/main_page.php");
         }
         else if(result['status'] == "UnsuccessfulLogin"){
           errorLog.text("Неверный логин/пароль");

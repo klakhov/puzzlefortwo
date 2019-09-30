@@ -6,3 +6,21 @@
    height:100%;
    overflow:hidden;
 }
+
+.locked {
+  padding: 20px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #363636cc;
+  text-align: center;;
+  font-size: 40px;
+  color: rgb(205, 110, 105);
+  background-image: url("../../service/apps/TODO/images/padlock.png");
+  background-position: center;
+  background-size: 100px;
+  background-repeat: no-repeat;
+
+}

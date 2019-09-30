@@ -1,20 +1,21 @@
 #profile-window {
     border: 1px solid #000;
     height: 800px;
-    width: 1720px;
+    width: 1830px;
     margin-left: 100px;
     margin-top: 40px;
-    
+
     display: grid;
-    grid-template-columns: 600px 500px 1fr;
+    grid-template-columns: 600px 500px 660px;
     grid-column-gap: 10px;
-    
+
     padding: 15px 25px;
     box-sizing: border-box;
 }
 
 #profile-window .profile-left, .profile-middle, .profile-right {
     border: 1px solid rgb(165,165,165);
+    height: 770px;
     padding: 24px 25px;
     box-sizing: border-box;
 }
@@ -26,7 +27,7 @@
     display: grid;
     grid-template-columns: 220px 1fr;
     grid-column-gap: 2px;
-    
+
     margin-bottom: 20px;
     padding-bottom: 50px;
     border-bottom: 1px solid #555;
@@ -42,7 +43,7 @@
     grid-row-gap: 10px;
 }
 
-#profile-window #achievements-overflow, #events-overflow, #follows-overflow {
+#profile-window .achievements-overflow, .events-overflow, .follows-overflow {
     border: 1px solid #383838;
     width: 100%;
     margin: auto;
@@ -51,15 +52,15 @@
     box-sizing: border-box;
 }
 
-#profile-window #achievements-overflow {
+#profile-window .achievements-overflow {
     height: 300px;
 }
 
-#profile-window #events-overflow {
+#profile-window .events-overflow {
     height: 680px;
 }
 
-#profile-window #follows-overflow {
+#profile-window .follows-overflow {
     height: 300px;
 }
 

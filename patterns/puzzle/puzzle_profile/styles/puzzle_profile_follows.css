@@ -1,4 +1,5 @@
 #profile-window .friend-main {
+  cursor: pointer;
     background-color: #A5A5A5;
     height: 66px;
     padding: 3px 8px;
@@ -9,6 +10,10 @@
     display: grid;
     grid-template-columns: 58px 1fr;
     grid-column-gap: 15px;
+}
+
+#profile-window .friend-main:hover {
+  background-color: #9f9595;
 }
 
 #profile-window .friend-image {
@@ -22,7 +27,7 @@
 }
 
 #profile-window .friend-other {
-    
+
 }
 
 #profile-window .friend-name {
@@ -34,7 +39,7 @@
 }
 
 #profile-window .friend-id {
-    
+
 }
 
 #profile-window #find-by-id {
@@ -55,5 +60,5 @@
     margin-top: 60px;
     font-size: 30px;
     text-align: center;
-    
+
 }

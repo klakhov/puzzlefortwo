@@ -7,13 +7,13 @@ function timeCheck(uid) {
       result = JSON.parse(data);
       if(result.status == 'waiting'){
         uid = result.uid;
-        $("#timer").css({'display':'block'});
-        $("#timer").text("Осталось времени: "+result.time_remain);
+        $("#timer-unhideble").css({'display':'block'});
+        $("#timer-unhideble").text("Осталось времени: "+result.time_remain);
         setTimeout(function(){
           timeCheck(uid)
         },1000);
       }else if (result.status == 'closed'){
-        $("#timer").css({'display':'none'});
+        $("#timer-unhideble").css({'display':'none'});
         $("#modal-message").text('Время вышло');
       }else{
 
@@ -29,13 +29,13 @@ function roomAccepted() {
     url:"../../service/apps/room/room-join-vaiting.php",
     success:function(data){
       result = JSON.parse(data);
-      message = $("#modal-message");
+      message = $("#modal-message-unhideble");
       console.log(result.success);
       if(result.success == 'roomFull'){
 
         message.text("К вашей комнате присоеденился игрок " + result['opponentNick']);
-        stg = $(".quick-settings");
-        stg_back = $(".settings-back");
+        stg = $(".quick-settings-unhideble");
+        stg_back = $(".settings-back-unhideble");
         stg.toggleClass("opened-settings");
         stg_back.toggleClass("opened-settings-back");
 

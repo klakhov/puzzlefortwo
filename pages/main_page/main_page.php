@@ -6,6 +6,10 @@
 
 <body style="margin:0">
   <?php include_once '../../service/apps/headerswitcher/header_switcher.php'; ?>
+  <link rel="stylesheet" href="mainpage.css">
+  <?php include '../../patterns/sliders/main-page/mp-image-slider.html'; ?>
+
+
 </body>
 </html>
 

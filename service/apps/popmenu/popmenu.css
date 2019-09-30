@@ -1,4 +1,4 @@
-.quick-settings {
+.quick-settings, .quick-settings-unhideble{
 
     box-sizing: border-box;
     background-color: #383838;
@@ -17,7 +17,8 @@
     transition-duration: 0.18s;
 }
 
-.quick-settings header {
+
+.quick-settings header, .quick-settings-unhideble header {
     box-sizing: border-box;
     padding: 2px;
     text-transform: uppercase;
@@ -46,7 +47,7 @@
     width: 520px;
 }
 
-.settings-back {
+.settings-back, .settings-back-unhideble{
     z-index: 0;
     opacity: 0.0;
     display: none;
@@ -77,7 +78,7 @@
   width:30%;
   height:10%;
   margin-left:35%;
-  margin-top: 10%;
+  margin-top: 5%;
   background: rgb(183,158,115);
   color:white;
   font-family: Arial;
