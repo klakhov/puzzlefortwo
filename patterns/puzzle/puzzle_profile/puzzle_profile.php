@@ -38,7 +38,7 @@
                 <div class="section-name">
                     Достижения
                 </div>
-                <div id="achievements-overflow">
+                <div class="achievements-overflow" id="profile-achievements-overflow">
                     <div class="achievement-elem">
                         <div class="achievement-image"></div>
                         <div class="achievement-other">
@@ -59,7 +59,7 @@
                                 P.S hover на ADMIN
                             </div>
                             <div class="achievement-description">
-                                Посмотреть свой профиль, фоточка временная в images папке
+                                Посмотреть свой профиль
                             </div>
                             <div class="achievement-state"
                                  style="border-left-width: 100px;"
@@ -126,7 +126,7 @@
             <div class="section-name">
                 Последние события
             </div>
-            <div id="events-overflow">
+            <div class="events-overflow" id="profile-events-overflow">
                 <div class="event">
                     <label>Сыграна игра #1338</label>
                 </div>
@@ -198,26 +198,25 @@
                     <input class="checkbox" type="checkbox">
                     <label class="checkbox-label">Включить приглашения</label>
                 </div>
-                <div class="settings-checkbox-elem">
-                    <input class="checkbox" type="checkbox">
-                    <label class="checkbox-label">Прочее говно</label>
-                </div>
             </div>
             <div class="section-name" id="stg_email">
                 Друзья
             </div>
-            <div id="follows-overflow">
-
-                <?php
-                include '../../service/apps/profile/profile-follows-start.php';
-                ?>
-
+            <div class="follows-overflow" id="profile-follows-overflow">
+              <!--  -->
             </div>
             <div id="find-by-id">
                 Найти аккаунт игрока: <input type="text" id="input-id">
             </div>
         </div>
     </main>
+
+    <script type="text/javascript" src="../../service/apps/profile/profile-import.js"></script>
+    <!-- Функции для всего -->
     <script type="text/javascript" src="../../service/apps/profile/profile-get.js"></script>
+    <!-- Добавление ника, почты -->
     <script type="text/javascript" src="../../service/apps/find-by-nick/find-by-nick.js"></script>
+    <!-- Добавление слушателя на поле для ввода ников игроков -->
+    <script type="text/javascript" src="../../service/apps/profile/profile-follows-listener.js"></script>
+    <!-- Добавление списка друзей и взаимодействия с ним -->
 </div>

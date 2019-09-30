@@ -4,9 +4,10 @@ session_start();
 $follows = unserialize($_SESSION["follows"]);
 
 $friends = array();
+$ind = 1;
 foreach ($follows as $person) {
   $str = "
-  <div class=\"friend-main\">
+  <div class=\"friend-main\" id=\"friend-main-$ind\">
       <div class=\"friend-image\"></div>
       <div class=\"friend-other\">
           <div class=\"friend-name\">
@@ -17,10 +18,11 @@ foreach ($follows as $person) {
           </div>
       </div>
   </div>";
-  $frineds[] = $str;
+  $ind++;
+  $friends[] = array("div" => $str, "name" => $person);
 }
   $data = array();
-  $data["response"] = $frineds;
+  $data["response"] = $friends;
   $data = json_encode($data);
   echo $data;
 

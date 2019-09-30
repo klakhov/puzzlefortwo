@@ -20,8 +20,34 @@ if($my_login != $login) {
       $data["response"] = "true";
       $data["id"] = $row[0];
       $data["login"] = $row[1];
-      $data["email"] = $row[3];
+      // $data["email"] = $row[3];
       $data["status"] = $row[4];
+
+      if($row[5] == null) {
+        $data["follows"] = array();
+      } else {
+        $data["follows"] = unserialize($row[5]);
+      }
+      $friends = array();
+      $ind = 1;
+      foreach ($data["follows"] as $person) {
+        $str = "
+        <div class=\"friend-main\" id=\"other-friend-main-$ind\">
+            <div class=\"friend-image\"></div>
+            <div class=\"friend-other\">
+                <div class=\"friend-name\">
+                    $person
+                </div>
+                <div class=\"friend-description\">
+                    Я рожден чтобы создать модальное окно..
+                </div>
+            </div>
+        </div>";
+        $ind++;
+        $friends[] = array("div" => $str, "name" => $person);
+      }
+      $data["follows"] = $friends;
+
       if(unserialize($_SESSION['follows']) == null) {
         $data["inFollow"] = "false";
         $data["why"] = "no array";

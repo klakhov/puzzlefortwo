@@ -39,7 +39,7 @@
       <header>Получено подтверждение</header>
       <span class="modal-message" id="modal-message-unhideble"></span>
       <span class="timer" id="timer-unhideble"></span>
-      <form style="display:none"  method="post" action="../../pages/game-room/game-room.php" id="second-player-accept">
+      <form style="display:none" method="post" action="../../pages/game-room/game-room.php" id="second-player-accept">
         <input type="hidden" name="room-uid" value="" id="room-uid">
       </form>
       <button class="modal-accept-room-join" id="modal-accept-room-join" type="submit" form="second-player-accept">Приступить к игре</button>

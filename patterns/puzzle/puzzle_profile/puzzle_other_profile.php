@@ -26,9 +26,9 @@
                 </div>
                 <div id=profile-without-image>
                     <div class="profile-name" id="other-profile-name">
-<!--                        -->
+                      <!--  -->
                     </div>
-                    <div id="profile-description">
+                    <div id="other-profile-description">
                         Член коллектива в каком-то из смыслов
                     </div>
                     <div id="profile-buttons">
@@ -44,7 +44,7 @@
                 <div class="section-name">
                     Достижения
                 </div>
-                <div id="achievements-overflow">
+                <div class="achievements-overflow" id="other-profile-achievements-overflow">
                     <div class="achievement-elem">
                         <div class="achievement-image"></div>
                         <div class="achievement-other">
@@ -65,7 +65,7 @@
                                 P.S hover на ADMIN
                             </div>
                             <div class="achievement-description">
-                                Посмотреть свой профиль, фоточка временная в images папке
+                                Посмотреть свой профиль
                             </div>
                             <div class="achievement-state"
                                  style="border-left-width: 100px;"
@@ -132,7 +132,7 @@
             <div class="section-name">
                 Последние события
             </div>
-            <div id="events-overflow">
+            <div class="events-overflow" id="other-profile-events-overflow">
                 <div class="event">
                     <label>Сыграна игра #1338</label>
                 </div>
@@ -187,51 +187,8 @@
             <div class="section-name">
                 Друзья
             </div>
-            <div id="follows-overflow">
-                <div class="friend-main">
-                    <div class="friend-image"></div>
-                    <div class="friend-other">
-                        <div class="friend-name">
-                            Silas
-                        </div>
-                        <div class="friend-description">
-                            Я рожден чтобы создать модальное окно..
-                        </div>
-                    </div>
-                </div>
-                <div class="friend-main">
-                    <div class="friend-image"></div>
-                    <div class="friend-other">
-                        <div class="friend-name">
-                            Silas
-                        </div>
-                        <div class="friend-description">
-                            Я рожден чтобы создать модальное окно..
-                        </div>
-                    </div>
-                </div>
-                <div class="friend-main">
-                    <div class="friend-image"></div>
-                    <div class="friend-other">
-                        <div class="friend-name">
-                            Silas
-                        </div>
-                        <div class="friend-description">
-                            Я рожден чтобы создать модальное окно..
-                        </div>
-                    </div>
-                </div>
-                <div class="friend-main">
-                    <div class="friend-image"></div>
-                    <div class="friend-other">
-                        <div class="friend-name">
-                            Silas
-                        </div>
-                        <div class="friend-description">
-                            Я рожден чтобы создать модальное окно..
-                        </div>
-                    </div>
-                </div>
+            <div class="follows-overflow" id="other-profile-follows-overflow">
+              <!--  -->
             </div>
             <div id=warning-other-profile>
                 Напоминаем Вам, что это <b><i>чужой аккаунт</i></b> во избежание путаницы в чем-либо
@@ -239,6 +196,8 @@
             <button id="to-my-profile">Вернуться</button>
         </div>
     </main>
-    <script type="text/javascript" src="../../patterns/puzzle/puzzle_profile/puzzle_profile_buttons.js"></script>
-<!--    <script type="text/javascript" src="to-home.js"></script>-->
+
+    <script type="text/javascript" src="../../service/apps/profile/profile_buttons.js"></script>
+    <script type="text/javascript" src="../../service/apps/TODO/TODO.js"></script>
+
 </div>

@@ -1,6 +1,17 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <?php include '../../service/apps/allimports/allimports.php'; ?>
+
+<script type="text/javascript" src="../../service/apps/TODO/TODO.js"></script>
+<script type="text/javascript">
+let elems_todo = [
+  "#settings-elems",
+  ".achievements-overflow",
+  ".events-overflow"
+];
+
+</script>
+
 <html lang="en" dir="ltr">
   <?php include_once '../html_patterns/meta.html'; ?>
   <link rel="stylesheet" href="puzzle.css">

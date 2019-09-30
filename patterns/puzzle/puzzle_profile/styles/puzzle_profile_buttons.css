@@ -1,5 +1,6 @@
 
-#profile-window #profile-buttons button, #to-my-profile{
+#profile-window #profile-buttons button,
+#profile-window #to-my-profile{
     background-color: inherit;
     border: 0px;
     border-bottom: 1px solid black;
@@ -8,17 +9,17 @@
     font-size: 22px;
 }
 
-#profile-window #profile-buttons button:hover, 
+#profile-window #profile-buttons button:hover,
 #profile-window #to-my-profile:hover{
     outline: none;
-    background-color: #ddddddcc;
+    background-color: #f6f6f6;
 /*    opacity: 0.8;*/
 }
 
 #profile-window #profile-buttons button:focus,
-#profile-window #to-my-profile:hover{
+#profile-window #to-my-profile:focus{
     outline: none;
-    background-color: #ddd;
+    background-color: #efefef;
 /*    opacity: 0.99;*/
 }
 
