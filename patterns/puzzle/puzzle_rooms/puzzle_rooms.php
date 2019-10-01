@@ -20,10 +20,10 @@
         <button class="room-create-submit" type="button" name="button" id="room-create-submit">Создать</button>
     </form>
     <form class="room" style="display:none" id="room" method="post" action="../../pages/game-room/game-room.php">
-      <span class="room-span room-nick-1" id="room-nick-1">Nick-1</span>
-      <span class="room-span room-desctiption" id="room-desctiption">Desctiption</span>
+      <span class="room-span room-nick-1" id="room-nick-1">Nick-1  --this is canvas--</span>
+      <span class="room-span room-desctiption" id="room-desctiption">Desctiption--this is canvas--</span>
       <button class="room-span room-join" id="room-join" type="submit">Присоединиться</button>
-      <span class="room-span room-img" id="room-img">img-1</span>
+      <span class="room-span room-img" id="room-img">img-1--this is canvas--</span>
       <input type="hidden" name="room-uid" value="" id="room-uid">
     </form>
   </div>
@@ -52,3 +52,4 @@
 <script type="text/javascript" src="../../service/apps/room/room-create.js"></script>
 <script type="text/javascript" src="../../service/apps/popmenu/popmenu.js"></script>
 <script type="text/javascript" src="../../service/apps/room/room-join-vaiting.js"></script>
+<script type="text/javascript" src="../../service/apps/room/room-hide-fromlist.js"></script>
