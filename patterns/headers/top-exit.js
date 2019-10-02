@@ -8,7 +8,7 @@ $("#top-exit").on("click",function(event) {
     success:function(){
       // $(location).attr('href',"https://puzzlefortwo.000webhostapp.com/pages/entrance/entrance.php");
 
-      $(location).attr('href',"http://puzzlefortwogit/pages/entrance/entrance.php");
+      $(location).attr('href',"../../pages/entrance/entrance.php");
 
     }
   });

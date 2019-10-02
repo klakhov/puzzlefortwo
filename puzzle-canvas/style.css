@@ -1,0 +1,20 @@
+h1 {
+    text-align: center;
+}
+
+#frame-game {
+    width: 400px;
+    height: 300px;
+    display: block;
+    border: 3px solid darkred;
+    margin: auto;
+}
+
+#canvas-puzzle {
+    display: block;
+    border: 1px solid darkblue;
+    box-sizing: border-box;
+    width: 880px;
+    height: 660px;
+    margin: auto;
+}

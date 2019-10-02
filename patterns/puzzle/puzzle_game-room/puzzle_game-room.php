@@ -40,3 +40,4 @@
 <?php } ?>
 
 <script type="text/javascript" src="../../service/apps/room/room-accept-waiting.js"></script>
+<script type="text/javascript" src="../../patterns/puzzle/puzzle_game-room/room-close-warning.js"></script>
