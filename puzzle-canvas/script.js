@@ -47,7 +47,10 @@ function getCoords(canvas, x, y) {
     y: (y - bbox.top) * (canvas.height / bbox.height)
   };
 }
-
+//рандом чисел
+function getRandomArbitary(min,max) {
+  return Math.ceil(Math.random()*(max-min)+min);
+}
 
 // Бесполезная функция
 function downloadImage() {
@@ -80,7 +83,10 @@ window.onload = function() {
     topId = i - imagesY;
 
     //console.log(i, x, y);
-    arr.push(new Fragment(DIRECTORY + (i + 1) + '.png', 0, 0, 1, (leftId >= 0 ? arr[leftId] : null),
+    // console.log(getRandomArbitary(0, 1900));
+    //getRandomArbitary(320,1520), getRandomArbitary(280,880),
+    arr.push(new Fragment(DIRECTORY + (i + 1) + '.png',
+    getRandomArbitary(320,1520), getRandomArbitary(280,880), 1, (leftId >= 0 ? arr[leftId] : null),
     (topId >= 0 ? arr[topId] : null)));
   }
 
@@ -121,39 +127,28 @@ window.onload = function() {
       rightFragment = selectedFragment.right;
       topFragment = selectedFragment.top;
       bottomFragment = selectedFragment.bottom;
-      if(topFragment != null){
-        if(topFragment.canConnectBottomFragment()){
 
+      if(topFragment != null && topFragment.canConnectBottomFragment()){
           coords = topFragment.leftBot();
           x = coords.x;
           y = coords.y;
-          selectedFragment.move(x - selectedFragment.third, y - selectedFragment.third);
-        }
-      }
-      if (leftFragment != null) {
-        if (leftFragment.canConnectRightFragment()) {
+          selectedFragment.smoothMove(x - selectedFragment.third, y - selectedFragment.third);
+      }else if (leftFragment != null && leftFragment.canConnectRightFragment()) {
           coords = leftFragment.rightTop();
           x = coords.x;
           y = coords.y;
-          selectedFragment.move(x - selectedFragment.third, y - selectedFragment.third);
-        }
-      }
-      if(bottomFragment != null){
-        if(bottomFragment.canConnectTopFragment()){
+          selectedFragment.smoothMove(x - selectedFragment.third, y - selectedFragment.third);
+      }else if (bottomFragment != null && bottomFragment.canConnectTopFragment()) {
           coords = bottomFragment.leftTop();
           x = coords.x;
           y = coords.y;
-          selectedFragment.move(x - selectedFragment.third, y - SCALE + selectedFragment.third);
-        }
-      }
-      if(rightFragment != null){
-        if(rightFragment.canConnectLeftFragment()){
-          // console.log("leftFragment works!");
+          selectedFragment.smoothMove(x - selectedFragment.third, y - SCALE + selectedFragment.third);
+      }else if(rightFragment != null && rightFragment.canConnectLeftFragment()){
           coords = rightFragment.leftTop();
           x = coords.x;
           y = coords.y;
-          selectedFragment.move(x - SCALE + selectedFragment.third, y - selectedFragment.third);
-        }
+          selectedFragment.smoothMove(x - SCALE + selectedFragment.third, y - selectedFragment.third);
+
       }
 
       SelectFragmentHelper.translatedFragmentId = -1;

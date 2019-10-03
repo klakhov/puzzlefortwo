@@ -134,4 +134,36 @@ class Fragment {
     this.y = y;
     //console.log("Now is", this.x, this.y);
   }
+  smoothMove(newX, newY){
+    let oldX = this.x;
+    let oldY = this.y;
+    let tact = 21;
+    let currentTact = 0;
+    let dX = (newX - oldX)/(tact);
+    let dY = (newY - oldY)/(tact);
+    let fragment = this;
+    //тактовая отрисовка
+    function reDraw() {
+        fragment.x += dX;
+        fragment.y += dY;
+        if(currentTact<tact){
+          setTimeout(reDraw, 30);
+          currentTact++;
+        }else{
+          fragment.x = newX;
+          fragment.y = newY;
+        }
+    }
+    reDraw();
+    console.log("diffentiator");
+    console.log(newX, newY);
+    console.log(oldX, oldY);
+    console.log(dX, dY);
+    console.log(dX*20, newX - oldX);
+    console.log(dY*20, newY - oldY);
+    console.log("diffentiator");
+
+    // this.x = newX;
+    // this.y = newY;
+  }
 }
