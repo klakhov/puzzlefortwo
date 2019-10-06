@@ -1,8 +1,6 @@
+<?php include 'SocketConnection.php'; ?>
 <?php
-/**
- *
- */
-class Room
+class Room extends SocketConnection
 {
 
   public $id;
