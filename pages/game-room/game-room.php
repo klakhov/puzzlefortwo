@@ -11,6 +11,8 @@
     $login = $_SESSION['login'];
     $uid = $_POST['room-uid'];
     $_SESSION['room-uid'] = $uid;
+
+    $socketConnection = new SocketConnection();
     $room = new Room($uid);
     $room->constructByUid();
     if(($room->user1 != $login) && ($room->checkStatus() != 'waiting')){

@@ -18,20 +18,21 @@ let elems_todo = [
 <body style="margin:0;" class="scroll-defender">
   <?php include_once '../../service/apps/headerswitcher/header_switcher.php'; ?>
 
-  <?php if($_COOKIE['logged'] == 'yes'){ ?>
+  <?php if((isset($_COOKIE['logged']) && ($_COOKIE['logged'] == 'yes'))){ ?>
     <?php include '../../patterns/sliders/left_menu.php';?>
 
-    <div class="puzzle-content-holder" >
+      <div class="puzzle-content-holder" >
 
-      <?php include '../../patterns/puzzle/puzzle_profile/puzzle_profile.php'; ?>
-      <?php include '../../patterns/puzzle/puzzle_rooms/puzzle_rooms.php'; ?>
+        <?php include '../../patterns/puzzle/puzzle_profile/puzzle_profile.php'; ?>
+        <?php include '../../patterns/puzzle/puzzle_rooms/puzzle_rooms.php'; ?>
 
-      <?php include '../../patterns/puzzle/puzzle_profile/puzzle_other_profile.php'; ?>
+        <?php include '../../patterns/puzzle/puzzle_profile/puzzle_other_profile.php'; ?>
 
-    </div>
+      </div>
   <?php }else{ ?>
     <?php include '../../patterns/puzzle/puzzle_unlogged_warning/unlogged-warning.html'; ?>
   <?php } ?>
+
 </body>
 </html>
 

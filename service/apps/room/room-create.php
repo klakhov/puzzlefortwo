@@ -11,7 +11,7 @@ $fetch_time = $time - 300;
 
 $response = array();
 
-$query = "SELECT * FROM rooms WHERE user1 = '$login' AND timestep > '$fetch_time'";
+$query = "SELECT * FROM rooms WHERE user1 = '$login' AND timestep > '$fetch_time' AND status='lobby'";
 $result = $connect->query($query);
 $rows = mysqli_num_rows($result);
 if($rows>0){

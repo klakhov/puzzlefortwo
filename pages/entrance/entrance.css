@@ -45,6 +45,7 @@
   padding: 8px;
   border-radius: 10px;
   cursor: pointer;
+  outline: 0 !important;
 }
 .form-link{
   font-family: Arial;
@@ -57,6 +58,7 @@
   margin-top: 10%;
 }
 
+
 .entrance-submit:hover{
   color:rgb(183,158,115);
   background: #373737;
@@ -67,7 +69,7 @@
   font-family: Arial;
   font-size: 16px;
   margin-left: auto;
-  margin-right: 76%;
+  margin-right: auto;
   text-align: center;
   text-decoration: underline;
   margin-bottom: 2%;
