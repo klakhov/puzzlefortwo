@@ -59,6 +59,8 @@ window.onload = function() {
     console.log(i, x, y, leftId, topId);
     // console.log(getRandomArbitary(0, 1900));
     //getRandomArbitary(320,1520), getRandomArbitary(280,880),
+    let newX = getRandomArbitary(320,1520);
+    let newY =getRandomArbitary(280,880);
     arr.push(
       new Fragment(
         DIRECTORY + (i + 1) + '.png',
@@ -67,7 +69,7 @@ window.onload = function() {
       )
     );
     //заполняем массив координат функции см в socket-additional-functions.js
-    fragmentPositionsInitialize(i, 0, 0)
+    fragmentPositionsInitialize(i, 0, 0);
   }
 
 
@@ -75,10 +77,11 @@ window.onload = function() {
   canvas.onmousemove = function(e) {
     var loc = getCoords(canvas, e.clientX, e.clientY);
     if (SelectFragmentHelper.translatedFragmentId >= 0) {
-      arr[SelectFragmentHelper.translatedFragmentId].move(loc.x - SelectFragmentHelper.deltaX,
-        loc.y - SelectFragmentHelper.deltaY);
       sendNewFragmentPostion(SelectFragmentHelper.translatedFragmentId,
         loc.x - SelectFragmentHelper.deltaX, loc.y - SelectFragmentHelper.deltaY, "no-smooth");
+      arr[SelectFragmentHelper.translatedFragmentId].move(loc.x - SelectFragmentHelper.deltaX,
+        loc.y - SelectFragmentHelper.deltaY);
+
     }
 
   };
@@ -115,36 +118,36 @@ window.onload = function() {
       y = Math.floor(i / imagesY);
       if (shouldConnect) {
         try {
-          console.log(selectedFragment);
+          // console.log(selectedFragment);
         } catch {}
         if (x == 0 && y == 0 && arr[i].rangeFromLeftTop(CanvasCharacteristic.firstX, CanvasCharacteristic.firstY) <= FragmentsGeneralCharacteristic.connectRange) {
           let tmpX = CanvasCharacteristic.firstX - FragmentsGeneralCharacteristic.third_x;
           let tmpY = CanvasCharacteristic.firstY - FragmentsGeneralCharacteristic.third_y;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (x == imagesX - 1 && y == 0 && arr[i].rangeFromRightTop(CanvasCharacteristic.lastX, CanvasCharacteristic.firstY) <= FragmentsGeneralCharacteristic.connectRange) {
           let tmpX = CanvasCharacteristic.lastX + FragmentsGeneralCharacteristic.third_x - FragmentsGeneralCharacteristic.widthScale;
           let tmpY = CanvasCharacteristic.firstY - FragmentsGeneralCharacteristic.third_y;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (x == imagesX - 1 && y == imagesY - 1 && arr[i].rangeFromRightBottom(CanvasCharacteristic.lastX, CanvasCharacteristic.lastY) <= FragmentsGeneralCharacteristic.connectRange) {
           let tmpX = CanvasCharacteristic.lastX + FragmentsGeneralCharacteristic.third_x - FragmentsGeneralCharacteristic.widthScale;
           let tmpY = CanvasCharacteristic.lastY + FragmentsGeneralCharacteristic.third_y - FragmentsGeneralCharacteristic.heightScale;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (x == 0 && y == imagesY - 1 && arr[i].rangeFromLeftBottom(CanvasCharacteristic.firstX, CanvasCharacteristic.lastY) <= FragmentsGeneralCharacteristic.connectRange) {
           let tmpX = CanvasCharacteristic.firstX - FragmentsGeneralCharacteristic.third_x;
           let tmpY = CanvasCharacteristic.lastY + FragmentsGeneralCharacteristic.third_y - FragmentsGeneralCharacteristic.heightScale;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (topFragment != null && topFragment.canConnectBottomFragment()) {
           coords = topFragment.leftBot();
           x = coords.x;
           y = coords.y;
           let tmpX = x - FragmentsGeneralCharacteristic.third_x;
           let tmpY = y - FragmentsGeneralCharacteristic.third_y;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (leftFragment != null && leftFragment.canConnectRightFragment()) {
           console.log("canConnectRightFragment");
           coords = leftFragment.rightTop();
@@ -153,8 +156,8 @@ window.onload = function() {
 
           let tmpX = x - FragmentsGeneralCharacteristic.third_x;
           let tmpY = y - FragmentsGeneralCharacteristic.third_y;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (bottomFragment != null && bottomFragment.canConnectTopFragment()) {
           console.log("canConnectTopFragment");
           coords = bottomFragment.leftTop();
@@ -162,16 +165,16 @@ window.onload = function() {
           y = coords.y;
           let tmpX = x - FragmentsGeneralCharacteristic.third_x;
           let tmpY = y - FragmentsGeneralCharacteristic.heightScale + FragmentsGeneralCharacteristic.third_y;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         } else if (rightFragment != null && rightFragment.canConnectLeftFragment()) {
           coords = rightFragment.leftTop();
           x = coords.x;
           y = coords.y;
           let tmpX = x - FragmentsGeneralCharacteristic.widthScale + FragmentsGeneralCharacteristic.third_x;
           let tmpY = y - FragmentsGeneralCharacteristic.third_y;
-          selectedFragment.smoothMove(tmpX, tmpY);
           sendNewFragmentPostion(selectedFragment.id, tmpX, tmpY, "smooth");
+          selectedFragment.smoothMove(tmpX, tmpY);
         }
       }
 

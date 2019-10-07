@@ -25,14 +25,17 @@ while (true) {
   }
   foreach ($newSocketArray as $newSocketArrayResource) {
     //обработка входящих
-    while (socket_recv($newSocketArrayResource, $socketData, 1024,0) >= 1) {
+    while (@socket_recv($newSocketArrayResource, $socketData, 1024,0) >= 1) {
       $socketMessage = $socketConnection->unseal($socketData);
-
-      $count = count($socketMessage);
+      if($socketMessage != NULL){
+        $count = count($socketMessage);
+      }else{
+        $count = 0;
+      }
       for ($i=0; $i < $count; $i++) {
         $fragments[$i] = $socketMessage[$i];
       };
-
+      var_dump($fragments[3]);
 
       $toSend = $socketConnection->seal($fragments);
       $socketConnection->send($toSend, $clientSocketArray);

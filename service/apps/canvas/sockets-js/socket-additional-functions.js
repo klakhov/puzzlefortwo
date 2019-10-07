@@ -22,5 +22,6 @@ function sendNewFragmentPostion(id, x, y, smooth) {
   fragmentPositions[id].y = y;
   fragmentPositions[id].smooth = smooth;
   fragmentPositions[id].client = findCookie("login");
-  socket.send(JSON.stringify(fragmentPositions));
+  let toSend = JSON.stringify(fragmentPositions);
+  socket.send(toSend);
  }
