@@ -69,7 +69,7 @@ window.onload = function() {
       )
     );
     //заполняем массив координат функции см в socket-additional-functions.js
-    fragmentPositionsInitialize(i, 0, 0);
+    // fragmentPositionsInitialize(i, 0, 0);
   }
 
 

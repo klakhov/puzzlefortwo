@@ -13,17 +13,11 @@ socket.onclose = function () {
 };
 socket.onmessage = function (event) {
   data = JSON.parse(event.data);
-  data.forEach(function (fragment) {
-    if (fragment != null) {
-      if(fragment.smooth == 'no-smooth' && fragment.client != findCookie("login")){
-        fragmentPositions[fragment.id].x = fragment.x;
-        fragmentPositions[fragment.id].y = fragment.y;
-        arr[fragment.id].move(fragment.x, fragment.y);
-      }else if(fragment.smooth == 'smooth' && fragment.client != findCookie("login")){
-        arr[fragment.id].smoothMove(fragment.x, fragment.y);
-        fragmentPositions[fragment.id].x = fragment.x;
-        fragmentPositions[fragment.id].y = fragment.y;
-      }
+  if(data.client != findCookie("login")) {
+    if(data.smooth == "no-smooth"){
+      arr[data.id].move(data.x, data.y);
+    }else if(data.smooth == "smooth"){
+      arr[data.id].smoothMove(data.x, data.y);
     }
-  });
+  }
 };

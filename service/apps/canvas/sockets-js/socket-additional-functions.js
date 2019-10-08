@@ -1,5 +1,5 @@
 //массивчик для обмена координатами с сервером
-fragmentPositions = [];
+// fragmentPositions = [];
 
 
 // будем использовать username который храниться в куках для идентификации того кто двигает
@@ -12,16 +12,23 @@ function findCookie (cookie)
     return null;
 }
 //  создаем массив позиций
-function fragmentPositionsInitialize(index, x, y) {
-  fragmentPositions[index] = {id:index, x:x, y:y, smooth:'no-smooth', client:0};
-}
+// function fragmentPositionsInitialize(index, x, y) {
+//   fragmentPositions[index] = {id:index, x:x, y:y, smooth:'no-smooth', client:0};
+// }
 
 //изменяем массив координат нашего фрагмента
 function sendNewFragmentPostion(id, x, y, smooth) {
-  fragmentPositions[id].x = x;
-  fragmentPositions[id].y = y;
-  fragmentPositions[id].smooth = smooth;
-  fragmentPositions[id].client = findCookie("login");
+  var fragmentPositions = {
+    id: id,
+    x: x,
+    y: y,
+    smooth: smooth,
+    client: findCookie("login")
+  };
+  // fragmentPositions[id].x = x;
+  // fragmentPositions[id].y = y;
+  // fragmentPositions[id].smooth = smooth;
+  // fragmentPositions[id].client = findCookie("login");
   let toSend = JSON.stringify(fragmentPositions);
   socket.send(toSend);
  }
