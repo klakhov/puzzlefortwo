@@ -17,15 +17,20 @@
     <span id="player2-stats"class="stats-span">stats 2</span>
   </div>
 </div>
-<?php if(($login != $room->user1) && ($room->checkStatus() != 'playing')){ ?>
-  <div class="quick-settings-unhideble">
+<?php if(($login != $room->user1) && ($room->checkStatus()!='playing')){?>
+  <div class="quick-settings-unhideble" id="quick-settings-unhideble">
       <header>Ожидание</header>
       <span class="modal-message" id="modal-message">Ожидание игрока <?=$room->user1?></span>
       <span class="timer" id="timer"></span>
   </div>
   <div class="settings-back-unhideble closed-settings-back"></div>
+<?php }else{ ?>
+  <div class="quick-settings">
+      <header>Получено подтверждение</header>
+      <span class="modal-message" id="modal-message"></span>
+  </div>
+  <div class="settings-back closed-settings-back"></div>
 <?php } ?>
-
 <script type="text/javascript" src="../../service/apps/room/room-accept-waiting.js"></script>
 <script type="text/javascript" src="../../patterns/puzzle/puzzle_game-room/room-close-warning.js"></script>
 

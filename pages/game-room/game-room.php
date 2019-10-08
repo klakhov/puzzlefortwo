@@ -15,9 +15,9 @@
     $socketConnection = new SocketConnection();
     $room = new Room($uid);
     $room->constructByUid();
-    if(($room->user1 != $login) && ($room->checkStatus() != 'waiting')){
+    if(($room->user1 != $login) && ($room->checkStatus() != 'playing')){
       $room->updateStatusToWaiting($login);
-    }elseif(($room->user1 == $login) && ($room->checkStatus() != 'playing')){
+    }elseif($room->user1 == $login){
       $room->updateStatusToPlaying();
     };
   ?>
