@@ -26,8 +26,12 @@
   <div class="settings-back-unhideble closed-settings-back"></div>
 <?php }else{ ?>
   <div class="quick-settings">
-      <header>Получено подтверждение</header>
-      <span class="modal-message" id="modal-message"></span>
+      <header>Выход</header>
+      <span class="modal-message" id="modal-message">Вы уверены что хотите покинуть
+        комнату и оставить друга один на один с пазлом?</span>
+      <div class="row justify-content-center mt-5">
+        <button class="col-3" id="user-room-exit">Да!</button>
+      </div>
   </div>
   <div class="settings-back closed-settings-back"></div>
 <?php } ?>

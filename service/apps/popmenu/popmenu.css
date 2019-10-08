@@ -109,3 +109,18 @@
   border: 1px solid rgb(183,158,115);
   text-align: center;
 }
+#user-room-exit{
+  background: rgb(183,158,115);
+  color:white;
+  font-family: Arial;
+  font-size: 18px;
+  border: 1px solid rgb(183,158,115);
+  text-align: center;
+}
+#user-room-exit:hover{
+  background: #252525;
+  color:rgb(183,158,115);
+}
+#user-room-exit:focus{
+  outline:none;
+}
