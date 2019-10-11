@@ -24,7 +24,8 @@
       <span class="timer" id="timer"></span>
   </div>
   <div class="settings-back-unhideble closed-settings-back"></div>
-<?php }else{ ?>
+<?php } ?>
+
   <div class="quick-settings">
       <header>Выход</header>
       <span class="modal-message" id="modal-message">Вы уверены что хотите покинуть
@@ -34,7 +35,8 @@
       </div>
   </div>
   <div class="settings-back closed-settings-back"></div>
-<?php } ?>
+
+
 <script type="text/javascript" src="../../service/apps/room/room-accept-waiting.js"></script>
 <script type="text/javascript" src="../../patterns/puzzle/puzzle_game-room/room-close-warning.js"></script>
 

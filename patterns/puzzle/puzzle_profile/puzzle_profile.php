@@ -218,5 +218,5 @@
     <script type="text/javascript" src="../../service/apps/find-by-nick/find-by-nick.js"></script>
     <!-- Добавление слушателя на поле для ввода ников игроков -->
     <script type="text/javascript" src="../../service/apps/profile/profile-follows-listener.js"></script>
-    <!-- Добавление списка друзей и взаимодействия с ним -->
+    <!-- Добавление списка друзей и взаимодействия с ним -->  
 </div>

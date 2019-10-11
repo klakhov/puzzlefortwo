@@ -10,32 +10,23 @@ function goToMyProfile() {
 }
 
 function connect() {
-  console.log("connect");
-  alert("Подключение к комнате игрока ещё не работает");
-  // $.ajax({
-  //   type: "POST",
-  //   url: "../../service/apps/profile/profile-rooms.php",
-  //   data: {},
-  //   success: function(data) {
-  //     let response = JSON.parse(data);
-  //     console.log(response);
-  //     if (response["response"] == "yes") {
-  //       $.ajax({
-  //         type: "POST",
-  //         url: "../../pages/game-room/game-room.php",
-  //         data: {
-  //           "room-uid": response["uid"]
-  //         },
-  //         success: function(data2) {
-  //           console.log(data2);
-  //           $(location).attr('href',"../../pages/game-room/game-room.php");
-  //         }
-  //       })
-  //     } else {
-  //       alert("Вы не можете присоединиться");
-  //     }
-  //   }
-  // })
+  $.ajax({
+    type: "POST",
+    url: "../../service/apps/profile/profile-rooms.php",
+    data: {},
+    success: function(data) {
+      let response = JSON.parse(data);
+      if (response["response"] == "yes") {
+        var form = $('<form action="../../pages/game-room/game-room.php" method="post"></form>');
+        var input =$('<input type="hidden" name="room-uid" value="'+response['uid']+'"/>');
+        form.append(input);
+        $(document.body).append(form);
+        form.submit();
+      } else {
+        alert("Вы не можете присоединиться");
+      }
+    }
+  })
 }
 
 function invite() {

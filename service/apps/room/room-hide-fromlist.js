@@ -9,7 +9,6 @@ function roomHide() {
       success:function (data) {
         let result = JSON.parse(data);
         rows = result['number'];
-
         let uids = new Array();
         for(var i = 0; i<=rows; i++){
           uids[i] = result['room-uids'][i];
