@@ -1,0 +1,18 @@
+.field{
+    height: 85vh;
+    border:2px solid black;
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+}
+.first-user{
+    grid-column: 1/2;
+    border:$border-biege-2;
+}
+.our-canvas{
+    grid-column: 2/3;
+    border:2px solid green;
+}
+.second-user{
+    grid-column: 3/4;
+    border:$border-biege-2;
+}

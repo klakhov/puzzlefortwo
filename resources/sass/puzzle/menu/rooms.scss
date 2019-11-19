@@ -1,0 +1,161 @@
+#showRooms{
+    display: none;
+}
+.rooms-container{
+    border:2px solid black;
+    margin-left: 20vh;
+    margin-right: 15vh;
+    height:85vh;
+    min-width: 640px;
+
+    display: grid;
+    grid-template-columns: 20% 80%;
+
+    overflow: hidden;
+}
+#room-list{
+    grid-column: 2/3;
+    margin: 16px;
+    border:2px solid gray;
+    overflow: auto;
+}
+#room-create{
+    grid-column: 2/3;
+    margin: 16px;
+    border:2px solid gray;
+    overflow: auto;
+}
+#room-menu{
+    border:2px solid gray;
+    grid-column: 1/2;
+    margin: 5%;
+
+    list-style: none;
+    padding: 10px;
+    min-width: 110px;
+}
+.room-menu-link{
+    margin:10px 0;
+    font-size:22px;
+    font-family: $font-family-base;
+    font-weight: 600;
+    color:black;
+    cursor: pointer;
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
+}
+.room-menu-link-active{
+    border-bottom:$border-biege-2;
+    border-top:$border-biege-2;
+}
+#room-create{
+    display: none;
+}
+
+.room{
+    margin: 15px;
+    border:2px solid black;
+    height: auto;
+    min-height:100px;
+    padding: 30px;
+}
+.room-nick{
+    padding-top: 8px;
+    text-align: left;
+    font-size: $font-middle;
+    font-family: $font-family-base;
+    font-weight: 500;
+}
+.room-join{
+    padding-top: 8px;
+    text-align: center;
+    font-size: $font-middle;
+    font-family: $font-family-base;
+    font-weight: 500;
+    color:$beige;
+    cursor:pointer;
+}
+.room-join-inaccessible{
+    padding-top: 8px;
+    text-align: center;
+    font-size: $font-middle;
+    font-family: $font-family-base;
+    font-weight: 500;
+    color:gray;
+    cursor: default;
+}
+.room-description{
+    padding-top: 8px;
+    font-size: $font-middle;
+    font-family: $font-family-base;
+    font-weight: 400;
+    color:rgb(165,165,165);
+    text-align: left;
+}
+.room-img{
+    padding-top: 8px;
+    text-align: right;
+    font-size: $font-middle;
+    font-family: $font-family-base;
+    font-weight: 500;
+    margin-left: 1px;
+}
+
+.room-create-header{
+    text-align: center;
+    font-size:$font-big;
+    font-family: $font-family-base;
+    font-weight: 600;
+    color:black;
+    margin-top: 10%;
+    margin-bottom:2%;
+}
+.room-create-description{
+    font-size:$font-middle;
+    font-family: $font-family-base;
+    font-weight: 400;
+    color:black;
+    height:50px;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 0 1%;
+
+    border: 2px solid #252525;
+    outline: none;
+}
+.room-create-img{
+    font-size:$font-middle;
+    font-family: $font-family-base;
+    font-weight: 400;
+    color:black;
+    height:50px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;
+    padding: 0 1%;
+    outline: none;
+
+    border: 2px solid #252525;
+}
+.room-create-submit{
+    border: $border-biege-1;
+
+    background: $beige;
+    color:white;
+    font-family: $font-family-base;
+    font-size: 14px;
+    margin-top: 2%;
+
+    cursor: pointer;
+    height:45px;
+    max-height: 45px;
+}
+.room-create-submit:hover{
+    color:$beige;
+    background: #373737;
+    border: $border-biege-1;
+}
+.room-create-description:focus,.room-create-img:focus{
+    border: $border-biege-2;
+}
+

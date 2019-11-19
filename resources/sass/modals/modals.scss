@@ -1,0 +1,53 @@
+.modal-header-title{
+    color:white;
+    font-family: $font-family-base;
+    font-size: $font-middle;
+    font-weight: 600;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: center;
+    display: block;
+    border-bottom: none;
+    background: $black-primary;
+}
+.content-modal{
+    background: $gray-primary;
+    height: 340px;
+}
+
+.modal-message{
+    margin-top: 15%;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    font-weight: 600;
+    font-family: $font-family-base;
+}
+.modal-message-small{
+    margin-top: 8%;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    font-weight: 600;
+    font-family: $font-family-base;
+}
+
+.modal-footer-title{
+    border-top: none;
+}
+.modal-ok-button{
+    margin-top: 10%;
+    height:30px;
+    display: block;
+    color:$white;
+    background: $beige;
+    border: $border-biege-1;
+}
+.modal-ok-button:hover{
+    color:$beige;
+    background: $gray-primary;
+}
+
+.modal-dialog{
+    margin-top: 8%;
+}

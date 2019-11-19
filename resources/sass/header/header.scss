@@ -1,0 +1,36 @@
+.head{
+    height:55px;
+    background: $gray-primary;
+    z-index: 100;
+    position: relative;
+    border-bottom: 1px solid black;
+}
+.header-links{
+    font-family: $font-family-base;
+    font-size: $font-small;
+    color:$white;
+    font-weight: 600;
+}
+.header-links:hover{
+    color:$beige;
+    text-decoration: none;
+}
+.toheight{
+    height:45px;
+}
+.entrance{
+    text-decoration: none;
+    text-align: center;
+    padding: 4px;
+    display: block;
+    color:$white;
+    background: $beige;
+    height: 30px;
+    width: 105px;
+    border: $border-biege-1;
+}
+.entrance:hover{
+    color:$beige;
+    background: $gray-primary;
+    text-decoration: none;
+}

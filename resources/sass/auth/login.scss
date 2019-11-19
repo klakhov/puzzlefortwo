@@ -1,0 +1,75 @@
+.login-card{
+    border:none;
+}
+.login-header{
+    text-align: center;
+    font-family: $font-family-base;
+    font-size: $font-big;
+}
+.entrance-button{
+    background: $beige;
+    border-radius: 10px;
+    border:$border-biege-1;
+    color:$white;
+    width:160px;
+    height: 40px;
+}
+.entrance-button:hover{
+    background: $gray-primary;
+    color:$beige;
+}
+.form-card{
+}
+.login-input{
+    border: 2px solid black;
+    border-radius: 8px;
+}
+.login-to-link{
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    color:gray;
+    display: block;
+    text-align: center;
+    text-decoration: underline;
+}
+.login-to-link:hover{
+    color:gray;
+}
+
+.logout{
+    color:white;
+    background: $beige;
+    display: block;
+    width:135px;
+    text-align: center;
+    height:30px;
+    padding-top: 1.3%;
+    border:$border-biege-1;
+}
+.logout:hover{
+    color:$beige;
+    background:$gray-primary;
+
+}
+
+.logout-drop{
+    width:135px;
+    min-width: 135px;
+    border-radius: 0;
+    border: $border-biege-1;
+    margin-top: 0;
+    background: $gray-primary;
+
+}
+.profile-item{
+    color:white;
+    font-family:$font-size-base;
+    border-top: 1px solid $gray-primary;
+    border-bottom: 1px solid $gray-primary;
+}
+.profile-item:hover{
+    color:$beige;
+    background: $gray-primary;
+    border-top: 1px solid $beige;
+    border-bottom: 1px solid $beige;
+}

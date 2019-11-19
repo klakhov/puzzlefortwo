@@ -1,0 +1,18 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import 'primary';
+@import 'header/header';
+@import 'auth/login';
+@import 'sliders/profile_slider';
+@import 'puzzle/menu/profile';
+@import 'puzzle/menu/rooms';
+@import 'modals/modals';
+@import "puzzle/game/main";
+@import "puzzle/game/user";
