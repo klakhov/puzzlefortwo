@@ -67,14 +67,18 @@
     font-weight: 500;
 }
 .room-join{
-    padding-top: 8px;
     text-align: center;
     font-size: $font-middle;
     font-family: $font-family-base;
     font-weight: 500;
-    color:$beige;
+    color:white;
     cursor:pointer;
+    background: $beige;
+    height: 35px;
+    padding: 0;
+    border-radius: 3px;
 }
+
 .room-join-inaccessible{
     padding-top: 8px;
     text-align: center;

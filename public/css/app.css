@@ -11377,13 +11377,16 @@ button {
 }
 
 .room-join {
-  padding-top: 8px;
   text-align: center;
   font-size: 18px;
   font-family: Arial;
   font-weight: 500;
-  color: #b79e73;
+  color: white;
   cursor: pointer;
+  background: #b79e73;
+  height: 35px;
+  padding: 0;
+  border-radius: 3px;
 }
 
 .room-join-inaccessible {
@@ -11552,5 +11555,16 @@ button {
 .second-user {
   grid-column: 3/4;
   border: 2px solid #b79e73;
+}
+
+#canvas-puzzle {
+  display: block;
+  border: 1px solid darkblue;
+  box-sizing: border-box;
+  width: 1760px;
+  /* ЗАМЕНИТЬ */
+  height: 990px;
+  /* height: 495px; */
+  margin: auto;
 }
 

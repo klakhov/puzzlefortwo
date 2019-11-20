@@ -39,6 +39,9 @@ Vue.mixin({
         }
     }
 });
+
+import Store from './objects/obj'
 const app = new Vue({
     el: '#app',
+    data:Store
 });

@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="" />
+    <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/i.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/Fragment.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/objects/obj.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/profile/RoomsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/profile/RoomsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/puzzle/menu/rooms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/puzzle/menu/rooms.scss" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +62,9 @@
     </option>
     <expand />
     <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -121,13 +159,24 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1T7QXEJ2jnh6pfobAWSbZKybtsZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="E:\WorkingPrograms\PhpStorm 2019.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img" />
+      <recent name="E:\OSPanel\domains\puzzlefortwo\resources\js\classes" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\app" />
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\app\Models" />
@@ -173,10 +222,29 @@
       <workItem from="1573977546022" duration="12171000" />
       <workItem from="1574092845728" duration="12382000" />
       <workItem from="1574186979454" duration="7567000" />
+      <workItem from="1574197226331" duration="644000" />
+      <workItem from="1574240236901" duration="620000" />
+      <workItem from="1574260077755" duration="14704000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

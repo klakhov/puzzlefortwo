@@ -16,9 +16,9 @@
                         <div class="col-lg-2 room-nick">{{room.user_1}}</div>
                         <div class="col-lg-5 room-description">{{room.description}}</div>
                         <input type="hidden" :value="room.uid" name="room-id">
-                        <div class="col-xl-2 room-join" v-if="room.belongsTo !== 'user'" @click="joinRoom">Присоединиться</div>
-                        <div class="col-xl-2 room-join-inaccessible" v-else>Присоединиться</div>
-                        <div class="col-xl-2 room-img">img-1</div>
+                        <button class="col-xl-3 room-join" v-if="room.belongsTo !== 'user'" @click="joinRoom">Присоединиться</button>
+                        <button class="col-xl-3 room-join-inaccessible" v-else>Присоединиться</button>
+                        <div class="col-xl-1 room-img">img-1</div>
                     </div>
                 </div>
                 <div id="room-create">
@@ -56,9 +56,11 @@
             }
         },
         mounted(){
+            console.log(this.$root.objects);
             this.showRooms();
             this.getRooms();
             this.listenNewRooms();
+
         },
         components: {
             'created-modal':createdModal,

@@ -1,15 +1,7 @@
 <template>
     <div class="container">
         <div class="field">
-            <div class="first-user">
-                <user v-bind:user_info="this.user_1"></user>
-            </div>
-            <div class="our-canvas">
-                <our-canvas></our-canvas>
-            </div>
-            <div class="second-user">
-                <user v-bind:user_info="this.user_2"></user>
-            </div>
+            <our-canvas></our-canvas>
         </div>
     </div>
 </template>

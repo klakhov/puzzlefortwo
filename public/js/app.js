@@ -2261,6 +2261,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    console.log(this.$root.objects);
     this.showRooms();
     this.getRooms();
     this.listenNewRooms();
@@ -2411,11 +2412,21 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Fragment */ "./resources/js/classes/Fragment.js");
+/* harmony import */ var _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../classes/FragmentGroup */ "./resources/js/classes/FragmentGroup.js");
+/* harmony import */ var _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/FragmentList */ "./resources/js/classes/FragmentList.js");
+//
+//
+//
+//
 //
 //
 //
 //
 //import Name from 'route'
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: [//'data'
   ],
@@ -2425,7 +2436,212 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {//'tag-name':Name
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var FRAMES = 45;
+    var imagesX = 4;
+    var imagesY = 4;
+    var countImages = imagesX * imagesY;
+    var FIELD_WIDTH = 1; // Размеры поля
+
+    var FIELD_HEIGHT = 10 / 11; // Местоположение поля в Fragment.js -> (61, 62) строки
+
+    var KEY_showSilhouette = 83; // S
+
+    var KEY_shouldConnect = 32; // SPACE
+
+    var DIRECTORY = "../img/";
+    var a = this; // Массив для изображений
+
+    var arr = [];
+
+    function drawAll() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.beginPath();
+      context.rect(a.$root.objects.CanvasCharacteristic.firstX, this.$root.objects.CanvasCharacteristic.firstY, this.$root.objects.CanvasCharacteristic.all_width, this.$root.objects.CanvasCharacteristic.all_height);
+      context.lineWidth = "10";
+      context.strokeStyle = "red";
+      context.stroke();
+      context.beginPath();
+      context.rect(this.$root.objects.CanvasCharacteristic.firstX, this.$root.objects.CanvasCharacteristic.firstY, this.$root.objects.CanvasCharacteristic.width, this.$root.objects.CanvasCharacteristic.height);
+      context.lineWidth = "10";
+      context.strokeStyle = "green";
+      context.stroke();
+      var lastSeenObject = this.$root.objects.ListObjectHelper.firstVisualObject;
+
+      do {
+        lastSeenObject.value.draw();
+        lastSeenObject = lastSeenObject.next;
+      } while (lastSeenObject != null);
+    } // Определяет координаты пользователя в границах canvas
+
+
+    function getCoords(canvas, x, y) {
+      var bbox = canvas.getBoundingClientRect();
+      return {
+        x: (x - bbox.left) * (canvas.width / bbox.width),
+        y: (y - bbox.top) * (canvas.height / bbox.height)
+      };
+    } //рандом чисел
+
+
+    function getRandomArbitary(min, max) {
+      return Math.ceil(Math.random() * (max - min) + min);
+    } // При загрузке экрана
+
+
+    var lastDownTarget = null;
+    var shouldConnect = false;
+    var showSilhouette = false;
+    console.log("Started");
+    var canvas = document.getElementById("canvas-puzzle");
+    var context = canvas.getContext('2d');
+    this.$root.objects.CanvasCharacteristic.all_width = canvas.width * FIELD_WIDTH;
+    this.$root.objects.CanvasCharacteristic.all_height = canvas.height * FIELD_HEIGHT; // Заполнение массива изображениями
+
+    for (var i = 0; i < countImages; i++) {
+      var x = i % imagesX;
+      var y = Math.floor(i / imagesY);
+      var leftId = i % imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
+
+      var topId = i - imagesY;
+      console.log(i);
+      arr.push(new _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"](i, DIRECTORY + (i + 1) + '.png', getRandomArbitary(1940, 2720), getRandomArbitary(80, 480), leftId >= 0 ? arr[i - 1] : null, topId >= 0 ? arr[topId] : null, this.$root.objects // ЗАМЕНИТЬ
+      ));
+
+      if (this.$root.objects.ListObjectHelper.lastVisualObject == null) {
+        this.$root.objects.ListObjectHelper.lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__["default"](arr[arr.length - 1], null);
+        this.$root.objects.ListObjectHelper.firstVisualObject = this.$root.objects.ListObjectHelper.lastVisualObject;
+      } else {
+        this.$root.objects.ListObjectHelper.lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__["default"](arr[arr.length - 1], this.$root.objects.ListObjectHelper.lastVisualObject);
+      }
+    } // Отслеживать перемещение курсора мыши
+
+
+    canvas.onmousemove = function (e) {
+      var loc = getCoords(canvas, e.clientX, e.clientY);
+
+      if (this.$root.objects.SelectFragmentHelper.translatedFragmentId >= 0) {
+        if (arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].group == null) {
+          arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - this.$root.objects.SelectFragmentHelper.deltaX, loc.y - this.$root.objects.SelectFragmentHelper.deltaY);
+        } else if (arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].group != null) {
+          var newX = loc.x - this.$root.objects.SelectFragmentHelper.deltaX;
+          var newY = loc.y - this.$root.objects.SelectFragmentHelper.deltaY;
+          arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].group.move(newX, newY, arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId]);
+        }
+      }
+    }; // Отслеживать нажатие на кнопки мыши
+
+
+    canvas.onmousedown = function (e) {
+      shouldConnect = true;
+      var loc = getCoords(canvas, e.clientX, e.clientY);
+      var lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
+
+      do {
+        var objInCoords = this.$root.objects.lastSeenObject.value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
+        // console.log(objInCoords);
+
+        if (this.$root.objects.lastSeenObject.value instanceof _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"]) {
+          if (objInCoords) {
+            if (lastSeenObject.value.smoothing === false && lastSeenObject.value.isConnecting === false && (lastSeenObject.value.group == null || lastSeenObject.value.group.isConnecting === false)) {
+              // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
+              ranges = lastSeenObject.value.rangeToStartImage(loc.x, loc.y);
+              this.$root.objects.SelectFragmentHelper.deltaX = ranges.x;
+              this.$root.objects.SelectFragmentHelper.deltaY = ranges.y;
+              this.$root.objects.SelectFragmentHelper.translatedFragmentId = lastSeenObject.value.ind;
+              lastSeenObject.replaceToTop(); // отображать поверх других объектов
+
+              console.log("Image number", this.$root.objects.SelectFragmentHelper.translatedFragmentId);
+              break;
+            }
+          }
+        } else if (lastSeenObject.value instanceof _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+          if (objInCoords > -1) {
+            if (arr[objInCoords].smoothing == false && arr[objInCoords].isConnecting == false && lastSeenObject.value.isConnecting == false) {
+              // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
+              ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
+              this.$root.objects.SelectFragmentHelper.deltaX = ranges.x;
+              this.$root.objects.SelectFragmentHelper.deltaY = ranges.y;
+              this.$root.objects.SelectFragmentHelper.translatedFragmentId = objInCoords;
+              lastSeenObject.replaceToTop(); // отображать поверх других объектов
+
+              console.log("Image number", this.$root.objects.SelectFragmentHelper.translatedFragmentId);
+              break;
+            }
+          }
+        }
+
+        lastSeenObject = lastSeenObject.prev;
+      } while (lastSeenObject != null);
+    }; // Отслеживать отжатие кнопок мыши
+
+
+    canvas.onmouseup = function (e) {
+      if (this.$root.objects.SelectFragmentHelper.translatedFragmentId >= 0) {
+        selectedFragment = arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId];
+
+        if (shouldConnect) {
+          if (selectedFragment.group == null) {
+            selectedFragment.connectToOther();
+          } else {
+            selectedFragment.group.connectTo();
+          }
+        }
+
+        this.$root.objects.SelectFragmentHelper.translatedFragmentId = -1;
+      }
+    };
+
+    document.addEventListener('mousedown', function (event) {
+      if (lastDownTarget != event.target) {
+        showSilhouette = false;
+      }
+
+      lastDownTarget = event.target;
+    }, false);
+    document.addEventListener('keydown', function (event) {
+      if (lastDownTarget == canvas) {
+        if (event.keyCode == KEY_shouldConnect) {
+          if (shouldConnect) shouldConnect = false;else shouldConnect = true;
+          console.log("shouldConnect is", shouldConnect);
+        }
+
+        if (event.keyCode == KEY_showSilhouette) {
+          showSilhouette = true;
+        }
+
+        if (event.keyCode == 49) {
+          var lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
+
+          do {
+            console.log(lastSeenObject);
+            lastSeenObject = lastSeenObject.prev;
+          } while (lastSeenObject != null);
+
+          console.log("\nEND\n");
+        }
+
+        if (event.keyCode == 50) {
+          if (this.$root.objects.SelectFragmentHelper.translatedFragmentId >= 0) {
+            arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].listElem.remove();
+          }
+        }
+      }
+    }, false);
+    document.addEventListener('keyup', function (event) {
+      if (lastDownTarget == canvas) {
+        if (event.keyCode == KEY_showSilhouette) {
+          showSilhouette = false;
+        }
+      }
+    }, false); // Анимация с определённой частотой для обновления экрана
+
+    setInterval(update, 1000 / FRAMES); // Функция для анимации с определённой частотой для обновления экрана
+
+    function update() {
+      drawAll();
+    }
+  },
   methods: {}
 });
 
@@ -2442,14 +2658,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PuzzleUserComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PuzzleUserComponent */ "./resources/js/components/puzzle/PuzzleUserComponent.vue");
 /* harmony import */ var _PuzzleCanvasComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PuzzleCanvasComponent */ "./resources/js/components/puzzle/PuzzleCanvasComponent.vue");
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -48168,20 +48376,20 @@ var render = function() {
                   _vm._v(" "),
                   room.belongsTo !== "user"
                     ? _c(
-                        "div",
+                        "button",
                         {
-                          staticClass: "col-xl-2 room-join",
+                          staticClass: "col-xl-3 room-join",
                           on: { click: _vm.joinRoom }
                         },
                         [_vm._v("Присоединиться")]
                       )
                     : _c(
-                        "div",
-                        { staticClass: "col-xl-2 room-join-inaccessible" },
+                        "button",
+                        { staticClass: "col-xl-3 room-join-inaccessible" },
                         [_vm._v("Присоединиться")]
                       ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-xl-2 room-img" }, [
+                  _c("div", { staticClass: "col-xl-1 room-img" }, [
                     _vm._v("img-1")
                   ])
                 ]
@@ -48289,9 +48497,20 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", {}, [
+      _c("canvas", {
+        attrs: { id: "canvas-puzzle", width: "3840", height: "2160" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -48314,23 +48533,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "field" }, [
-      _c(
-        "div",
-        { staticClass: "first-user" },
-        [_c("user", { attrs: { user_info: this.user_1 } })],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "our-canvas" }, [_c("our-canvas")], 1),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "second-user" },
-        [_c("user", { attrs: { user_info: this.user_2 } })],
-        1
-      )
-    ])
+    _c("div", { staticClass: "field" }, [_c("our-canvas")], 1)
   ])
 }
 var staticRenderFns = []
@@ -60542,9 +60745,12 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _objects_obj__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./objects/obj */ "./resources/js/objects/obj.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -60582,8 +60788,10 @@ Vue.mixin({
     };
   }
 });
+
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: _objects_obj__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
 /***/ }),
@@ -60635,6 +60843,708 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   cluster: 'eu',
   forceTLS: true
 });
+
+/***/ }),
+
+/***/ "./resources/js/classes/Fragment.js":
+/*!******************************************!*\
+  !*** ./resources/js/classes/Fragment.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fragment; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+// Возможно стоит убрать подключение к smoothing объекту. а то проблем слишком дохуя??
+// на заметку, потом посмотрим
+var hello = 4;
+
+var Fragment =
+/*#__PURE__*/
+function () {
+  function Fragment(ind, src, x, y, left, top, objects) {
+    _classCallCheck(this, Fragment);
+
+    this.src = src;
+    this.x = x;
+    this.y = y;
+    this.img = new Image();
+    this.img.src = this.src;
+    this.ind = ind;
+    this.downloadImage();
+    this.smoothing = false; // для ограничения движения объекта во время анимации
+
+    this.isConnecting = false; // объект конектит другой, а потому не может быть выбран. Необходим int, т.к. можно подключать несколько сразу
+    // После первого isConnecting станет false, хотя подключается ещё второй объект, а потому будет
+
+    this.objects = objects;
+    console.log(this.objects);
+    objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
+    objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.SCALE / 5;
+    objects.FragmentsGeneralCharacteristic.connectRange = objects.FragmentsGeneralCharacteristic.third_x * 2; // ВРЕМЕННО
+
+    this.left = left;
+    this.top = top;
+    this.right = null;
+    this.bottom = null;
+    if (this.left != null) this.left.right = this;
+    if (this.top != null) this.top.bottom = this;
+    this.group = null;
+    this.listElem = null; // заполняется
+  }
+
+  _createClass(Fragment, [{
+    key: "downloadImage",
+    value: function downloadImage() {
+      this.img.onload = function () {
+        this.objects.FragmentsGeneralCharacteristic.downloadedImages++;
+
+        if (FragmentsGeneralCharacteristic.downloadedImages === countImages) {
+          console.log("Downloaded all images");
+          this.objects.FragmentsGeneralCharacteristic.width = this.width;
+          this.objects.FragmentsGeneralCharacteristic.height = this.height;
+          this.objects.FragmentsGeneralCharacteristic.SCALE = Math.min(this.objects.CanvasCharacteristic.all_width / (imagesX / 5 * 3) / this.objects.FragmentsGeneralCharacteristic.width, this.objects.CanvasCharacteristic.all_height / (imagesY / 5 * 3) / this.objects.FragmentsGeneralCharacteristic.height);
+          FragmentsGeneralCharacteristic.widthScale = Math.floor(FragmentsGeneralCharacteristic.SCALE * FragmentsGeneralCharacteristic.width);
+          FragmentsGeneralCharacteristic.heightScale = Math.floor(FragmentsGeneralCharacteristic.SCALE * FragmentsGeneralCharacteristic.height);
+          FragmentsGeneralCharacteristic.third_x = FragmentsGeneralCharacteristic.widthScale / 5;
+          FragmentsGeneralCharacteristic.third_y = FragmentsGeneralCharacteristic.heightScale / 5;
+          FragmentsGeneralCharacteristic.connectRange = 1 * Math.min(FragmentsGeneralCharacteristic.third_x, FragmentsGeneralCharacteristic.third_y);
+          CanvasCharacteristic.width = FragmentsGeneralCharacteristic.widthScale / 5 * 3 * imagesX;
+          CanvasCharacteristic.height = FragmentsGeneralCharacteristic.heightScale / 5 * 3 * imagesY;
+          CanvasCharacteristic.firstX = canvas.width / 2 - CanvasCharacteristic.width / 2;
+          CanvasCharacteristic.firstY = 60;
+          CanvasCharacteristic.lastX = CanvasCharacteristic.firstX + CanvasCharacteristic.width;
+          CanvasCharacteristic.lastY = CanvasCharacteristic.firstY + CanvasCharacteristic.height;
+        }
+      };
+    } // Отображает изображение в заданных координатах
+
+  }, {
+    key: "draw",
+    value: function draw() {
+      if (!showSilhouette) {
+        context.drawImage(this.img, this.x, this.y, FragmentsGeneralCharacteristic.widthScale, FragmentsGeneralCharacteristic.heightScale);
+      } else {
+        context.beginPath();
+        context.rect(this.x + FragmentsGeneralCharacteristic.third_x, this.y + FragmentsGeneralCharacteristic.third_y, FragmentsGeneralCharacteristic.widthScale - 2 * FragmentsGeneralCharacteristic.third_x, FragmentsGeneralCharacteristic.heightScale - 2 * FragmentsGeneralCharacteristic.third_y);
+        context.lineWidth = "7";
+        context.strokeStyle = "black";
+        context.stroke();
+      }
+    } // Проверяет, есть ли в границах изображения заданная точка или нет
+    // Нужно для проверки наведения курсора мыши на изображение
+
+  }, {
+    key: "isHadPoint",
+    value: function isHadPoint(x, y) {
+      return x >= this.x + FragmentsGeneralCharacteristic.third_x && x <= this.x + FragmentsGeneralCharacteristic.widthScale - FragmentsGeneralCharacteristic.third_x && y >= this.y + FragmentsGeneralCharacteristic.third_y && y <= this.y + FragmentsGeneralCharacteristic.heightScale - FragmentsGeneralCharacteristic.third_y;
+    } // Расстояниме от курсора мыши до старта изображения в левом верхнем углу в пикселях.
+    // Если это расстояние не учитывать, то изображение при его взятии будет телепортировано
+    // Левым верхним углом к положению курсора, а так к тому положению прибавляется разница
+    // в координатах, обеспечивая тем самым отсутствие рывков
+
+  }, {
+    key: "rangeToStartImage",
+    value: function rangeToStartImage(x, y) {
+      return {
+        x: x - this.x,
+        y: y - this.y
+      };
+    }
+  }, {
+    key: "workGroups",
+    value: function workGroups(selected, other) {
+      if (selected.group == null) {
+        if (other.group == null) {
+          // создание группы
+          selected.group = new FragmentGroup();
+          other.group = selected.group;
+          selected.group.fragments.add(selected);
+          selected.group.fragments.add(other);
+          selected.listElem.value = selected.group; // ссылка на фрагмент заменяется на ссылку на группу
+
+          selected.group.listElemGroup = selected.listElem;
+          other.listElem.remove(); // удаление "лишнего" объекта из очереди на запись, т.к. он уже отрисовывается в группе
+          // TODO Группы в FragmentList
+        } else {
+          // selected - not group;
+          // other - group
+          // меняем все элементы бОльшей группы, а не наооброт, т.к. ебанутый баг: плохо идет коннект одиночных к группе, если та группа не пред верхняя
+          selected.group = other.group;
+          selected.group.fragments.add(selected); // selected.group = new FragmentGroup();
+          // other.group.changeGroup(selected.group);
+          // selected.group.fragments.add(selected);
+          // other.listElem.remove();
+          // other.group.listElemGroup
+
+          selected.listElem.remove();
+        }
+      } else {
+        if (other.group == null) {
+          other.group = selected.group;
+          selected.group.fragments.add(other);
+          selected.listElem.value = selected.group; // ссылка на фрагмент заменяется на ссылку на чужую группу
+
+          other.listElem.remove();
+        } else {
+          selected.group.changeGroup(other.group);
+        }
+      }
+    }
+  }, {
+    key: "rightTop",
+    value: function rightTop() {
+      return {
+        x: this.x + FragmentsGeneralCharacteristic.widthScale - FragmentsGeneralCharacteristic.third_x,
+        y: this.y + FragmentsGeneralCharacteristic.third_y
+      };
+    }
+  }, {
+    key: "leftTop",
+    value: function leftTop() {
+      return {
+        x: this.x + FragmentsGeneralCharacteristic.third_x,
+        y: this.y + FragmentsGeneralCharacteristic.third_y
+      };
+    }
+  }, {
+    key: "rightBot",
+    value: function rightBot() {
+      return {
+        x: this.x + FragmentsGeneralCharacteristic.widthScale - FragmentsGeneralCharacteristic.third_x,
+        y: this.y + FragmentsGeneralCharacteristic.heightScale - FragmentsGeneralCharacteristic.third_y
+      };
+    }
+  }, {
+    key: "leftBot",
+    value: function leftBot() {
+      return {
+        x: this.x + FragmentsGeneralCharacteristic.third_x,
+        y: this.y + FragmentsGeneralCharacteristic.heightScale - FragmentsGeneralCharacteristic.third_y
+      };
+    }
+  }, {
+    key: "canConnectRightFragment",
+    value: function canConnectRightFragment() {
+      var leftTopOfRightFragment = this.right.leftTop();
+      var tmpRes = this.rangeFromRightTop(leftTopOfRightFragment.x, leftTopOfRightFragment.y);
+      if (tmpRes <= FragmentsGeneralCharacteristic.connectRange) return {
+        res: true,
+        range: tmpRes
+      };
+      return {
+        res: false
+      };
+    }
+  }, {
+    key: "rangeFromRightTop",
+    value: function rangeFromRightTop(x, y) {
+      var rT = this.rightTop();
+      return Math.sqrt((rT.y - y) * (rT.y - y) + (rT.x - x) * (rT.x - x));
+    }
+  }, {
+    key: "canConnectLeftFragment",
+    value: function canConnectLeftFragment() {
+      var rightTopOfLeftFragment = this.left.rightTop();
+      var tmpRes = this.rangeFromLeftTop(rightTopOfLeftFragment.x, rightTopOfLeftFragment.y);
+      if (tmpRes <= FragmentsGeneralCharacteristic.connectRange) return {
+        res: true,
+        range: tmpRes
+      };
+      return {
+        res: false
+      };
+    }
+  }, {
+    key: "rangeFromLeftTop",
+    value: function rangeFromLeftTop(x, y) {
+      var lT = this.leftTop();
+      return Math.sqrt((lT.y - y) * (lT.y - y) + (lT.x - x) * (lT.x - x));
+    }
+  }, {
+    key: "canConnectBottomFragment",
+    value: function canConnectBottomFragment() {
+      var leftTopOfBottomFragment = this.bottom.leftTop();
+      var tmpRes = this.rangeFromLeftBottom(leftTopOfBottomFragment.x, leftTopOfBottomFragment.y);
+      if (tmpRes <= FragmentsGeneralCharacteristic.connectRange) return {
+        res: true,
+        range: tmpRes
+      };
+      return {
+        res: false
+      };
+    }
+  }, {
+    key: "rangeFromLeftBottom",
+    value: function rangeFromLeftBottom(x, y) {
+      var lB = this.leftBot();
+      return Math.sqrt((lB.y - y) * (lB.y - y) + (lB.x - x) * (lB.x - x));
+    }
+  }, {
+    key: "canConnectTopFragment",
+    value: function canConnectTopFragment() {
+      var leftBotOfTopFragment = this.top.leftBot();
+      var tmpRes = this.rangeFromLeftTop(leftBotOfTopFragment.x, leftBotOfTopFragment.y);
+      if (tmpRes <= FragmentsGeneralCharacteristic.connectRange) return {
+        res: true,
+        range: tmpRes
+      };
+      return {
+        res: false
+      };
+    }
+  }, {
+    key: "rangeFromRightBottom",
+    value: function rangeFromRightBottom(x, y) {
+      var rB = this.rightBot();
+      return Math.sqrt((rB.y - y) * (rB.y - y) + (rB.x - x) * (rB.x - x));
+    }
+  }, {
+    key: "smoothmoveOneOrGroup",
+    value: function smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
+      // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
+      // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
+      // просто добавление в группу не работает при его smoothMove
+      if (fr.group == null) {
+        fr.smoothMove(x, y, connectingFragment);
+      } else {
+        fr.group.smoothMove(x, y, this, connectingFragment); // допилим позже
+      }
+    }
+  }, {
+    key: "connectToOther",
+    value: function connectToOther() {
+      var newInd = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var withConnect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      // возвращает объект, чтобы в будущем добавить сортировку по расстоянию для групп
+      // newInd чтобы сравнивать объекты, на которые мы Не нажали, но которые обрабатываются
+      // внутри группы на сближение с углами
+      // withConnect - для проверки ближайшего конекта без конекта лол
+      var i = null;
+
+      if (newInd == null) {
+        i = SelectFragmentHelper.translatedFragmentId;
+      } else {
+        i = newInd;
+      }
+
+      x = i % imagesX;
+      y = Math.floor(i / imagesY);
+
+      if (x == 0 && y == 0 && this.rangeFromLeftTop(CanvasCharacteristic.firstX, CanvasCharacteristic.firstY) <= FragmentsGeneralCharacteristic.connectRange) {
+        if (withConnect) {
+          this.smoothmoveOneOrGroup(this, CanvasCharacteristic.firstX - FragmentsGeneralCharacteristic.third_x, CanvasCharacteristic.firstY - FragmentsGeneralCharacteristic.third_y);
+        }
+
+        return {
+          res: true,
+          range: 0
+        };
+      } else if (x == imagesX - 1 && y == 0 && this.rangeFromRightTop(CanvasCharacteristic.lastX, CanvasCharacteristic.firstY) <= FragmentsGeneralCharacteristic.connectRange) {
+        if (withConnect) {
+          this.smoothmoveOneOrGroup(this, CanvasCharacteristic.lastX + FragmentsGeneralCharacteristic.third_x - FragmentsGeneralCharacteristic.widthScale, CanvasCharacteristic.firstY - FragmentsGeneralCharacteristic.third_y);
+        }
+
+        return {
+          res: true,
+          range: 0
+        };
+      } else if (x == imagesX - 1 && y == imagesY - 1 && this.rangeFromRightBottom(CanvasCharacteristic.lastX, CanvasCharacteristic.lastY) <= FragmentsGeneralCharacteristic.connectRange) {
+        if (withConnect) {
+          this.smoothmoveOneOrGroup(this, CanvasCharacteristic.lastX + FragmentsGeneralCharacteristic.third_x - FragmentsGeneralCharacteristic.widthScale, CanvasCharacteristic.lastY + FragmentsGeneralCharacteristic.third_y - FragmentsGeneralCharacteristic.heightScale);
+        }
+
+        return {
+          res: true,
+          range: 0
+        };
+      } else if (x == 0 && y == imagesY - 1 && this.rangeFromLeftBottom(CanvasCharacteristic.firstX, CanvasCharacteristic.lastY) <= FragmentsGeneralCharacteristic.connectRange) {
+        if (withConnect) {
+          this.smoothmoveOneOrGroup(this, CanvasCharacteristic.firstX - FragmentsGeneralCharacteristic.third_x, CanvasCharacteristic.lastY + FragmentsGeneralCharacteristic.third_y - FragmentsGeneralCharacteristic.heightScale);
+        }
+
+        return {
+          res: true,
+          range: 0
+        };
+      } else {
+        var connectToFragment = function connectToFragment(other, getInfo, getCoordinates, newX, newY) {
+          if (getInfo.res && (inner_this.group == null || !inner_this.group.fragments.has(other))) {
+            // работает только на объекты, отсутствующие в группе
+            connectArray.push({
+              range: getInfo.range,
+              x: getCoordinates.x,
+              y: getCoordinates.y,
+              dX: newX,
+              dY: newY,
+              fr: other
+            });
+          }
+        };
+
+        var leftFragment = this.left;
+        var rightFragment = this.right;
+        var topFragment = this.top;
+        var bottomFragment = this.bottom;
+        var connectArray = [];
+        var inner_this = this;
+        if (topFragment != null) connectToFragment(topFragment, topFragment.canConnectBottomFragment(), topFragment.leftBot(), -FragmentsGeneralCharacteristic.third_x, -FragmentsGeneralCharacteristic.third_y);
+        if (leftFragment != null) connectToFragment(leftFragment, leftFragment.canConnectRightFragment(), leftFragment.rightTop(), -FragmentsGeneralCharacteristic.third_x, -FragmentsGeneralCharacteristic.third_y);
+        if (bottomFragment != null) connectToFragment(bottomFragment, bottomFragment.canConnectTopFragment(), bottomFragment.leftTop(), -FragmentsGeneralCharacteristic.third_x, -FragmentsGeneralCharacteristic.heightScale + FragmentsGeneralCharacteristic.third_y);
+        if (rightFragment != null) connectToFragment(rightFragment, rightFragment.canConnectLeftFragment(), rightFragment.leftTop(), -FragmentsGeneralCharacteristic.widthScale + FragmentsGeneralCharacteristic.third_x, -FragmentsGeneralCharacteristic.third_y);
+        connectArray.sort(function (a, b) {
+          return a.range - b.range;
+        });
+
+        if (connectArray.length > 0) {
+          var near = connectArray[0]; // Из-за второго условия нельзя конектиться к тем, что движутся или уже ждут подключения. Я убрал как и написано сверху. Крч теперь
+          // функциональность сдохла, но этого никто и не заметит при быстрой анимации, главное нет багов
+
+          if (withConnect && near.fr.smoothing == false && near.fr.isConnecting == false && (near.fr.group == null || near.fr.group.isConnecting == false)) {
+            this.smoothmoveOneOrGroup(this, near.x + near.dX, near.y + near.dY, near.fr);
+          }
+
+          return {
+            res: true,
+            range: near.range
+          };
+        }
+
+        return {
+          res: false
+        };
+      }
+    } //передать данные idSelected/x/y/move
+    // Изменяет местоположение изображения
+
+  }, {
+    key: "move",
+    value: function move(x, y) {
+      this.x = x;
+      this.y = y;
+    } //передать данные idSelected/x/y/smoothMove
+
+  }, {
+    key: "smoothMove",
+    value: function smoothMove(newX, newY) {
+      var connectingFragment = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      // тупо вызвать в аргументаъ объект, если идет смув к нему. Он может двигаться, в этом проблема
+      // перемещаемся с его скоростью и без проблем настигаем нахуй хохо Снова пишу в час ночи а завтра 1 пара
+      // охуенно.
+      // connectingFragment - фрагмент, к которому я конекчусь.
+      // при измнении его координат мои подстраиваются
+      // Во время проведения анимации запрещается его двигать как либо!!!
+      // это приведет к нереальному пиздецу
+      // если объект ещё смувится, а к нему смув другого закончился, то надо тот пододвигать
+      this.smoothing = true;
+
+      if (connectingFragment != null) {
+        if (connectingFragment.group != null) {
+          connectingFragment.group.isConnecting = true;
+        } else {
+          connectingFragment.isConnecting = true;
+        }
+      }
+
+      var oldX = this.x;
+      var oldY = this.y;
+      var tact = 21;
+      var currentTact = 0;
+      var dX = (newX - oldX) / tact;
+      var dY = (newY - oldY) / tact;
+      var fragment = this;
+      var speedAnimation = 1000 / FRAMES / tact;
+      var connectingX = -1;
+      var connectingY = -1;
+      var connectingX_start = -1;
+      var connectingY_start = -1;
+
+      if (connectingFragment != null) {
+        connectingX = connectingFragment.x;
+        connectingY = connectingFragment.y;
+        connectingX_start = connectingX;
+        connectingY_start = connectingY;
+      } //тактовая отрисовка
+
+
+      function reDraw() {
+        fragment.x += dX;
+        fragment.y += dY; // при изменении координат присоединяющего элемента следуем за ним
+        // по разнице координат
+
+        if (connectingFragment != null && (connectingX != connectingFragment.x || connectingY != connectingFragment.y)) {
+          fragment.x += connectingFragment.x - connectingX;
+          fragment.y += connectingFragment.y - connectingY;
+          connectingX = connectingFragment.x;
+          connectingY = connectingFragment.y;
+        }
+
+        if (currentTact < tact - 1) {
+          setTimeout(reDraw, speedAnimation); //ИЗМЕНЕНО
+
+          currentTact++;
+        } else {
+          fragment.x = newX;
+          fragment.y = newY;
+
+          if (connectingFragment != null) {
+            // Если объект подошёл к родителю, но тот ещё смувится, то копировать его перемещение до конца смува последнего.
+            var copyPositionIfNotSmoothmove = function copyPositionIfNotSmoothmove() {
+              fragment.x += connectingFragment.x - connectingX;
+              fragment.y += connectingFragment.y - connectingY;
+              connectingX = connectingFragment.x;
+              connectingY = connectingFragment.y;
+
+              if (connectingFragment.smoothing) {
+                // проверка для повтора смува
+                setTimeout(copyPositionIfNotSmoothmove, speedAnimation);
+              } else {
+                // при окончании убрать смув и добавить возможность к управлению элементов мышкой, убрав isConnecting и smoothing у всех элементов
+                fragment.smoothing = false; // движется до тех пор, пока движется родитель
+
+                if (connectingFragment != null) {
+                  if (connectingFragment.group != null) {
+                    connectingFragment.group.isConnecting = false;
+                  }
+
+                  connectingFragment.isConnecting = false;
+                }
+              }
+            };
+
+            copyPositionIfNotSmoothmove(); // установка финальных координат
+
+            fragment.x += connectingX - connectingX_start;
+            fragment.y += connectingY - connectingY_start;
+            fragment.workGroups(fragment, connectingFragment); // в конце добавляем объект к группе. В начале нельзя делать, иначе фрагмент будети
+            // копировать поведение выбранного объекта, а он и так движется за подсоединяющим в smoothMove
+            // а так не будет
+          } else {
+            fragment.smoothing = false; // нет родителя, незачем двигаться
+          }
+        }
+      }
+
+      reDraw();
+    }
+  }]);
+
+  return Fragment;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/FragmentGroup.js":
+/*!***********************************************!*\
+  !*** ./resources/js/classes/FragmentGroup.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FragmentGroup; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var FragmentGroup =
+/*#__PURE__*/
+function () {
+  function FragmentGroup(src, x, y, left, top) {
+    _classCallCheck(this, FragmentGroup);
+
+    this.fragments = new Set();
+    this.isConnecting = false; // группа в данный момент подключает другой объект, а потому не может перемещаться.
+    // В противном случае нужно чёто рассматривать а мне лень
+
+    this.listElemGroup = null;
+  }
+
+  _createClass(FragmentGroup, [{
+    key: "isHadPoint",
+    value: function isHadPoint(x, y) {
+      var found = false;
+      var ind_ans = -1;
+      this.fragments.forEach(function (fragment, ind, arr) {
+        // ЕЛЕ РАБОЧАЯ ХУЕТА
+        if (found) return;
+        found = fragment.isHadPoint(x, y);
+        if (found) ind_ans = fragment.ind;
+      });
+      return ind_ans;
+    } //передать данные idSelected/x/y/move/group
+
+  }, {
+    key: "move",
+    value: function move(x, y, selected) {
+      this.fragments.forEach(function (fragment, ind, arr) {
+        // ЕЛЕ РАБОЧАЯ ХУЕТА
+        if (fragment !== selected) {
+          fragment.move(x - selected.x + fragment.x, y - selected.y + fragment.y);
+        }
+      });
+      selected.move(x, y);
+    }
+  }, {
+    key: "draw",
+    value: function draw() {
+      this.fragments.forEach(function (fragment, ind, arr) {
+        // ЕЛЕ РАБОЧАЯ ХУЕТА
+        fragment.draw();
+      });
+    } //передать данные idSelected/idConnected/x/y/smoothMove
+
+  }, {
+    key: "smoothMove",
+    value: function smoothMove(x, y, selected, connectingFragment) {
+      // connectingFragment - фрагмент, к которому я конекчусь.
+      // при измнении его координат мои подстраиваются
+      this.fragments.forEach(function (fragment, ind, arr) {
+        // ЕЛЕ РАБОЧАЯ ХУЕТА
+        if (fragment !== selected) {
+          fragment.smoothMove(x - selected.x + fragment.x, y - selected.y + fragment.y, connectingFragment);
+        }
+      });
+      selected.smoothMove(x, y, connectingFragment);
+    }
+  }, {
+    key: "changeGroup",
+    value: function changeGroup(newGroup) {
+      this.fragments.forEach(function (fragment, ind, arr) {
+        // ЕЛЕ РАБОЧАЯ ХУЕТА
+        fragment.group = newGroup;
+        newGroup.fragments.add(fragment);
+      });
+    }
+  }, {
+    key: "connectTo",
+    value: function connectTo() {
+      // нужно сделать копию, потому что в Fragment.js другие фрагменты добавятся к этому классу и пройдут в цикл,
+      // а они могут конектиться к другим и так всё сломается к хуям
+      // копия нахуй не нужна, если к ним не конектиться, а только их проверять. Конект потом
+      // второй аргумент проверяет
+      var minRange = -1;
+      var minFragment = null;
+      this.fragments.forEach(function (fragment, ind, arr) {
+        // ЕЛЕ РАБОЧАЯ ХУЕТА
+        var res = fragment.connectToOther(fragment.ind, false);
+
+        if (res.res) {
+          if (minRange == -1) {
+            minRange = res.range;
+            minFragment = fragment;
+          }
+
+          if (res.range < minRange) {
+            minRange = res.range;
+            minFragment = fragment;
+          }
+        }
+      });
+      if (minFragment != null) minFragment.connectToOther(minFragment.ind);
+    }
+  }]);
+
+  return FragmentGroup;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/FragmentList.js":
+/*!**********************************************!*\
+  !*** ./resources/js/classes/FragmentList.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FragmentList; });
+/* harmony import */ var _Fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Fragment */ "./resources/js/classes/Fragment.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var FragmentList =
+/*#__PURE__*/
+function () {
+  function FragmentList(value, prev) {
+    _classCallCheck(this, FragmentList);
+
+    this.value = value;
+    this.prev = null;
+    if (this.value instanceof _Fragment__WEBPACK_IMPORTED_MODULE_0__["default"]) this.src = value.src;
+
+    if (prev != null) {
+      this.prev = prev;
+      this.prev.next = this;
+    }
+
+    this.next = null;
+    this.value.listElem = this;
+  }
+
+  _createClass(FragmentList, [{
+    key: "remove",
+    value: function remove() {
+      if (this.prev != null) {
+        if (this.next != null) {
+          // середина
+          this.prev.next = this.next;
+          this.next.prev = this.prev;
+        } else if (this.next == null) {
+          // конец
+          ListObjectHelper.lastVisualObject = this.prev;
+          this.prev.next = null;
+        }
+      } else {
+        // начало
+        ListObjectHelper.firstVisualObject = this.next;
+        this.next.prev = null;
+      }
+    }
+  }, {
+    key: "replaceToTop",
+    value: function replaceToTop() {
+      this.remove();
+
+      if (ListObjectHelper.lastVisualObject !== this) {
+        ListObjectHelper.lastVisualObject.next = this;
+        this.prev = ListObjectHelper.lastVisualObject;
+        this.next = null;
+        ListObjectHelper.lastVisualObject = this;
+      }
+
+      var lastSeenObject = ListObjectHelper.lastVisualObject;
+
+      do {
+        lastSeenObject = lastSeenObject.prev;
+      } while (lastSeenObject != null);
+    }
+  }]);
+
+  return FragmentList;
+}();
+
+
 
 /***/ }),
 
@@ -61397,6 +62307,54 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/objects/obj.js":
+/*!*************************************!*\
+  !*** ./resources/js/objects/obj.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  objects: {
+    SelectFragmentHelper: {
+      translatedFragmentId: -1,
+      deltaX: 0,
+      deltaY: 0
+    },
+    // Ссылки на первый, последний элементы двусвязного списка фрагментов или групп фрагментов для правильного
+    // отображения поверх остальных элементов на экране
+    ListObjectHelper: {
+      lastVisualObject: null,
+      firstVisualObject: null
+    },
+    FragmentsGeneralCharacteristic: {
+      SCALE: -1,
+      downloadedImages: 0,
+      width: -1,
+      height: -1,
+      widthScale: -1,
+      heightScale: -1,
+      third_x: -1,
+      third_y: -1,
+      connectRange: -1
+    },
+    CanvasCharacteristic: {
+      all_width: -1,
+      all_height: -1,
+      width: -1,
+      height: -1,
+      lastX: -1,
+      lastY: -1,
+      firstX: -1,
+      firstY: -1
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -61415,8 +62373,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! e:\OSPanel\domains\puzzlefortwolaravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! e:\OSPanel\domains\puzzlefortwolaravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! e:\OSPanel\domains\puzzlefortwo\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! e:\OSPanel\domains\puzzlefortwo\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
