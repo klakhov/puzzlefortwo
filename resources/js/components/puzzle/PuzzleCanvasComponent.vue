@@ -24,19 +24,8 @@
             //'tag-name':Name
         },
         mounted() {
-            const FRAMES = 45;
-            const imagesX = 4;
-            const imagesY = 4;
-            const countImages = imagesX * imagesY;
-
-            const FIELD_WIDTH = 1; // Размеры поля
-            const FIELD_HEIGHT = 10 / 11; // Местоположение поля в Fragment.js -> (61, 62) строки
-
-            const KEY_showSilhouette = 83; // S
-            const KEY_shouldConnect = 32; // SPACE
-
-            const DIRECTORY = "../img/";
-            let a = this;
+            let globalVariables = this.$root.globalVariables;
+            let objects = this.$root.objects;
 // Массив для изображений
             let arr = [];
             function drawAll() {
@@ -47,26 +36,26 @@
                 );
                 context.beginPath();
                 context.rect(
-                    a.$root.objects.CanvasCharacteristic.firstX,
-                    this.$root.objects.CanvasCharacteristic.firstY,
-                    this.$root.objects.CanvasCharacteristic.all_width,
-                    this.$root.objects.CanvasCharacteristic.all_height
+                    objects.CanvasCharacteristic.firstX,
+                    objects.CanvasCharacteristic.firstY,
+                    objects.CanvasCharacteristic.all_width,
+                    objects.CanvasCharacteristic.all_height
                 );
                 context.lineWidth = "10";
                 context.strokeStyle = "red";
                 context.stroke();
                 context.beginPath();
                 context.rect(
-                    this.$root.objects.CanvasCharacteristic.firstX,
-                    this.$root.objects.CanvasCharacteristic.firstY,
-                    this.$root.objects.CanvasCharacteristic.width,
-                    this.$root.objects.CanvasCharacteristic.height
+                    objects.CanvasCharacteristic.firstX,
+                    objects.CanvasCharacteristic.firstY,
+                    objects.CanvasCharacteristic.width,
+                    objects.CanvasCharacteristic.height
                 );
                 context.lineWidth = "10";
                 context.strokeStyle = "green";
                 context.stroke();
 
-                var lastSeenObject = this.$root.objects.ListObjectHelper.firstVisualObject;
+                let lastSeenObject = objects.ListObjectHelper.firstVisualObject;
                 do {
                     lastSeenObject.value.draw();
                     lastSeenObject = lastSeenObject.next;
@@ -76,7 +65,7 @@
 
 // Определяет координаты пользователя в границах canvas
             function getCoords(canvas, x, y) {
-                var bbox = canvas.getBoundingClientRect();
+                let bbox = canvas.getBoundingClientRect();
                 return {
                     x: (x - bbox.left) * (canvas.width / bbox.width),
                     y: (y - bbox.top) * (canvas.height / bbox.height)
@@ -88,34 +77,35 @@
             }
 // При загрузке экрана
 
-            var lastDownTarget = null;
-            var shouldConnect = false;
-            var showSilhouette = false;
+            let lastDownTarget = null;
+            let shouldConnect = false;
+            let showSilhouette = false;
 
 
                 console.log("Started");
                 let canvas = document.getElementById("canvas-puzzle");
                 let context = canvas.getContext('2d');
 
-                this.$root.objects.CanvasCharacteristic.all_width = canvas.width * FIELD_WIDTH;
-                this.$root.objects.CanvasCharacteristic.all_height = canvas.height * FIELD_HEIGHT;
+                objects.CanvasCharacteristic.all_width = canvas.width * globalVariables.FIELD_WIDTH;
+                objects.CanvasCharacteristic.all_height = canvas.height * globalVariables.FIELD_HEIGHT;
 
 
                 // Заполнение массива изображениями
-                for (let i = 0; i < countImages; i++) {
-                    let x = i % imagesX;
-                    let y = Math.floor(i / imagesY);
+                for (let i = 0; i < globalVariables.countImages; i++) {
+                    let x = i % globalVariables.imagesX;
+                    let y = Math.floor(i / globalVariables.imagesY);
 
-                    let leftId = i % imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
-                    let topId = i - imagesY;
+                    let leftId = i % globalVariables.imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
+                    let topId = i - globalVariables.imagesY;
                     console.log(i);
                     arr.push(
                         new Fragment(
                             i,
-                            DIRECTORY + (i + 1) + '.png',
+                            globalVariables.DIRECTORY + (i + 1) + '.png',
                             getRandomArbitary(1940, 2720), getRandomArbitary(80, 480),
                             (leftId >= 0 ? arr[i - 1] : null), (topId >= 0 ? arr[topId] : null),
-                            this.$root.objects// ЗАМЕНИТЬ
+                            objects,
+                            globalVariables,// ЗАМЕНИТЬ
                         )
                     );
                     if (this.$root.objects.ListObjectHelper.lastVisualObject == null) {
@@ -130,14 +120,14 @@
 
                 // Отслеживать перемещение курсора мыши
                 canvas.onmousemove = function(e) {
-                    var loc = getCoords(canvas, e.clientX, e.clientY);
+                    let loc = getCoords(canvas, e.clientX, e.clientY);
                     if (this.$root.objects.SelectFragmentHelper.translatedFragmentId >= 0) {
                         if (arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].group == null) {
                             arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - this.$root.objects.SelectFragmentHelper.deltaX,
                                 loc.y - this.$root.objects.SelectFragmentHelper.deltaY);
                         } else if (arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].group != null) {
-                            var newX = loc.x - this.$root.objects.SelectFragmentHelper.deltaX;
-                            var newY = loc.y - this.$root.objects.SelectFragmentHelper.deltaY;
+                            let newX = loc.x - this.$root.objects.SelectFragmentHelper.deltaX;
+                            let newY = loc.y - this.$root.objects.SelectFragmentHelper.deltaY;
                             arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].group.move(
                                 newX, newY,
                                 arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId]
@@ -150,12 +140,12 @@
                 canvas.onmousedown = function(e) {
                     shouldConnect = true;
 
-                    var loc = getCoords(canvas, e.clientX, e.clientY);
-                    var lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
+                    let loc = getCoords(canvas, e.clientX, e.clientY);
+                    let lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
                     do {
-                        var objInCoords = this.$root.objects.lastSeenObject.value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
+                        let objInCoords = lastSeenObject.value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
                         // console.log(objInCoords);
-                        if (this.$root.objects.lastSeenObject.value instanceof Fragment) {
+                        if (lastSeenObject.value instanceof Fragment) {
                             if (objInCoords) {
                                 if (
                                     lastSeenObject.value.smoothing === false &&
@@ -163,7 +153,7 @@
                                     (lastSeenObject.value.group == null || lastSeenObject.value.group.isConnecting === false)
                                 ) {
                                     // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
-                                    ranges = lastSeenObject.value.rangeToStartImage(loc.x, loc.y);
+                                    let ranges = lastSeenObject.value.rangeToStartImage(loc.x, loc.y);
                                     this.$root.objects.SelectFragmentHelper.deltaX = ranges.x;
                                     this.$root.objects.SelectFragmentHelper.deltaY = ranges.y;
                                     this.$root.objects.SelectFragmentHelper.translatedFragmentId = lastSeenObject.value.ind;
@@ -175,12 +165,12 @@
                         } else if (lastSeenObject.value instanceof FragmentGroup) {
                             if (objInCoords > -1) {
                                 if (
-                                    arr[objInCoords].smoothing == false &&
-                                    arr[objInCoords].isConnecting == false &&
-                                    lastSeenObject.value.isConnecting == false
+                                    arr[objInCoords].smoothing === false &&
+                                    arr[objInCoords].isConnecting === false &&
+                                    lastSeenObject.value.isConnecting === false
                                 ) {
                                     // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
-                                    ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
+                                    let ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
                                     this.$root.objects.SelectFragmentHelper.deltaX = ranges.x;
                                     this.$root.objects.SelectFragmentHelper.deltaY = ranges.y;
                                     this.$root.objects.SelectFragmentHelper.translatedFragmentId = objInCoords;
@@ -192,7 +182,7 @@
                         }
                         lastSeenObject = lastSeenObject.prev;
                     } while (lastSeenObject != null)
-                }
+                };
 
 
                 // Отслеживать отжатие кнопок мыши
@@ -208,27 +198,27 @@
                         }
                         this.$root.objects.SelectFragmentHelper.translatedFragmentId = -1;
                     }
-                }
+                };
 
                 document.addEventListener('mousedown', function(event) {
-                    if (lastDownTarget != event.target) {
+                    if (lastDownTarget !== event.target) {
                         showSilhouette = false;
                     }
                     lastDownTarget = event.target;
                 }, false);
 
                 document.addEventListener('keydown', function(event) {
-                    if (lastDownTarget == canvas) {
-                        if (event.keyCode == KEY_shouldConnect) {
+                    if (lastDownTarget === canvas) {
+                        if (event.keyCode === KEY_shouldConnect) {
                             if (shouldConnect)
                                 shouldConnect = false;
                             else shouldConnect = true;
                             console.log("shouldConnect is", shouldConnect);
                         }
-                        if (event.keyCode == KEY_showSilhouette) {
+                        if (event.keyCode === KEY_showSilhouette) {
                             showSilhouette = true;
                         }
-                        if(event.keyCode == 49) {
+                        if(event.keyCode === 49) {
                             var lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
                             do {
                                 console.log(lastSeenObject);
@@ -237,7 +227,7 @@
                             console.log("\nEND\n")
                         }
 
-                        if(event.keyCode == 50) {
+                        if(event.keyCode === 50) {
                             if(this.$root.objects.SelectFragmentHelper.translatedFragmentId >= 0) {
                                 arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].listElem.remove();
                             }
@@ -246,15 +236,15 @@
                 }, false);
 
                 document.addEventListener('keyup', function(event) {
-                    if (lastDownTarget == canvas) {
-                        if (event.keyCode == KEY_showSilhouette) {
+                    if (lastDownTarget === canvas) {
+                        if (event.keyCode === KEY_showSilhouette) {
                             showSilhouette = false;
                         }
                     }
                 }, false);
 
                 // Анимация с определённой частотой для обновления экрана
-                setInterval(update, 1000 / FRAMES);
+                setInterval(update, 1000 / globalVariables.FRAMES);
 
 
 

@@ -4,22 +4,24 @@
 
 var hello = 4;
 export default class Fragment {
-  constructor(ind, src, x, y, left, top, objects) {
+  constructor(ind, src, x, y, left, top, objects, globalVariables) {
     this.src = src;
     this.x = x;
     this.y = y;
     this.img = new Image();
     this.img.src = this.src;
     this.ind = ind;
+
+    this.objects = objects;
+    this.globalVariables = globalVariables;
+
     this.downloadImage();
 
     this.smoothing = false; // для ограничения движения объекта во время анимации
     this.isConnecting = false; // объект конектит другой, а потому не может быть выбран. Необходим int, т.к. можно подключать несколько сразу
                                // После первого isConnecting станет false, хотя подключается ещё второй объект, а потому будет
 
-    this.objects = objects;
-      console.log(this.objects);
-      objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
+    objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
     objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.SCALE / 5;
     objects.FragmentsGeneralCharacteristic.connectRange = objects.FragmentsGeneralCharacteristic.third_x * 2; // ВРЕМЕННО
 
@@ -37,18 +39,20 @@ export default class Fragment {
   }
 
   downloadImage() {
+    let objects = this.objects;
+    let globalVariables = this.globalVariables;
     this.img.onload = function() {
-        this.objects.FragmentsGeneralCharacteristic.downloadedImages++;
-      if (FragmentsGeneralCharacteristic.downloadedImages === countImages) {
+        objects.FragmentsGeneralCharacteristic.downloadedImages++;
+      if (objects.FragmentsGeneralCharacteristic.downloadedImages === globalVariables.countImages) {
         console.log("Downloaded all images");
 
-        this.objects.FragmentsGeneralCharacteristic.width = this.width;
-        this.objects.FragmentsGeneralCharacteristic.height = this.height;
+        objects.FragmentsGeneralCharacteristic.width = this.width;
+        objects.FragmentsGeneralCharacteristic.height = this.height;
 
-        this.objects.FragmentsGeneralCharacteristic.SCALE = (
+        objects.FragmentsGeneralCharacteristic.SCALE = (
           Math.min(
-              this.objects.CanvasCharacteristic.all_width / (imagesX / 5 * 3) / this.objects.FragmentsGeneralCharacteristic.width,
-              this.objects.CanvasCharacteristic.all_height / (imagesY / 5 * 3) / this.objects.FragmentsGeneralCharacteristic.height
+              objects.CanvasCharacteristic.all_width / (imagesX / 5 * 3) / objects.FragmentsGeneralCharacteristic.width,
+              objects.CanvasCharacteristic.all_height / (imagesY / 5 * 3) / objects.FragmentsGeneralCharacteristic.height
           )
         );
         FragmentsGeneralCharacteristic.widthScale = Math.floor(FragmentsGeneralCharacteristic.SCALE * FragmentsGeneralCharacteristic.width);

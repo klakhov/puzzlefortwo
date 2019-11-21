@@ -2437,36 +2437,24 @@ __webpack_require__.r(__webpack_exports__);
   components: {//'tag-name':Name
   },
   mounted: function mounted() {
-    var FRAMES = 45;
-    var imagesX = 4;
-    var imagesY = 4;
-    var countImages = imagesX * imagesY;
-    var FIELD_WIDTH = 1; // Размеры поля
-
-    var FIELD_HEIGHT = 10 / 11; // Местоположение поля в Fragment.js -> (61, 62) строки
-
-    var KEY_showSilhouette = 83; // S
-
-    var KEY_shouldConnect = 32; // SPACE
-
-    var DIRECTORY = "../img/";
-    var a = this; // Массив для изображений
+    var globalVariables = this.$root.globalVariables;
+    var objects = this.$root.objects; // Массив для изображений
 
     var arr = [];
 
     function drawAll() {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.beginPath();
-      context.rect(a.$root.objects.CanvasCharacteristic.firstX, this.$root.objects.CanvasCharacteristic.firstY, this.$root.objects.CanvasCharacteristic.all_width, this.$root.objects.CanvasCharacteristic.all_height);
+      context.rect(objects.CanvasCharacteristic.firstX, objects.CanvasCharacteristic.firstY, objects.CanvasCharacteristic.all_width, objects.CanvasCharacteristic.all_height);
       context.lineWidth = "10";
       context.strokeStyle = "red";
       context.stroke();
       context.beginPath();
-      context.rect(this.$root.objects.CanvasCharacteristic.firstX, this.$root.objects.CanvasCharacteristic.firstY, this.$root.objects.CanvasCharacteristic.width, this.$root.objects.CanvasCharacteristic.height);
+      context.rect(objects.CanvasCharacteristic.firstX, objects.CanvasCharacteristic.firstY, objects.CanvasCharacteristic.width, objects.CanvasCharacteristic.height);
       context.lineWidth = "10";
       context.strokeStyle = "green";
       context.stroke();
-      var lastSeenObject = this.$root.objects.ListObjectHelper.firstVisualObject;
+      var lastSeenObject = objects.ListObjectHelper.firstVisualObject;
 
       do {
         lastSeenObject.value.draw();
@@ -2495,18 +2483,17 @@ __webpack_require__.r(__webpack_exports__);
     console.log("Started");
     var canvas = document.getElementById("canvas-puzzle");
     var context = canvas.getContext('2d');
-    this.$root.objects.CanvasCharacteristic.all_width = canvas.width * FIELD_WIDTH;
-    this.$root.objects.CanvasCharacteristic.all_height = canvas.height * FIELD_HEIGHT; // Заполнение массива изображениями
+    objects.CanvasCharacteristic.all_width = canvas.width * globalVariables.FIELD_WIDTH;
+    objects.CanvasCharacteristic.all_height = canvas.height * globalVariables.FIELD_HEIGHT; // Заполнение массива изображениями
 
-    for (var i = 0; i < countImages; i++) {
-      var x = i % imagesX;
-      var y = Math.floor(i / imagesY);
-      var leftId = i % imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
+    for (var i = 0; i < globalVariables.countImages; i++) {
+      var x = i % globalVariables.imagesX;
+      var y = Math.floor(i / globalVariables.imagesY);
+      var leftId = i % globalVariables.imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
 
-      var topId = i - imagesY;
+      var topId = i - globalVariables.imagesY;
       console.log(i);
-      arr.push(new _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"](i, DIRECTORY + (i + 1) + '.png', getRandomArbitary(1940, 2720), getRandomArbitary(80, 480), leftId >= 0 ? arr[i - 1] : null, topId >= 0 ? arr[topId] : null, this.$root.objects // ЗАМЕНИТЬ
-      ));
+      arr.push(new _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"](i, globalVariables.DIRECTORY + (i + 1) + '.png', getRandomArbitary(1940, 2720), getRandomArbitary(80, 480), leftId >= 0 ? arr[i - 1] : null, topId >= 0 ? arr[topId] : null, objects, globalVariables));
 
       if (this.$root.objects.ListObjectHelper.lastVisualObject == null) {
         this.$root.objects.ListObjectHelper.lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__["default"](arr[arr.length - 1], null);
@@ -2538,14 +2525,14 @@ __webpack_require__.r(__webpack_exports__);
       var lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
 
       do {
-        var objInCoords = this.$root.objects.lastSeenObject.value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
+        var objInCoords = lastSeenObject.value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
         // console.log(objInCoords);
 
-        if (this.$root.objects.lastSeenObject.value instanceof _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"]) {
+        if (lastSeenObject.value instanceof _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"]) {
           if (objInCoords) {
             if (lastSeenObject.value.smoothing === false && lastSeenObject.value.isConnecting === false && (lastSeenObject.value.group == null || lastSeenObject.value.group.isConnecting === false)) {
               // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
-              ranges = lastSeenObject.value.rangeToStartImage(loc.x, loc.y);
+              var ranges = lastSeenObject.value.rangeToStartImage(loc.x, loc.y);
               this.$root.objects.SelectFragmentHelper.deltaX = ranges.x;
               this.$root.objects.SelectFragmentHelper.deltaY = ranges.y;
               this.$root.objects.SelectFragmentHelper.translatedFragmentId = lastSeenObject.value.ind;
@@ -2557,11 +2544,12 @@ __webpack_require__.r(__webpack_exports__);
           }
         } else if (lastSeenObject.value instanceof _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__["default"]) {
           if (objInCoords > -1) {
-            if (arr[objInCoords].smoothing == false && arr[objInCoords].isConnecting == false && lastSeenObject.value.isConnecting == false) {
+            if (arr[objInCoords].smoothing === false && arr[objInCoords].isConnecting === false && lastSeenObject.value.isConnecting === false) {
               // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
-              ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
-              this.$root.objects.SelectFragmentHelper.deltaX = ranges.x;
-              this.$root.objects.SelectFragmentHelper.deltaY = ranges.y;
+              var _ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
+
+              this.$root.objects.SelectFragmentHelper.deltaX = _ranges.x;
+              this.$root.objects.SelectFragmentHelper.deltaY = _ranges.y;
               this.$root.objects.SelectFragmentHelper.translatedFragmentId = objInCoords;
               lastSeenObject.replaceToTop(); // отображать поверх других объектов
 
@@ -2593,24 +2581,24 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     document.addEventListener('mousedown', function (event) {
-      if (lastDownTarget != event.target) {
+      if (lastDownTarget !== event.target) {
         showSilhouette = false;
       }
 
       lastDownTarget = event.target;
     }, false);
     document.addEventListener('keydown', function (event) {
-      if (lastDownTarget == canvas) {
-        if (event.keyCode == KEY_shouldConnect) {
+      if (lastDownTarget === canvas) {
+        if (event.keyCode === KEY_shouldConnect) {
           if (shouldConnect) shouldConnect = false;else shouldConnect = true;
           console.log("shouldConnect is", shouldConnect);
         }
 
-        if (event.keyCode == KEY_showSilhouette) {
+        if (event.keyCode === KEY_showSilhouette) {
           showSilhouette = true;
         }
 
-        if (event.keyCode == 49) {
+        if (event.keyCode === 49) {
           var lastSeenObject = this.$root.objects.ListObjectHelper.lastVisualObject;
 
           do {
@@ -2621,7 +2609,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log("\nEND\n");
         }
 
-        if (event.keyCode == 50) {
+        if (event.keyCode === 50) {
           if (this.$root.objects.SelectFragmentHelper.translatedFragmentId >= 0) {
             arr[this.$root.objects.SelectFragmentHelper.translatedFragmentId].listElem.remove();
           }
@@ -2629,14 +2617,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     }, false);
     document.addEventListener('keyup', function (event) {
-      if (lastDownTarget == canvas) {
-        if (event.keyCode == KEY_showSilhouette) {
+      if (lastDownTarget === canvas) {
+        if (event.keyCode === KEY_showSilhouette) {
           showSilhouette = false;
         }
       }
     }, false); // Анимация с определённой частотой для обновления экрана
 
-    setInterval(update, 1000 / FRAMES); // Функция для анимации с определённой частотой для обновления экрана
+    setInterval(update, 1000 / globalVariables.FRAMES); // Функция для анимации с определённой частотой для обновления экрана
 
     function update() {
       drawAll();
@@ -60869,7 +60857,7 @@ var hello = 4;
 var Fragment =
 /*#__PURE__*/
 function () {
-  function Fragment(ind, src, x, y, left, top, objects) {
+  function Fragment(ind, src, x, y, left, top, objects, globalVariables) {
     _classCallCheck(this, Fragment);
 
     this.src = src;
@@ -60878,14 +60866,14 @@ function () {
     this.img = new Image();
     this.img.src = this.src;
     this.ind = ind;
+    this.objects = objects;
+    this.globalVariables = globalVariables;
     this.downloadImage();
     this.smoothing = false; // для ограничения движения объекта во время анимации
 
     this.isConnecting = false; // объект конектит другой, а потому не может быть выбран. Необходим int, т.к. можно подключать несколько сразу
     // После первого isConnecting станет false, хотя подключается ещё второй объект, а потому будет
 
-    this.objects = objects;
-    console.log(this.objects);
     objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
     objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.SCALE / 5;
     objects.FragmentsGeneralCharacteristic.connectRange = objects.FragmentsGeneralCharacteristic.third_x * 2; // ВРЕМЕННО
@@ -60903,14 +60891,17 @@ function () {
   _createClass(Fragment, [{
     key: "downloadImage",
     value: function downloadImage() {
-      this.img.onload = function () {
-        this.objects.FragmentsGeneralCharacteristic.downloadedImages++;
+      var objects = this.objects;
+      var globalVariables = this.globalVariables;
 
-        if (FragmentsGeneralCharacteristic.downloadedImages === countImages) {
+      this.img.onload = function () {
+        objects.FragmentsGeneralCharacteristic.downloadedImages++;
+
+        if (objects.FragmentsGeneralCharacteristic.downloadedImages === globalVariables.countImages) {
           console.log("Downloaded all images");
-          this.objects.FragmentsGeneralCharacteristic.width = this.width;
-          this.objects.FragmentsGeneralCharacteristic.height = this.height;
-          this.objects.FragmentsGeneralCharacteristic.SCALE = Math.min(this.objects.CanvasCharacteristic.all_width / (imagesX / 5 * 3) / this.objects.FragmentsGeneralCharacteristic.width, this.objects.CanvasCharacteristic.all_height / (imagesY / 5 * 3) / this.objects.FragmentsGeneralCharacteristic.height);
+          objects.FragmentsGeneralCharacteristic.width = this.width;
+          objects.FragmentsGeneralCharacteristic.height = this.height;
+          objects.FragmentsGeneralCharacteristic.SCALE = Math.min(objects.CanvasCharacteristic.all_width / (imagesX / 5 * 3) / objects.FragmentsGeneralCharacteristic.width, objects.CanvasCharacteristic.all_height / (imagesY / 5 * 3) / objects.FragmentsGeneralCharacteristic.height);
           FragmentsGeneralCharacteristic.widthScale = Math.floor(FragmentsGeneralCharacteristic.SCALE * FragmentsGeneralCharacteristic.width);
           FragmentsGeneralCharacteristic.heightScale = Math.floor(FragmentsGeneralCharacteristic.SCALE * FragmentsGeneralCharacteristic.height);
           FragmentsGeneralCharacteristic.third_x = FragmentsGeneralCharacteristic.widthScale / 5;
@@ -62317,6 +62308,21 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
+  globalVariables: {
+    FRAMES: 45,
+    imagesX: 4,
+    imagesY: 4,
+    countImages: 4 * 4,
+    FIELD_WIDTH: 1,
+    // Размеры поля
+    FIELD_HEIGHT: 10 / 11,
+    // Местоположение поля в Fragment.js -> (61, 62) строки
+    KEY_showSilhouette: 83,
+    // S
+    KEY_shouldConnect: 32,
+    // SPACE
+    DIRECTORY: "../img/"
+  },
   objects: {
     SelectFragmentHelper: {
       translatedFragmentId: -1,
@@ -62373,8 +62379,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! e:\OSPanel\domains\puzzlefortwo\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! e:\OSPanel\domains\puzzlefortwo\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\Server\OSPanel\domains\puzzlefortwo\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\Server\OSPanel\domains\puzzlefortwo\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

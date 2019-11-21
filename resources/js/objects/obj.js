@@ -1,4 +1,18 @@
 export  default {
+    globalVariables:{
+        FRAMES: 45,
+        imagesX:4,
+        imagesY:4,
+        countImages: 4*4,
+
+        FIELD_WIDTH:1, // Размеры поля
+        FIELD_HEIGHT: 10 / 11, // Местоположение поля в Fragment.js -> (61, 62) строки
+
+        KEY_showSilhouette: 83, // S
+        KEY_shouldConnect: 32, // SPACE
+
+        DIRECTORY: "../img/",
+    },
     objects:{
         SelectFragmentHelper: {
                 translatedFragmentId: -1,
