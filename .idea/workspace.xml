@@ -2,40 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/0.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/i.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/classes/Fragment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/classes/script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/objects/obj.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/MethodModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/puzzlefortwolaravel.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/puzzlefortwolaravel.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Puzzle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Puzzle.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Room.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Room.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/profile/RoomsComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/profile/RoomsComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/Fragment.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/Fragment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/puzzle/menu/rooms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/puzzle/menu/rooms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/objects/obj.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/objects/obj.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -156,6 +145,15 @@
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
+      <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/justinrainbow/json-schema" />
+      <path value="$PROJECT_DIR$/vendor/seld/jsonlint" />
+      <path value="$PROJECT_DIR$/vendor/seld/phar-utils" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-ide-helper" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/reflection-docblock" />
     </include_path>
   </component>
   <component name="ProjectId" id="1T7QXEJ2jnh6pfobAWSbZKybtsZ" />
@@ -226,6 +224,7 @@
       <workItem from="1574240236901" duration="620000" />
       <workItem from="1574260077755" duration="14704000" />
       <workItem from="1574281278638" duration="1113000" />
+      <workItem from="1574434526173" duration="3630000" />
     </task>
     <servers />
   </component>

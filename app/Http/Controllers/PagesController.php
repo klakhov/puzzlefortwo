@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
+
+use App\Room;
 
 class PagesController extends Controller
 {
-    public function play(){
+    public function play()
+    {
         return view('pages.play');
     }
 
-    public function home(){
+    public function home()
+    {
         return view('pages.home');
     }
 
-    public function about(){
+    public function about()
+    {
         return view('pages.about');
     }
+
 }

@@ -239,7 +239,7 @@ window.onload = function() {
   }, false);
 
   document.addEventListener('keydown', function(event) {
-    if (lastDownTarget == canvas) {
+    if (lastDownTarget === canvas) {
       if (event.keyCode == KEY_shouldConnect) {
         if (shouldConnect)
           shouldConnect = false;

@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\User;
-class Room extends Model
+
+class Room extends MethodModel
 {
     protected $fillable = [
         'user_id', 'user_1', 'user_2', 'status',
