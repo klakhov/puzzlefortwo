@@ -21,7 +21,7 @@ export default class Fragment {
         this.smoothing = false; // для ограничения движения объекта во время анимации
         this.isConnecting = false; // объект конектит другой, а потому не может быть выбран. Необходим int, т.к. можно подключать несколько сразу
                                    // После первого isConnecting станет false, хотя подключается ещё второй объект, а потому будет
-
+        this.shouldConnect = false; // Поле для броадкастера чтобы понять остальным клиентам, нужно ли проверять фрагмент на присоеденение
         objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
         objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.SCALE / 5;
         objects.FragmentsGeneralCharacteristic.connectRange = objects.FragmentsGeneralCharacteristic.third_x * 2; // ВРЕМЕННО
@@ -297,9 +297,11 @@ export default class Fragment {
     }
 
     smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
+        this.shouldConnect = true; // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
         // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
         // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
         // просто добавление в группу не работает при его smoothMove
+
         if (fr.group == null) {
             fr.smoothMove(x, y, connectingFragment);
         } else {

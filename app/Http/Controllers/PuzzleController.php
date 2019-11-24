@@ -13,6 +13,11 @@ class PuzzleController extends Controller
         $room = Room::uid($uid);
         $user_1 = User::find($room->user_id);
         $user_2 = User::find($room->user_second_id);
-        return view('puzzle.puzzle', compact('user_1', 'user_2'));
+        return view('puzzle.puzzle', compact('user_1', 'user_2', 'room'));
+    }
+
+    public function update(Request $request)
+    {
+        return response()->json('hello');
     }
 }

@@ -11,6 +11,17 @@
 |
 */
 
+use App\Room;
+use Illuminate\Support\Facades\Broadcast;
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    return (int)$user->id === (int)$id;
+});
+
+Broadcast::channel('room.{uid}', function ($user, $uid) {
+    $room = Room::uid($uid);
+    if (($user->name === $room->user_1) || ($user->name === $room->user_2)) {
+        return true;
+    }
+    return false;
 });

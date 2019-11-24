@@ -20,8 +20,8 @@ export default class FragmentGroup {
   }
   //передать данные idSelected/x/y/move/group
   move(x, y, selected) {
-    this.fragments.forEach(function(fragment, ind, arr) { // ЕЛЕ РАБОЧАЯ ХУЕТА
-      if (fragment !== selected) {
+    this.fragments.forEach(function(fragment, ind, arr) {// ЕЛЕ РАБОЧАЯ ХУЕТА
+        if (fragment !== selected) {
         fragment.move(
           x - selected.x + fragment.x,
           y - selected.y + fragment.y
@@ -37,7 +37,7 @@ export default class FragmentGroup {
     });
   }
   //передать данные idSelected/idConnected/x/y/smoothMove
-  smoothMove(x, y, selected, connectingFragment) {
+  smoothMove(x, y, selected, connectingFragment = null) {
     // connectingFragment - фрагмент, к которому я конекчусь.
     // при измнении его координат мои подстраиваются
     this.fragments.forEach(function(fragment, ind, arr) { // ЕЛЕ РАБОЧАЯ ХУЕТА
@@ -51,6 +51,7 @@ export default class FragmentGroup {
     });
     selected.smoothMove(x, y, connectingFragment);
   }
+
 
   changeGroup(newGroup) {
     this.fragments.forEach(function(fragment, ind, arr) { // ЕЛЕ РАБОЧАЯ ХУЕТА
@@ -82,6 +83,5 @@ export default class FragmentGroup {
     });
     if (minFragment != null)
       minFragment.connectToOther(minFragment.ind);
-
   }
 }

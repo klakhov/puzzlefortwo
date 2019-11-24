@@ -1,8 +1,6 @@
 <template>
     <div class="">
-        <canvas id="canvas-puzzle" width="3840" height="2160">
-            <!-- ЗАМЕНИТЬ -->
-        </canvas>
+        <canvas id="canvas-puzzle" width="3840" height="2160"></canvas>
     </div>
 </template>
 
@@ -11,25 +9,35 @@
     import Fragment from "../../classes/Fragment";
     import FragmentGroup from "../../classes/FragmentGroup";
     import FragmentList from "../../classes/FragmentList";
+    import Broadcaster from '../../classes/Broadcaster';
 
     export default {
         props: [
-            //'data'
+            'room',
+            'user_1',
+            'user_2'
         ],
         data: function () {
             return {
-                //var:val
+                arr: [],
+                mouseMove: false,
+                objects: {},
             }
         },
         components: {
             //'tag-name':Name
         },
         mounted() {
+
             let globalConstants = this.$root.globalConstants;
             let objects = this.$root.objects;
             let globalVariables = this.$root.globalVariables;
+            let canvasComponent = this;
+            this.broadcasterHelper = this.$root.broadcasterHelper;
+            this.objects = this.$root.objects;
 // Массив для изображений
-            let arr = [];
+            let arr = this.arr;
+            this.listenPuzzleMove();
 
             function drawAll() {
                 context.clearRect(0,
@@ -96,7 +104,7 @@
 
 
             // Заполнение массива изображениями
-            for (let i = 0; i < globalConstants.countImages; i++) {
+            for (let i = 0; i < globalConstants.countImages; i++) {// globalConstants.countImages
                 // let x = i % globalConstants.imagesX;
                 // let y = Math.floor(i / globalConstants.imagesY);
 
@@ -131,6 +139,10 @@
                     if (arr[objects.SelectFragmentHelper.translatedFragmentId].group == null) {
                         arr[objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - objects.SelectFragmentHelper.deltaX,
                             loc.y - objects.SelectFragmentHelper.deltaY);
+                        if (canvasComponent.mouseMove === false) {//если не двигали, двигаем, и отправляем данные
+                            canvasComponent.mouseMove = true;
+                            canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]);
+                        }
                     } else if (arr[objects.SelectFragmentHelper.translatedFragmentId].group != null) {
                         let newX = loc.x - objects.SelectFragmentHelper.deltaX;
                         let newY = loc.y - objects.SelectFragmentHelper.deltaY;
@@ -138,6 +150,10 @@
                             newX, newY,
                             arr[objects.SelectFragmentHelper.translatedFragmentId]
                         );
+                        if (canvasComponent.mouseMove === false) {//если не двигали, двигаем, и отправляем данные
+                            canvasComponent.mouseMove = true;
+                            canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]);
+                        }
                     }
                 }
             };
@@ -193,6 +209,7 @@
 
             // Отслеживать отжатие кнопок мыши
             canvas.onmouseup = function () {
+                canvasComponent.mouseMove = false;
                 if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
                     let selectedFragment = arr[objects.SelectFragmentHelper.translatedFragmentId];
                     if (globalVariables.shouldConnect) {
@@ -259,6 +276,46 @@
             }
 
         },
-        methods: {}
+        methods: {
+            listenPuzzleMove() {
+                let arr = this.arr;
+                let channel = Echo.private('room.' + this.room.uid);
+                channel.listen('.client-move', (response) => {
+                    let fragment = arr[response.ind];
+                    if (!response.group) {
+                        if (response.shouldConnect) {
+                            fragment.connectToOther();
+                        } else {
+                            fragment.smoothMove(response.x, response.y);
+                        }
+                    } else if (response.group) {
+                        fragment.group.smoothMove(response.x, response.y, fragment);
+                    }
+
+                });
+            },
+            sendFragment(fragment) {
+                let canvasComponent = this;
+                console.log('sending fragment');
+                setTimeout(function () {
+                    let broadcaster = new Broadcaster(canvasComponent.room, canvasComponent.user_1, fragment);
+                    broadcaster.broadcastFragmentMove();
+                    if (canvasComponent.mouseMove === true) {
+                        setTimeout(canvasComponent.sendFragment(fragment), 100);
+                    }
+                }, 100);
+            },
+            sendGroup(fragment) {
+                let canvasComponent = this;
+                console.log('sending group');
+                setTimeout(function () {
+                    let broadcaster = new Broadcaster(canvasComponent.room, canvasComponent.user_1, fragment);
+                    broadcaster.broadcastGroupMove();
+                    if (canvasComponent.mouseMove === true) {
+                        setTimeout(canvasComponent.sendGroup(fragment), 100);
+                    }
+                }, 100);
+            },
+        }
     }
 </script>

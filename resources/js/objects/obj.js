@@ -18,6 +18,7 @@ export default {
         shouldConnect: false,
         showSilhouette: false,
     },
+
     objects: {
         SelectFragmentHelper: {
             translatedFragmentId: -1,
@@ -50,6 +51,6 @@ export default {
             lastY: -1,
             firstX: -1,
             firstY: -1,
-        }
+        },
     }
 };

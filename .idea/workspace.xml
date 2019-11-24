@@ -2,29 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/MethodModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/puzzlefortwolaravel.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/puzzlefortwolaravel.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/Broadcaster.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Puzzle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Puzzle.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Room.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Room.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PuzzleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PuzzleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/bootstrap.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/classes/Fragment.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/Fragment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/classes/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/objects/obj.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/objects/obj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/puzzle/puzzle.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/puzzle/puzzle.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/channels.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/channels.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +41,13 @@
     </option>
     <expand />
     <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -167,18 +164,18 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="E:\WorkingPrograms\PhpStorm 2019.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img" />
-      <recent name="E:\OSPanel\domains\puzzlefortwo\resources\js\classes" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\app" />
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\app\Models" />
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\resources\js\components\header" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img" />
+      <recent name="E:\OSPanel\domains\puzzlefortwo\resources\js\classes" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -224,7 +221,10 @@
       <workItem from="1574240236901" duration="620000" />
       <workItem from="1574260077755" duration="14704000" />
       <workItem from="1574281278638" duration="1113000" />
-      <workItem from="1574434526173" duration="3630000" />
+      <workItem from="1574434526173" duration="4227000" />
+      <workItem from="1574449547874" duration="1156000" />
+      <workItem from="1574522485954" duration="13668000" />
+      <workItem from="1574578030397" duration="14488000" />
     </task>
     <servers />
   </component>

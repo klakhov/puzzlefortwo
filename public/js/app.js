@@ -2415,8 +2415,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Fragment */ "./resources/js/classes/Fragment.js");
 /* harmony import */ var _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../classes/FragmentGroup */ "./resources/js/classes/FragmentGroup.js");
 /* harmony import */ var _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/FragmentList */ "./resources/js/classes/FragmentList.js");
-//
-//
+/* harmony import */ var _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../classes/Broadcaster */ "./resources/js/classes/Broadcaster.js");
 //
 //
 //
@@ -2427,11 +2426,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: [//'data'
-  ],
+  props: ['room', 'user_1', 'user_2'],
   data: function data() {
-    return {//var:val
+    return {
+      arr: [],
+      mouseMove: false,
+      objects: {}
     };
   },
   components: {//'tag-name':Name
@@ -2439,9 +2441,13 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var globalConstants = this.$root.globalConstants;
     var objects = this.$root.objects;
-    var globalVariables = this.$root.globalVariables; // Массив для изображений
+    var globalVariables = this.$root.globalVariables;
+    var canvasComponent = this;
+    this.broadcasterHelper = this.$root.broadcasterHelper;
+    this.objects = this.$root.objects; // Массив для изображений
 
-    var arr = [];
+    var arr = this.arr;
+    this.listenPuzzleMove();
 
     function drawAll() {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -2489,6 +2495,7 @@ __webpack_require__.r(__webpack_exports__);
     objects.CanvasCharacteristic.all_height = canvas.height * globalConstants.FIELD_HEIGHT; // Заполнение массива изображениями
 
     for (var i = 0; i < globalConstants.countImages; i++) {
+      // globalConstants.countImages
       // let x = i % globalConstants.imagesX;
       // let y = Math.floor(i / globalConstants.imagesY);
       var leftId = i % globalConstants.imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
@@ -2512,10 +2519,22 @@ __webpack_require__.r(__webpack_exports__);
       if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
         if (arr[objects.SelectFragmentHelper.translatedFragmentId].group == null) {
           arr[objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - objects.SelectFragmentHelper.deltaX, loc.y - objects.SelectFragmentHelper.deltaY);
+
+          if (canvasComponent.mouseMove === false) {
+            //если не двигали, двигаем, и отправляем данные
+            canvasComponent.mouseMove = true;
+            canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]);
+          }
         } else if (arr[objects.SelectFragmentHelper.translatedFragmentId].group != null) {
           var newX = loc.x - objects.SelectFragmentHelper.deltaX;
           var newY = loc.y - objects.SelectFragmentHelper.deltaY;
           arr[objects.SelectFragmentHelper.translatedFragmentId].group.move(newX, newY, arr[objects.SelectFragmentHelper.translatedFragmentId]);
+
+          if (canvasComponent.mouseMove === false) {
+            //если не двигали, двигаем, и отправляем данные
+            canvasComponent.mouseMove = true;
+            canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]);
+          }
         }
       }
     }; // Отслеживать нажатие на кнопки мыши
@@ -2567,6 +2586,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
     canvas.onmouseup = function () {
+      canvasComponent.mouseMove = false;
+
       if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
         var selectedFragment = arr[objects.SelectFragmentHelper.translatedFragmentId];
 
@@ -2632,7 +2653,49 @@ __webpack_require__.r(__webpack_exports__);
       drawAll();
     }
   },
-  methods: {}
+  methods: {
+    listenPuzzleMove: function listenPuzzleMove() {
+      var arr = this.arr;
+      var channel = Echo["private"]('room.' + this.room.uid);
+      channel.listen('.client-move', function (response) {
+        var fragment = arr[response.ind];
+
+        if (!response.group) {
+          if (response.shouldConnect) {
+            fragment.connectToOther();
+          } else {
+            fragment.smoothMove(response.x, response.y);
+          }
+        } else if (response.group) {
+          fragment.group.smoothMove(response.x, response.y, fragment);
+        }
+      });
+    },
+    sendFragment: function sendFragment(fragment) {
+      var canvasComponent = this;
+      console.log('sending fragment');
+      setTimeout(function () {
+        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, canvasComponent.user_1, fragment);
+        broadcaster.broadcastFragmentMove();
+
+        if (canvasComponent.mouseMove === true) {
+          setTimeout(canvasComponent.sendFragment(fragment), 100);
+        }
+      }, 100);
+    },
+    sendGroup: function sendGroup(fragment) {
+      var canvasComponent = this;
+      console.log('sending group');
+      setTimeout(function () {
+        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, canvasComponent.user_1, fragment);
+        broadcaster.broadcastGroupMove();
+
+        if (canvasComponent.mouseMove === true) {
+          setTimeout(canvasComponent.sendGroup(fragment), 100);
+        }
+      }, 100);
+    }
+  }
 });
 
 /***/ }),
@@ -2659,7 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user_1', 'user_2'],
+  props: ['user_1', 'user_2', 'room'],
   data: function data() {
     return {};
   },
@@ -48523,7 +48586,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "field" }, [_c("our-canvas")], 1)
+    _c(
+      "div",
+      { staticClass: "field" },
+      [
+        _c("our-canvas", {
+          attrs: { room: this.room, user_1: this.user_1, user_2: this.user_2 }
+        })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -60825,14 +60897,83 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-Pusher.logToConsole = true;
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); // Pusher.logToConsole = true;
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: '56f29fc23e03329b1bf3',
   cluster: 'eu',
   forceTLS: true
 });
+
+/***/ }),
+
+/***/ "./resources/js/classes/Broadcaster.js":
+/*!*********************************************!*\
+  !*** ./resources/js/classes/Broadcaster.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Broadcaster; });
+/* harmony import */ var _Fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Fragment */ "./resources/js/classes/Fragment.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Broadcaster =
+/*#__PURE__*/
+function () {
+  function Broadcaster(room, user, fragment) {
+    _classCallCheck(this, Broadcaster);
+
+    this.room = room;
+    this.user = user;
+    this.fragment = fragment;
+  }
+
+  _createClass(Broadcaster, [{
+    key: "broadcast",
+    value: function broadcast(broadcastEvent, data) {
+      var channel = Echo["private"]('room.' + this.room.uid);
+      channel.whisper(broadcastEvent, data);
+    }
+  }, {
+    key: "broadcastFragmentMove",
+    value: function broadcastFragmentMove() {
+      var fragment = {
+        x: this.fragment.x,
+        y: this.fragment.y,
+        ind: this.fragment.ind,
+        shouldConnect: this.fragment.shouldConnect,
+        group: false
+      };
+      this.broadcast('move', fragment);
+    }
+  }, {
+    key: "broadcastGroupMove",
+    value: function broadcastGroupMove() {
+      var group = {
+        x: this.fragment.x,
+        y: this.fragment.y,
+        ind: this.fragment.ind,
+        shouldConnect: this.fragment.shouldConnect,
+        group: true
+      };
+      this.broadcast('move', group);
+    }
+  }]);
+
+  return Broadcaster;
+}();
+
+
 
 /***/ }),
 
@@ -60878,6 +61019,8 @@ function () {
 
     this.isConnecting = false; // объект конектит другой, а потому не может быть выбран. Необходим int, т.к. можно подключать несколько сразу
     // После первого isConnecting станет false, хотя подключается ещё второй объект, а потому будет
+
+    this.shouldConnect = false; // Поле для броадкастера чтобы понять остальным клиентам, нужно ли проверять фрагмент на присоеденение
 
     objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
     objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.SCALE / 5;
@@ -61123,9 +61266,11 @@ function () {
   }, {
     key: "smoothmoveOneOrGroup",
     value: function smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
+      this.shouldConnect = true; // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
       // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
       // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
       // просто добавление в группу не работает при его smoothMove
+
       if (fr.group == null) {
         fr.smoothMove(x, y, connectingFragment);
       } else {
@@ -61427,7 +61572,8 @@ function () {
 
   }, {
     key: "smoothMove",
-    value: function smoothMove(x, y, selected, connectingFragment) {
+    value: function smoothMove(x, y, selected) {
+      var connectingFragment = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
       // connectingFragment - фрагмент, к которому я конекчусь.
       // при измнении его координат мои подстраиваются
       this.fragments.forEach(function (fragment, ind, arr) {
