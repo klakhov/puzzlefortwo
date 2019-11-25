@@ -81,8 +81,9 @@ export default class Fragment {
             }
         }
     }
-
-
+    broadcasterConnecting(b){
+        this.shouldConnect = b;
+    }
     // Отображает изображение в заданных координатах
     draw() {
         let objects = this.objects;
@@ -297,10 +298,11 @@ export default class Fragment {
     }
 
     smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
-        this.shouldConnect = true; // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
+        this.broadcasterConnecting(true);
         // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
         // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
         // просто добавление в группу не работает при его smoothMove
+         // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
 
         if (fr.group == null) {
             fr.smoothMove(x, y, connectingFragment);
@@ -313,6 +315,7 @@ export default class Fragment {
         // возвращает объект, чтобы в будущем добавить сортировку по расстоянию для групп
         // newInd чтобы сравнивать объекты, на которые мы Не нажали, но которые обрабатываются
         // внутри группы на сближение с углами
+
 
         // withConnect - для проверки ближайшего конекта без конекта лол
         let objects = this.objects;

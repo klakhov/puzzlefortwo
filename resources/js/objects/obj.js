@@ -1,6 +1,6 @@
 export default {
     globalConstants: {
-        FRAMES: 45,
+        FRAMES: 60,
         imagesX: 4,
         imagesY: 4,
         countImages: 4 * 4,

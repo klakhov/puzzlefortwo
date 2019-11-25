@@ -2416,6 +2416,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../classes/FragmentGroup */ "./resources/js/classes/FragmentGroup.js");
 /* harmony import */ var _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/FragmentList */ "./resources/js/classes/FragmentList.js");
 /* harmony import */ var _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../classes/Broadcaster */ "./resources/js/classes/Broadcaster.js");
+/* harmony import */ var _classes_PuzzleWorker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../classes/PuzzleWorker */ "./resources/js/classes/PuzzleWorker.js");
 //
 //
 //
@@ -2427,13 +2428,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['room', 'user_1', 'user_2'],
   data: function data() {
     return {
       arr: [],
       mouseMove: false,
-      objects: {}
+      objects: {},
+      PuzzleWorker: {},
+      workerTasks: []
     };
   },
   components: {//'tag-name':Name
@@ -2447,6 +2451,7 @@ __webpack_require__.r(__webpack_exports__);
     this.objects = this.$root.objects; // Массив для изображений
 
     var arr = this.arr;
+    this.PuzzleWorker = new _classes_PuzzleWorker__WEBPACK_IMPORTED_MODULE_4__["default"]();
     this.listenPuzzleMove();
 
     function drawAll() {
@@ -2519,22 +2524,10 @@ __webpack_require__.r(__webpack_exports__);
       if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
         if (arr[objects.SelectFragmentHelper.translatedFragmentId].group == null) {
           arr[objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - objects.SelectFragmentHelper.deltaX, loc.y - objects.SelectFragmentHelper.deltaY);
-
-          if (canvasComponent.mouseMove === false) {
-            //если не двигали, двигаем, и отправляем данные
-            canvasComponent.mouseMove = true;
-            canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]);
-          }
         } else if (arr[objects.SelectFragmentHelper.translatedFragmentId].group != null) {
           var newX = loc.x - objects.SelectFragmentHelper.deltaX;
           var newY = loc.y - objects.SelectFragmentHelper.deltaY;
           arr[objects.SelectFragmentHelper.translatedFragmentId].group.move(newX, newY, arr[objects.SelectFragmentHelper.translatedFragmentId]);
-
-          if (canvasComponent.mouseMove === false) {
-            //если не двигали, двигаем, и отправляем данные
-            canvasComponent.mouseMove = true;
-            canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]);
-          }
         }
       }
     }; // Отслеживать нажатие на кнопки мыши
@@ -2586,17 +2579,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
     canvas.onmouseup = function () {
-      canvasComponent.mouseMove = false;
-
       if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
         var selectedFragment = arr[objects.SelectFragmentHelper.translatedFragmentId];
 
         if (globalVariables.shouldConnect) {
           if (selectedFragment.group == null) {
-            selectedFragment.connectToOther();
+            // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
+            selectedFragment.connectToOther(); //ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
           } else {
-            selectedFragment.group.connectTo();
+            selectedFragment.broadcasterConnecting(true); //задать свойство для броадкастера чтобы он знал, что надо коннектить
+
+            selectedFragment.group.connectTo(); //А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
           }
+        } else {
+          selectedFragment.broadcasterConnecting(false); //задать свойство для броадкастера чтобы он знал, что  НЕ надо коннектить
+        }
+
+        if (selectedFragment.group == null) {
+          canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]); //отправить данные
+        } else {
+          canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]); //отправить данные
         }
 
         objects.SelectFragmentHelper.translatedFragmentId = -1;
@@ -2655,20 +2657,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     listenPuzzleMove: function listenPuzzleMove() {
+      var _this = this;
+
       var arr = this.arr;
       var channel = Echo["private"]('room.' + this.room.uid);
       channel.listen('.client-move', function (response) {
-        var fragment = arr[response.ind];
+        console.log(response);
 
-        if (!response.group) {
-          if (response.shouldConnect) {
-            fragment.connectToOther();
-          } else {
-            fragment.smoothMove(response.x, response.y);
-          }
-        } else if (response.group) {
-          fragment.group.smoothMove(response.x, response.y, fragment);
-        }
+        _this.PuzzleWorker.push(response);
+
+        _this.PuzzleWorker.execute(arr);
       });
     },
     sendFragment: function sendFragment(fragment) {
@@ -2677,10 +2675,6 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, canvasComponent.user_1, fragment);
         broadcaster.broadcastFragmentMove();
-
-        if (canvasComponent.mouseMove === true) {
-          setTimeout(canvasComponent.sendFragment(fragment), 100);
-        }
       }, 100);
     },
     sendGroup: function sendGroup(fragment) {
@@ -2689,10 +2683,6 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, canvasComponent.user_1, fragment);
         broadcaster.broadcastGroupMove();
-
-        if (canvasComponent.mouseMove === true) {
-          setTimeout(canvasComponent.sendGroup(fragment), 100);
-        }
       }, 100);
     }
   }
@@ -60947,6 +60937,7 @@ function () {
   }, {
     key: "broadcastFragmentMove",
     value: function broadcastFragmentMove() {
+      var taskType = "";
       var fragment = {
         x: this.fragment.x,
         y: this.fragment.y,
@@ -60955,6 +60946,7 @@ function () {
         group: false
       };
       this.broadcast('move', fragment);
+      this.nullifyConnect(); //метод обнуляющий should connect, так как остальные в комнате уже узнали, что фрагмент куда-то законнектился
     }
   }, {
     key: "broadcastGroupMove",
@@ -60967,6 +60959,14 @@ function () {
         group: true
       };
       this.broadcast('move', group);
+      this.nullifyConnect(); //метод обнуляющий should connect, так как остальные в комнате уже узнали, что фрагмент куда-то законнектился
+    }
+  }, {
+    key: "nullifyConnect",
+    value: function nullifyConnect() {
+      if (this.fragment.shouldConnect === true) {
+        this.fragment.shouldConnect = false;
+      }
     }
   }]);
 
@@ -61066,6 +61066,11 @@ function () {
           objects.CanvasCharacteristic.lastY = objects.CanvasCharacteristic.firstY + objects.CanvasCharacteristic.height;
         }
       };
+    }
+  }, {
+    key: "broadcasterConnecting",
+    value: function broadcasterConnecting(b) {
+      this.shouldConnect = b;
     } // Отображает изображение в заданных координатах
 
   }, {
@@ -61266,10 +61271,10 @@ function () {
   }, {
     key: "smoothmoveOneOrGroup",
     value: function smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
-      this.shouldConnect = true; // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
-      // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
+      this.broadcasterConnecting(true); // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
       // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
       // просто добавление в группу не работает при его smoothMove
+      // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
 
       if (fr.group == null) {
         fr.smoothMove(x, y, connectingFragment);
@@ -61711,6 +61716,125 @@ function () {
   }]);
 
   return FragmentList;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/PuzzleWorker.js":
+/*!**********************************************!*\
+  !*** ./resources/js/classes/PuzzleWorker.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PuzzleWorker; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var PuzzleWorker =
+/*#__PURE__*/
+function () {
+  function PuzzleWorker() {
+    _classCallCheck(this, PuzzleWorker);
+
+    this.tasks = [];
+    this.working = false;
+  }
+
+  _createClass(PuzzleWorker, [{
+    key: "push",
+    value: function push(task) {
+      if (!task.group) {
+        if (!task.shouldConnect) {
+          task.type = 'fragment_move';
+          this.tasks.unshift(task);
+        } else {
+          task.type = 'fragment_move';
+          this.tasks.unshift(task);
+          var cloneTask = Object.assign({}, task);
+          cloneTask.type = 'fragment_connect';
+          this.tasks.unshift(cloneTask);
+        }
+      } else {
+        if (!task.shouldConnect) {
+          task.type = 'group_move';
+          this.tasks.unshift(task);
+        } else {
+          task.type = 'group_move';
+          this.tasks.unshift(task);
+
+          var _cloneTask = Object.assign({}, task);
+
+          task.type = 'group_connect';
+          this.tasks.unshift(_cloneTask);
+        }
+      }
+    }
+  }, {
+    key: "execute",
+    value: function execute(arr) {
+      if (this.tasks.length !== 0 && this.working === false) {
+        this.working = true;
+        var task = this.tasks[this.tasks.length - 1];
+
+        switch (task.type) {
+          case 'fragment_move':
+            {
+              var fragment = arr[task.ind];
+              console.log('moveing fr ' + fragment.ind);
+              fragment.smoothMove(task.x, task.y);
+              break;
+            }
+
+          case 'fragment_connect':
+            {
+              var _fragment = arr[task.ind];
+              console.log('connecting fr ' + _fragment.ind);
+
+              _fragment.connectToOther();
+
+              break;
+            }
+
+          case 'group_move':
+            {
+              var _fragment2 = arr[task.ind];
+              console.log('group move fr ' + _fragment2.ind);
+
+              _fragment2.group.smoothMove(task.x, task.y, _fragment2);
+
+              break;
+            }
+
+          case 'group_connect':
+            {
+              var _fragment3 = arr[task.ind];
+              console.log('group connect fr ' + _fragment3.ind);
+
+              _fragment3.group.connectTo();
+
+              break;
+            }
+        }
+
+        var worker = this;
+        setTimeout(function () {
+          worker.tasks.pop();
+          worker.working = false;
+          worker.execute(arr);
+        }, 1000 / 60 + 350);
+      }
+    }
+  }]);
+
+  return PuzzleWorker;
 }();
 
 
@@ -62487,7 +62611,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   globalConstants: {
-    FRAMES: 45,
+    FRAMES: 60,
     imagesX: 4,
     imagesY: 4,
     countImages: 4 * 4,

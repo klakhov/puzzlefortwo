@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/classes/Broadcaster.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/PuzzleWorker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PuzzleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PuzzleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/Broadcaster.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/Broadcaster.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/classes/Fragment.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/Fragment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleComponent.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/objects/obj.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/objects/obj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/puzzle/puzzle.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/puzzle/puzzle.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/channels.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/channels.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -224,7 +218,9 @@
       <workItem from="1574434526173" duration="4227000" />
       <workItem from="1574449547874" duration="1156000" />
       <workItem from="1574522485954" duration="13668000" />
-      <workItem from="1574578030397" duration="14488000" />
+      <workItem from="1574578030397" duration="14567000" />
+      <workItem from="1574595775466" duration="718000" />
+      <workItem from="1574676298508" duration="24080000" />
     </task>
     <servers />
   </component>

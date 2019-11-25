@@ -10,7 +10,7 @@
     import FragmentGroup from "../../classes/FragmentGroup";
     import FragmentList from "../../classes/FragmentList";
     import Broadcaster from '../../classes/Broadcaster';
-
+    import PuzzleWorker from "../../classes/PuzzleWorker";
     export default {
         props: [
             'room',
@@ -22,6 +22,8 @@
                 arr: [],
                 mouseMove: false,
                 objects: {},
+                PuzzleWorker:{},
+                workerTasks:[],
             }
         },
         components: {
@@ -37,6 +39,7 @@
             this.objects = this.$root.objects;
 // Массив для изображений
             let arr = this.arr;
+            this.PuzzleWorker = new PuzzleWorker();
             this.listenPuzzleMove();
 
             function drawAll() {
@@ -139,10 +142,6 @@
                     if (arr[objects.SelectFragmentHelper.translatedFragmentId].group == null) {
                         arr[objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - objects.SelectFragmentHelper.deltaX,
                             loc.y - objects.SelectFragmentHelper.deltaY);
-                        if (canvasComponent.mouseMove === false) {//если не двигали, двигаем, и отправляем данные
-                            canvasComponent.mouseMove = true;
-                            canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]);
-                        }
                     } else if (arr[objects.SelectFragmentHelper.translatedFragmentId].group != null) {
                         let newX = loc.x - objects.SelectFragmentHelper.deltaX;
                         let newY = loc.y - objects.SelectFragmentHelper.deltaY;
@@ -150,10 +149,6 @@
                             newX, newY,
                             arr[objects.SelectFragmentHelper.translatedFragmentId]
                         );
-                        if (canvasComponent.mouseMove === false) {//если не двигали, двигаем, и отправляем данные
-                            canvasComponent.mouseMove = true;
-                            canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]);
-                        }
                     }
                 }
             };
@@ -209,15 +204,23 @@
 
             // Отслеживать отжатие кнопок мыши
             canvas.onmouseup = function () {
-                canvasComponent.mouseMove = false;
                 if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
                     let selectedFragment = arr[objects.SelectFragmentHelper.translatedFragmentId];
                     if (globalVariables.shouldConnect) {
                         if (selectedFragment.group == null) {
-                            selectedFragment.connectToOther();
+                            // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
+                            selectedFragment.connectToOther();//ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
                         } else {
-                            selectedFragment.group.connectTo()
+                            selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
+                            selectedFragment.group.connectTo();//А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
                         }
+                    }else{
+                        selectedFragment.broadcasterConnecting(false);//задать свойство для броадкастера чтобы он знал, что  НЕ надо коннектить
+                    }
+                    if(selectedFragment.group == null){
+                        canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]);//отправить данные
+                    }else{
+                        canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]);//отправить данные
                     }
                     objects.SelectFragmentHelper.translatedFragmentId = -1;
                 }
@@ -277,21 +280,13 @@
 
         },
         methods: {
-            listenPuzzleMove() {
+            listenPuzzleMove: function () {
                 let arr = this.arr;
                 let channel = Echo.private('room.' + this.room.uid);
                 channel.listen('.client-move', (response) => {
-                    let fragment = arr[response.ind];
-                    if (!response.group) {
-                        if (response.shouldConnect) {
-                            fragment.connectToOther();
-                        } else {
-                            fragment.smoothMove(response.x, response.y);
-                        }
-                    } else if (response.group) {
-                        fragment.group.smoothMove(response.x, response.y, fragment);
-                    }
-
+                    console.log(response);
+                    this.PuzzleWorker.push(response);
+                    this.PuzzleWorker.execute(arr);
                 });
             },
             sendFragment(fragment) {
@@ -300,9 +295,6 @@
                 setTimeout(function () {
                     let broadcaster = new Broadcaster(canvasComponent.room, canvasComponent.user_1, fragment);
                     broadcaster.broadcastFragmentMove();
-                    if (canvasComponent.mouseMove === true) {
-                        setTimeout(canvasComponent.sendFragment(fragment), 100);
-                    }
                 }, 100);
             },
             sendGroup(fragment) {
@@ -311,9 +303,6 @@
                 setTimeout(function () {
                     let broadcaster = new Broadcaster(canvasComponent.room, canvasComponent.user_1, fragment);
                     broadcaster.broadcastGroupMove();
-                    if (canvasComponent.mouseMove === true) {
-                        setTimeout(canvasComponent.sendGroup(fragment), 100);
-                    }
                 }, 100);
             },
         }

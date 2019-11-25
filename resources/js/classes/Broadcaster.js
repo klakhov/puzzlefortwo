@@ -11,6 +11,7 @@ export default class Broadcaster {
         channel.whisper(broadcastEvent,data);
     }
     broadcastFragmentMove(){
+        let taskType = "";
         let fragment={
           x:this.fragment.x,
           y:this.fragment.y,
@@ -19,6 +20,7 @@ export default class Broadcaster {
           group:false,
         };
         this.broadcast('move', fragment);
+        this.nullifyConnect(); //метод обнуляющий should connect, так как остальные в комнате уже узнали, что фрагмент куда-то законнектился
     }
     broadcastGroupMove(){
         let group={
@@ -29,5 +31,13 @@ export default class Broadcaster {
             group: true
         };
         this.broadcast('move', group);
+        this.nullifyConnect(); //метод обнуляющий should connect, так как остальные в комнате уже узнали, что фрагмент куда-то законнектился
     }
+
+    nullifyConnect(){
+        if(this.fragment.shouldConnect === true){
+            this.fragment.shouldConnect = false;
+        }
+    }
+
 }
