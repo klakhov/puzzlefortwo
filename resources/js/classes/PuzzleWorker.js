@@ -20,10 +20,10 @@ export default class PuzzleWorker {
                 task.type = 'group_move';
                 this.tasks.unshift(task);
             }else{
-                task.type = 'group_move';
+                task.type = 'group_connect';
                 this.tasks.unshift(task);
                 let cloneTask = Object.assign({}, task);
-                task.type = 'group_connect';
+                task.type = 'group_move';
                 this.tasks.unshift(cloneTask);
             }
         }
@@ -64,7 +64,7 @@ export default class PuzzleWorker {
                 worker.tasks.pop();
                 worker.working = false;
                 worker.execute(arr);
-            }, (1000 /60)+350);
+            }, (1000 /60)+150);
         }
     }
 }

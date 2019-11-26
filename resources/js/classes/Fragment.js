@@ -298,7 +298,6 @@ export default class Fragment {
     }
 
     smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
-        this.broadcasterConnecting(true);
         // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
         // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
         // просто добавление в группу не работает при его smoothMove

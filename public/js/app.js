@@ -2585,11 +2585,19 @@ __webpack_require__.r(__webpack_exports__);
         if (globalVariables.shouldConnect) {
           if (selectedFragment.group == null) {
             // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
-            selectedFragment.connectToOther(); //ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
-          } else {
-            selectedFragment.broadcasterConnecting(true); //задать свойство для броадкастера чтобы он знал, что надо коннектить
+            var res = selectedFragment.connectToOther(); //ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
 
-            selectedFragment.group.connectTo(); //А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
+            if (res.res) {
+              selectedFragment.broadcasterConnecting(true);
+            }
+          } else {
+            // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
+            var _res = selectedFragment.group.connectTo(); //А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
+
+
+            if (_res) {
+              selectedFragment.broadcasterConnecting(true);
+            }
           }
         } else {
           selectedFragment.broadcasterConnecting(false); //задать свойство для броадкастера чтобы он знал, что  НЕ надо коннектить
@@ -60958,7 +60966,10 @@ function () {
         shouldConnect: this.fragment.shouldConnect,
         group: true
       };
-      this.broadcast('move', group);
+      this.broadcast('move', group); // if(group.shouldConnect){
+      //     console.log('ind = '+group.ind+' ')
+      // }
+
       this.nullifyConnect(); //метод обнуляющий should connect, так как остальные в комнате уже узнали, что фрагмент куда-то законнектился
     }
   }, {
@@ -61271,11 +61282,10 @@ function () {
   }, {
     key: "smoothmoveOneOrGroup",
     value: function smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
-      this.broadcasterConnecting(true); // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
+      // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
       // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
       // просто добавление в группу не работает при его smoothMove
       // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
-
       if (fr.group == null) {
         fr.smoothMove(x, y, connectingFragment);
       } else {
@@ -61612,7 +61622,7 @@ function () {
         var res = fragment.connectToOther(fragment.ind, false);
 
         if (res.res) {
-          if (minRange == -1) {
+          if (minRange === -1) {
             minRange = res.range;
             minFragment = fragment;
           }
@@ -61623,7 +61633,13 @@ function () {
           }
         }
       });
-      if (minFragment != null) minFragment.connectToOther(minFragment.ind);
+
+      if (minFragment != null) {
+        minFragment.connectToOther(minFragment.ind);
+        return true;
+      }
+
+      return false;
     }
   }]);
 
@@ -61767,12 +61783,12 @@ function () {
           task.type = 'group_move';
           this.tasks.unshift(task);
         } else {
-          task.type = 'group_move';
+          task.type = 'group_connect';
           this.tasks.unshift(task);
 
           var _cloneTask = Object.assign({}, task);
 
-          task.type = 'group_connect';
+          task.type = 'group_move';
           this.tasks.unshift(_cloneTask);
         }
       }
@@ -61829,7 +61845,7 @@ function () {
           worker.tasks.pop();
           worker.working = false;
           worker.execute(arr);
-        }, 1000 / 60 + 350);
+        }, 1000 / 60 + 150);
       }
     }
   }]);

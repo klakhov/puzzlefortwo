@@ -71,7 +71,7 @@ export default class FragmentGroup {
     this.fragments.forEach(function(fragment, ind, arr) { // ЕЛЕ РАБОЧАЯ ХУЕТА
       var res = fragment.connectToOther(fragment.ind, false);
       if (res.res) {
-        if (minRange == -1) {
+        if (minRange === -1) {
           minRange = res.range;
           minFragment = fragment;
         }
@@ -81,7 +81,10 @@ export default class FragmentGroup {
         }
       }
     });
-    if (minFragment != null)
-      minFragment.connectToOther(minFragment.ind);
+    if (minFragment != null){
+        minFragment.connectToOther(minFragment.ind);
+        return true;
+    }
+    return false;
   }
 }

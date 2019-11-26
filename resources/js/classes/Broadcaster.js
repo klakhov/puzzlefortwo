@@ -31,6 +31,9 @@ export default class Broadcaster {
             group: true
         };
         this.broadcast('move', group);
+        // if(group.shouldConnect){
+        //     console.log('ind = '+group.ind+' ')
+        // }
         this.nullifyConnect(); //метод обнуляющий should connect, так как остальные в комнате уже узнали, что фрагмент куда-то законнектился
     }
 

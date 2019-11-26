@@ -209,10 +209,16 @@
                     if (globalVariables.shouldConnect) {
                         if (selectedFragment.group == null) {
                             // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
-                            selectedFragment.connectToOther();//ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
+                            let res = selectedFragment.connectToOther();//ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
+                            if(res.res){
+                                selectedFragment.broadcasterConnecting(true);
+                            }
                         } else {
-                            selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
-                            selectedFragment.group.connectTo();//А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
+                            // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
+                            let res = selectedFragment.group.connectTo();//А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
+                            if(res){
+                                selectedFragment.broadcasterConnecting(true);
+                            }
                         }
                     }else{
                         selectedFragment.broadcasterConnecting(false);//задать свойство для броадкастера чтобы он знал, что  НЕ надо коннектить
