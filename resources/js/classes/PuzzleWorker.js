@@ -1,7 +1,12 @@
+
 export default class PuzzleWorker {
+
     constructor(){
         this.tasks = [];
         this.working = false;
+        this.test = false;
+        this.fragment = null;
+
     }
     push(task){
         if(!task.group){
@@ -47,9 +52,15 @@ export default class PuzzleWorker {
                 }
                 case 'group_move':{
                     let fragment = arr[task.ind];
-                    console.log('group move fr '+fragment.ind);
-
-                    fragment.group.smoothMove(task.x, task.y, fragment);
+                    if(fragment.group == null){
+                        let cloneTask = Object.assign({}, task);
+                        cloneTask.type = 'fragment_connect';
+                        this.tasks.push(cloneTask); //два потомушто один удалиться сразу воркером
+                        this.tasks.push(cloneTask);
+                    }else{
+                        console.log('group move fr '+fragment.ind);
+                        fragment.group.smoothMove(task.x, task.y, fragment);
+                    }
                     break;
                 }
                 case 'group_connect':{
@@ -64,7 +75,7 @@ export default class PuzzleWorker {
                 worker.tasks.pop();
                 worker.working = false;
                 worker.execute(arr);
-            }, (1000 /60)+150);
+            }, 300);
         }
     }
 }
