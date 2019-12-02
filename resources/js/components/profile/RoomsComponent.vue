@@ -6,9 +6,8 @@
         <div id="showRooms">
             <div class="rooms-container">
                 <ul id="room-menu">
-                    <li class="room-menu-link" @click="showRooms">Список Комнат</li>
-                    <li class="room-menu-link" @click="showCreate">Создать комнату</li>
-                    <li class="room-menu-link" @click="showAcceptModal">Показать окно</li>
+                    <li class="room-menu-link" @click="showRooms">Список комнат</li>
+                    <li class="room-menu-link" @click="showCreate">Создать свою комнату</li>
                 </ul>
 
                 <div id="room-list">
@@ -16,8 +15,8 @@
                         <div class="col-lg-2 room-nick">{{room.user_1}}</div>
                         <div class="col-lg-5 room-description">{{room.description}}</div>
                         <input type="hidden" :value="room.uid" name="room-id">
-                        <button class="col-xl-3 room-join" v-if="room.belongsTo !== 'user'" @click="joinRoom">Присоединиться</button>
-                        <button class="col-xl-3 room-join-inaccessible" v-else>Присоединиться</button>
+                        <button class="col-xl-2 room-join" v-if="room.belongsTo !== 'user'" @click="joinRoom">Присоединиться</button>
+                        <button class="col-xl-2 room-join-inaccessible" title="Вы не можете присоединиться к самому себе!" v-else>Присоединиться</button>
                         <div class="col-xl-1 room-img">img-1</div>
                     </div>
                 </div>

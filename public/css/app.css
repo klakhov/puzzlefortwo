@@ -11344,7 +11344,7 @@ button {
   margin: 10px 0;
   font-size: 22px;
   font-family: Arial;
-  font-weight: 600;
+  font-weight: 500;
   color: black;
   cursor: pointer;
   border-bottom: 2px solid white;
@@ -11352,6 +11352,7 @@ button {
 }
 
 .room-menu-link-active {
+  font-weight: 600;
   border-bottom: 2px solid #b79e73;
   border-top: 2px solid #b79e73;
 }
@@ -11387,16 +11388,29 @@ button {
   height: 35px;
   padding: 0;
   border-radius: 3px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #b79e73;
+  max-height: 35px;
+}
+
+.room-join:hover {
+  background: #252525;
+  color: #b79e73;
 }
 
 .room-join-inaccessible {
-  padding-top: 8px;
+  margin-top: 8px;
   text-align: center;
   font-size: 18px;
   font-family: Arial;
   font-weight: 500;
   color: gray;
-  cursor: default;
+  border: none;
+  border-radius: 4px;
+  cursor: default !important;
+  min-width: 190px;
+  max-height: 35px;
 }
 
 .room-description {
@@ -11419,7 +11433,7 @@ button {
 
 .room-create-header {
   text-align: center;
-  font-size: 22px;
+  font-size: 28px;
   font-family: Arial;
   font-weight: 600;
   color: black;

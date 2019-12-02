@@ -36,15 +36,16 @@
 }
 .room-menu-link{
     margin:10px 0;
-    font-size:22px;
+    font-size:$font-big;
     font-family: $font-family-base;
-    font-weight: 600;
+    font-weight: 500;
     color:black;
     cursor: pointer;
     border-bottom: 2px solid white;
     border-top: 2px solid white;
 }
 .room-menu-link-active{
+    font-weight: 600;
     border-bottom:$border-biege-2;
     border-top:$border-biege-2;
 }
@@ -77,16 +78,28 @@
     height: 35px;
     padding: 0;
     border-radius: 3px;
+    margin-top: 8px;
+    border-radius: 6px;
+    border:$border-biege-1;
+    max-height: 35px;
+}
+.room-join:hover{
+    background: $black-primary;
+    color: $beige;
 }
 
 .room-join-inaccessible{
-    padding-top: 8px;
+    margin-top: 8px;
     text-align: center;
     font-size: $font-middle;
     font-family: $font-family-base;
     font-weight: 500;
     color:gray;
-    cursor: default;
+    border:none;
+    border-radius: 4px;
+    cursor: default !important;
+    min-width: 190px;
+    max-height: 35px;
 }
 .room-description{
     padding-top: 8px;
@@ -107,7 +120,7 @@
 
 .room-create-header{
     text-align: center;
-    font-size:$font-big;
+    font-size:$font-big-big;
     font-family: $font-family-base;
     font-weight: 600;
     color:black;

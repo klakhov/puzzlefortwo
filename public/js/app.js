@@ -2249,7 +2249,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -48411,22 +48410,13 @@ var render = function() {
             _c(
               "li",
               { staticClass: "room-menu-link", on: { click: _vm.showRooms } },
-              [_vm._v("Список Комнат")]
+              [_vm._v("Список комнат")]
             ),
             _vm._v(" "),
             _c(
               "li",
               { staticClass: "room-menu-link", on: { click: _vm.showCreate } },
-              [_vm._v("Создать комнату")]
-            ),
-            _vm._v(" "),
-            _c(
-              "li",
-              {
-                staticClass: "room-menu-link",
-                on: { click: _vm.showAcceptModal }
-              },
-              [_vm._v("Показать окно")]
+              [_vm._v("Создать свою комнату")]
             )
           ]),
           _vm._v(" "),
@@ -48455,14 +48445,19 @@ var render = function() {
                     ? _c(
                         "button",
                         {
-                          staticClass: "col-xl-3 room-join",
+                          staticClass: "col-xl-2 room-join",
                           on: { click: _vm.joinRoom }
                         },
                         [_vm._v("Присоединиться")]
                       )
                     : _c(
                         "button",
-                        { staticClass: "col-xl-3 room-join-inaccessible" },
+                        {
+                          staticClass: "col-xl-2 room-join-inaccessible",
+                          attrs: {
+                            title: "Вы не можете присоединиться к самому себе!"
+                          }
+                        },
                         [_vm._v("Присоединиться")]
                       ),
                   _vm._v(" "),
@@ -60921,11 +60916,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); // Pusher.logToConsole = true;
-
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+Pusher.logToConsole = true;
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: '56f29fc23e03329b1bf3',
+  key: 'f4c10c019021d99ba49a',
   cluster: 'eu',
   forceTLS: true
 });
