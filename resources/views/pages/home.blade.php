@@ -1,4 +1,4 @@
 @extends('layouts.app')
 @section('content')
-    home page
+<home></home>
 @endsection

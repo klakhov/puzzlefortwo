@@ -50,6 +50,12 @@
                     headerLinks[2].style.color='white';
                     break;
                 }
+                case "play":{
+                    headerLinks[0].style.color='white';
+                    headerLinks[1].style.color='rgb(183,158,115)';
+                    headerLinks[2].style.color='white';
+                    break;
+                }
                 default:{
                     headerLinks[0].style.color='white';
                     headerLinks[1].style.color='white';
