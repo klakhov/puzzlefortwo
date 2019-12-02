@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\AcceptRoom;
 use App\Events\NewRoom;
+use App\Jobs\CloseRoom;
 use App\Room;
 use Illuminate\Http\Request;
 use App\User;
@@ -25,6 +26,7 @@ class RoomController extends Controller
                 'uid'=>Str::random(45),
                 'timestamp_close'=>time()+300,
             ]);
+            dispatch((new CloseRoom($room))->delay(300));
             event(new NewRoom($room));
             return response()->json($room);
         }else{
@@ -33,7 +35,7 @@ class RoomController extends Controller
     }
 
     public function index(){
-        $rooms = Room::where('timestamp_close', '>=', time())->get();
+        $rooms = Room::where('status', '=', 'waiting')->get();
         return response()->json($rooms);
     }
 

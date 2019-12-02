@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
     public function hasActualRoom(){
-        $room = $this->rooms()->where('timestamp_close', '>=', time())->first();
+        $room = $this->rooms()->where('status', '=', 'waiting')->first();
         if($room){
             return true;
         }

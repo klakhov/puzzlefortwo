@@ -2361,6 +2361,13 @@ __webpack_require__.r(__webpack_exports__);
 
         _this4.rooms.push(_this4.validateRoom(pushed.new_room));
       });
+      channel.listen('.destroy-room', function (pushed) {
+        _this4.rooms.forEach(function (room, index) {
+          if (room.uid === pushed.uid) {
+            _this4.rooms.splice(index, 1);
+          }
+        });
+      });
     },
     listenRoomAccept: function listenRoomAccept(uid) {
       var _this5 = this;

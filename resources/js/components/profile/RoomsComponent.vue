@@ -140,6 +140,13 @@
                     console.log(this.validateRoom(pushed.new_room));
                     this.rooms.push(this.validateRoom(pushed.new_room));
                 });
+                channel.listen('.destroy-room',(pushed)=>{
+                   this.rooms.forEach((room,index)=>{
+                        if(room.uid === pushed.uid){
+                            this.rooms.splice(index,1);
+                        }
+                   });
+                });
             },
             listenRoomAccept(uid){
                 let channel = Echo.channel('rooms');
