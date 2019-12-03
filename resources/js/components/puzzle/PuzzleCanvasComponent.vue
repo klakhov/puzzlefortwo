@@ -14,8 +14,6 @@
     export default {
         props: [
             'room',
-            'user_1',
-            'user_2'
         ],
         data: function () {
             return {
@@ -299,7 +297,7 @@
                 let canvasComponent = this;
                 console.log('sending fragment');
                 setTimeout(function () {
-                    let broadcaster = new Broadcaster(canvasComponent.room, canvasComponent.user_1, fragment);
+                    let broadcaster = new Broadcaster(canvasComponent.room, fragment);
                     broadcaster.broadcastFragmentMove();
                 }, 100);
             },
@@ -307,7 +305,7 @@
                 let canvasComponent = this;
                 console.log('sending group');
                 setTimeout(function () {
-                    let broadcaster = new Broadcaster(canvasComponent.room, canvasComponent.user_1, fragment);
+                    let broadcaster = new Broadcaster(canvasComponent.room,fragment);
                     broadcaster.broadcastGroupMove();
                 }, 100);
             },

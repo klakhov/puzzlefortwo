@@ -1,8 +1,7 @@
 import Fragment from "./Fragment";
 export default class Broadcaster {
-    constructor(room, user,fragment){
+    constructor(room,fragment){
         this.room = room;
-        this.user = user;
         this.fragment = fragment;
     }
 

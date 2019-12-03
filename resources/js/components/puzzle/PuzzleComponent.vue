@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="field">
-            <our-canvas v-bind:room="this.room" v-bind:user_1="this.user_1" v-bind:user_2="this.user_2"></our-canvas>
+            <our-canvas v-bind:room="this.room"></our-canvas>
         </div>
     </div>
 </template>

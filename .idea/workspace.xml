@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
+    <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="1.1.0 комнаты удаляются сами после 5 минут ожидания">
       <change afterPath="$PROJECT_DIR$/public/img/main-page/cup.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/public/img/main-page/hands.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/public/img/main-page/img_mountains_wide.jpg" afterDir="false" />
@@ -192,9 +192,10 @@
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img/main-page" />
+    <property name="last_opened_file_path" value="C:/WorkingProgramms/Git/bin/git.exe" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.splitter.proportion" value="0.23534137" />
     <property name="ts.external.directory.path" value="E:\WorkingPrograms\PhpStorm 2019.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -265,6 +266,8 @@
       <workItem from="1575229973906" duration="156000" />
       <workItem from="1575230395914" duration="652000" />
       <workItem from="1575279647651" duration="6209000" />
+      <workItem from="1575365855987" duration="279000" />
+      <workItem from="1575366159706" duration="3525000" />
     </task>
     <task id="LOCAL-00001" summary="1.0.9 косметические изменения в комнатах">
       <created>1575281524614</created>

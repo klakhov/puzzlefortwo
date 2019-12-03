@@ -26,6 +26,7 @@ Vue.component('profile', require('./components/profile/ProfileComponent').defaul
 Vue.component('room-list', require('./components/profile/RoomsComponent').default);
 Vue.component('puzzle', require('./components/puzzle/PuzzleComponent').default);
 Vue.component('home', require('./components/home/HomeComponent').default);
+Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);
 
 
 /**
