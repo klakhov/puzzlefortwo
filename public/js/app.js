@@ -2629,7 +2629,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['room', 'user_1', 'user_2'],
+  props: ['room'],
   data: function data() {
     return {
       arr: [],
@@ -2880,7 +2880,7 @@ __webpack_require__.r(__webpack_exports__);
       var canvasComponent = this;
       console.log('sending fragment');
       setTimeout(function () {
-        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, canvasComponent.user_1, fragment);
+        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, fragment);
         broadcaster.broadcastFragmentMove();
       }, 100);
     },
@@ -2888,7 +2888,7 @@ __webpack_require__.r(__webpack_exports__);
       var canvasComponent = this;
       console.log('sending group');
       setTimeout(function () {
-        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, canvasComponent.user_1, fragment);
+        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, fragment);
         broadcaster.broadcastGroupMove();
       }, 100);
     }
@@ -49098,11 +49098,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "field" },
-      [
-        _c("our-canvas", {
-          attrs: { room: this.room, user_1: this.user_1, user_2: this.user_2 }
-        })
-      ],
+      [_c("our-canvas", { attrs: { room: this.room } })],
       1
     )
   ])
@@ -61347,6 +61343,7 @@ Vue.component('profile', __webpack_require__(/*! ./components/profile/ProfileCom
 Vue.component('room-list', __webpack_require__(/*! ./components/profile/RoomsComponent */ "./resources/js/components/profile/RoomsComponent.vue")["default"]);
 Vue.component('puzzle', __webpack_require__(/*! ./components/puzzle/PuzzleComponent */ "./resources/js/components/puzzle/PuzzleComponent.vue")["default"]);
 Vue.component('home', __webpack_require__(/*! ./components/home/HomeComponent */ "./resources/js/components/home/HomeComponent.vue")["default"]);
+Vue.component('our-canvas', __webpack_require__(/*! ./components/puzzle/PuzzleCanvasComponent */ "./resources/js/components/puzzle/PuzzleCanvasComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -61440,11 +61437,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Broadcaster =
 /*#__PURE__*/
 function () {
-  function Broadcaster(room, user, fragment) {
+  function Broadcaster(room, fragment) {
     _classCallCheck(this, Broadcaster);
 
     this.room = room;
-    this.user = user;
     this.fragment = fragment;
   }
 

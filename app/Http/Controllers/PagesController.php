@@ -23,4 +23,8 @@ class PagesController extends Controller
         return view('pages.about');
     }
 
+    public function test()
+    {
+        return view('auth.verify');
+    }
 }

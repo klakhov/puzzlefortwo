@@ -3,25 +3,29 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+        <div class="col-md-8 email-verify">
+                <div class="row">
+                    <div class="verify-header col">Подтвердите ваш E-Mail</div>
+                </div>
 
-                <div class="card-body">
+                <div class="verify-body mt-4">
                     @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+                        <div class="row">
+                            <div class="alert alert-success" role="alert">
+                                Новая ссылка была отправлена на ваш E-Mail
+                            </div>
                         </div>
                     @endif
+                    <div class="verify-text">
+                            Перед тем как продолжить, перейдите по ссылке, отправленной на ваш E-Mail.
+                            Если вы не получили письмо,
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
+                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline verify-text">нажмите сюда, чтобы отправить его снова</button>.
+                        </form>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

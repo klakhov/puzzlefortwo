@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/sass/auth/emailverify.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PagesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/verify.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -163,10 +167,9 @@
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="C:/WorkingProgramms/Git/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img/main-page" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="settings.editor.splitter.proportion" value="0.23534137" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="E:\WorkingPrograms\PhpStorm 2019.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -236,10 +239,8 @@
       <workItem from="1575227411148" duration="844000" />
       <workItem from="1575229973906" duration="156000" />
       <workItem from="1575230395914" duration="652000" />
-      <workItem from="1575279647651" duration="6209000" />
-      <workItem from="1575365855987" duration="279000" />
-      <workItem from="1575366159706" duration="3525000" />
-      <workItem from="1575374722935" duration="4057000" />
+      <workItem from="1575279647651" duration="7078000" />
+      <workItem from="1575396202240" duration="1594000" />
     </task>
     <task id="LOCAL-00001" summary="1.0.9 косметические изменения в комнатах">
       <created>1575281524614</created>
@@ -255,12 +256,12 @@
       <option name="project" value="LOCAL" />
       <updated>1575283105671</updated>
     </task>
-    <task id="LOCAL-00003" summary="1.1.1 убрано лишнее присваивание юзер-информации компонентам канваса">
-      <created>1575374811065</created>
+    <task id="LOCAL-00003" summary="1.1.1 добавлена home-page из старого проекта">
+      <created>1575286078594</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1575374811065</updated>
+      <updated>1575286078594</updated>
     </task>
     <option name="localTasksCounter" value="4" />
     <servers />
@@ -285,7 +286,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="1.0.9 косметические изменения в комнатах" />
     <MESSAGE value="1.1.0 комнаты удаляются сами после 5 минут ожидания" />
-    <MESSAGE value="1.1.1 убрано лишнее присваивание юзер-информации компонентам канваса" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.1.1 убрано лишнее присваивание юзер-информации компонентам канваса" />
+    <MESSAGE value="1.1.1 добавлена home-page из старого проекта" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.1.1 добавлена home-page из старого проекта" />
   </component>
 </project>
