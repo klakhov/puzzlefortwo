@@ -14,10 +14,10 @@
 use Illuminate\Support\Facades\Route;
 
 
-Auth::routes();
+Auth::routes(['verify'=> true]);
 
 Route::get('/', 'PagesController@home');
 Route::get('/about','PagesController@about');
-Route::get('/play','PagesController@play')->middleware('auth');
+Route::get('/play','PagesController@play')->middleware('verified');
 
-Route::get('/puzzle/{uid}', 'PuzzleController@show')->middleware('auth');
+Route::get('/puzzle/{uid}', 'PuzzleController@show')->middleware('verified');
