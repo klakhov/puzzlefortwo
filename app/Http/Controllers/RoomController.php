@@ -26,7 +26,7 @@ class RoomController extends Controller
                 'uid'=>Str::random(45),
                 'timestamp_close'=>time()+300,
             ]);
-            dispatch((new CloseRoom($room))->delay(300));
+            dispatch((new CloseRoom($room))->delay(Room::$data['delay']));
             event(new NewRoom($room));
             return response()->json($room);
         }else{
@@ -35,7 +35,7 @@ class RoomController extends Controller
     }
 
     public function index(){
-        $rooms = Room::where('status', '=', 'waiting')->get();
+        $rooms = Room::waiting();
         return response()->json($rooms);
     }
 

@@ -22,4 +22,3 @@ Route::get('/play','PagesController@play')->middleware('auth');
 
 Route::get('/puzzle/{uid}', 'PuzzleController@show')->middleware('auth');
 
-Route::get('/test', 'PagesController@test');

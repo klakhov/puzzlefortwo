@@ -12,8 +12,17 @@ class Room extends MethodModel
         'uid','timestamp_close',
     ];
 
+    public static $data = [
+        'delay' => 300
+    ];
+
     public static function uid($uid){
         return Room::where('uid', '=', $uid)->first();
+    }
+
+    public static function waiting()
+    {
+        return Room::where('status', '=', 'waiting')->get();
     }
 
     public function user(){
