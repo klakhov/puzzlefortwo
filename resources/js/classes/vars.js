@@ -18,9 +18,9 @@ const DIRECTORY = "images/";
 // Разницу между координатами курсора мыши и началом изображения в левом верхнем
 // углу из метода "rangeToStartImage(x, y)" класса "Fragment"
 let SelectFragmentHelper = {
-    translatedFragmentId: -1,
-    deltaX: 0,
-    deltaY: 0
+  translatedFragmentId: -1,
+  deltaX: 0,
+  deltaY: 0
 };
 
 // Массив для изображений
@@ -30,4 +30,3 @@ var shouldConnect = false;
 var showSilhouette = false;
 
 var canvas = undefined; // init in script.js
-

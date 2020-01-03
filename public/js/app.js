@@ -2611,11 +2611,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/Fragment */ "./resources/js/classes/Fragment.js");
-/* harmony import */ var _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../classes/FragmentGroup */ "./resources/js/classes/FragmentGroup.js");
-/* harmony import */ var _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/FragmentList */ "./resources/js/classes/FragmentList.js");
-/* harmony import */ var _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../classes/Broadcaster */ "./resources/js/classes/Broadcaster.js");
-/* harmony import */ var _classes_PuzzleWorker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../classes/PuzzleWorker */ "./resources/js/classes/PuzzleWorker.js");
+/* harmony import */ var _classes_base_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../classes/base/Component */ "./resources/js/classes/base/Component.js");
+/* harmony import */ var _classes_Fragment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../classes/Fragment */ "./resources/js/classes/Fragment.js");
+/* harmony import */ var _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../classes/FragmentGroup */ "./resources/js/classes/FragmentGroup.js");
+/* harmony import */ var _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../classes/FragmentList */ "./resources/js/classes/FragmentList.js");
+/* harmony import */ var _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../classes/Broadcaster */ "./resources/js/classes/Broadcaster.js");
+/* harmony import */ var _classes_PuzzleWorker__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../classes/PuzzleWorker */ "./resources/js/classes/PuzzleWorker.js");
+/* harmony import */ var _classes_Canvas__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../classes/Canvas */ "./resources/js/classes/Canvas.js");
+/* harmony import */ var _classes_Field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../classes/Field */ "./resources/js/classes/Field.js");
 //
 //
 //
@@ -2628,12 +2632,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['room'],
   data: function data() {
     return {
-      arr: [],
-      mouseMove: false,
       objects: {},
       PuzzleWorker: {},
       workerTasks: []
@@ -2642,196 +2647,205 @@ __webpack_require__.r(__webpack_exports__);
   components: {//'tag-name':Name
   },
   mounted: function mounted() {
-    var globalConstants = this.$root.globalConstants;
-    var objects = this.$root.objects;
-    var globalVariables = this.$root.globalVariables;
-    var canvasComponent = this;
-    this.broadcasterHelper = this.$root.broadcasterHelper;
-    this.objects = this.$root.objects; // Массив для изображений
-
-    var arr = this.arr;
-    this.PuzzleWorker = new _classes_PuzzleWorker__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    this.listenPuzzleMove();
-
-    function drawAll() {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.beginPath();
-      context.rect(objects.CanvasCharacteristic.firstX, objects.CanvasCharacteristic.firstY, objects.CanvasCharacteristic.all_width, objects.CanvasCharacteristic.all_height);
-      context.lineWidth = "10";
-      context.strokeStyle = "red";
-      context.stroke();
-      context.beginPath();
-      context.rect(objects.CanvasCharacteristic.firstX, objects.CanvasCharacteristic.firstY, objects.CanvasCharacteristic.width, objects.CanvasCharacteristic.height);
-      context.lineWidth = "10";
-      context.strokeStyle = "green";
-      context.stroke();
-      var lastSeenObject = objects.ListObjectHelper.firstVisualObject;
-
-      do {
-        lastSeenObject.value.draw();
-        lastSeenObject = lastSeenObject.next;
-      } while (lastSeenObject != null);
-    } // Определяет координаты пользователя в границах canvas
-
-
-    function getCoords(canvas, x, y) {
-      var bbox = canvas.getBoundingClientRect();
-      return {
-        x: (x - bbox.left) * (canvas.width / bbox.width),
-        y: (y - bbox.top) * (canvas.height / bbox.height)
-      };
-    } //рандом чисел
-
-
-    function getRandomArbitary(min, max) {
-      return Math.ceil(Math.random() * (max - min) + min);
-    } // При загрузке экрана
-    //              Перенесены в obj/globalVariables
-    //             let lastDownTarget = null;
-    //             let shouldConnect = false;
-    //             let showSilhouette = false;
-
-
-    console.log("Started");
-    var canvas = document.getElementById("canvas-puzzle");
-    var context = canvas.getContext('2d');
-    objects.CanvasCharacteristic.all_width = canvas.width * globalConstants.FIELD_WIDTH;
-    objects.CanvasCharacteristic.all_height = canvas.height * globalConstants.FIELD_HEIGHT; // Заполнение массива изображениями
-
-    for (var i = 0; i < globalConstants.countImages; i++) {
-      // globalConstants.countImages
-      // let x = i % globalConstants.imagesX;
-      // let y = Math.floor(i / globalConstants.imagesY);
-      var leftId = i % globalConstants.imagesX - 1; // ИСПРАВЛЕНИЕ БАГА в todoist (leftId = i - 1;)
-
-      var topId = i - globalConstants.imagesY;
-      console.log(i);
-      arr.push(new _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"](i, globalConstants.DIRECTORY + (i + 1) + '.png', getRandomArbitary(1940, 2720), getRandomArbitary(80, 480), leftId >= 0 ? arr[i - 1] : null, topId >= 0 ? arr[topId] : null, objects, globalConstants, globalVariables));
-
-      if (objects.ListObjectHelper.lastVisualObject == null) {
-        objects.ListObjectHelper.lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__["default"](arr[arr.length - 1], null, objects);
-        objects.ListObjectHelper.firstVisualObject = objects.ListObjectHelper.lastVisualObject;
-      } else {
-        objects.ListObjectHelper.lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_2__["default"](arr[arr.length - 1], objects.ListObjectHelper.lastVisualObject, objects);
-      }
-    } // Отслеживать перемещение курсора мыши
-
-
-    canvas.onmousemove = function (e) {
-      var loc = getCoords(canvas, e.clientX, e.clientY);
-
-      if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
-        if (arr[objects.SelectFragmentHelper.translatedFragmentId].group == null) {
-          arr[objects.SelectFragmentHelper.translatedFragmentId].move(loc.x - objects.SelectFragmentHelper.deltaX, loc.y - objects.SelectFragmentHelper.deltaY);
-        } else if (arr[objects.SelectFragmentHelper.translatedFragmentId].group != null) {
-          var newX = loc.x - objects.SelectFragmentHelper.deltaX;
-          var newY = loc.y - objects.SelectFragmentHelper.deltaY;
-          arr[objects.SelectFragmentHelper.translatedFragmentId].group.move(newX, newY, arr[objects.SelectFragmentHelper.translatedFragmentId]);
-        }
-      }
-    }; // Отслеживать нажатие на кнопки мыши
-
-
-    canvas.onmousedown = function (e) {
-      globalVariables.shouldConnect = true;
-      var loc = getCoords(canvas, e.clientX, e.clientY);
-      var lastSeenObject = objects.ListObjectHelper.lastVisualObject;
-
-      do {
-        var objInCoords = lastSeenObject.value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
-        // console.log(objInCoords);
-
-        if (lastSeenObject.value instanceof _classes_Fragment__WEBPACK_IMPORTED_MODULE_0__["default"]) {
-          if (objInCoords) {
-            if (lastSeenObject.value.smoothing === false && lastSeenObject.value.isConnecting === false && (lastSeenObject.value.group == null || lastSeenObject.value.group.isConnecting === false)) {
-              // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
-              var ranges = lastSeenObject.value.rangeToStartImage(loc.x, loc.y);
-              objects.SelectFragmentHelper.deltaX = ranges.x;
-              objects.SelectFragmentHelper.deltaY = ranges.y;
-              objects.SelectFragmentHelper.translatedFragmentId = lastSeenObject.value.ind;
-              lastSeenObject.replaceToTop(); // отображать поверх других объектов
-
-              console.log("Image number", objects.SelectFragmentHelper.translatedFragmentId);
-              break;
-            }
-          }
-        } else if (lastSeenObject.value instanceof _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_1__["default"]) {
-          if (objInCoords > -1) {
-            if (arr[objInCoords].smoothing === false && arr[objInCoords].isConnecting === false && lastSeenObject.value.isConnecting === false) {
-              // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
-              var _ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
-
-              objects.SelectFragmentHelper.deltaX = _ranges.x;
-              objects.SelectFragmentHelper.deltaY = _ranges.y;
-              objects.SelectFragmentHelper.translatedFragmentId = objInCoords;
-              lastSeenObject.replaceToTop(); // отображать поверх других объектов
-
-              console.log("Image number", objects.SelectFragmentHelper.translatedFragmentId);
-              break;
-            }
-          }
-        }
-
-        lastSeenObject = lastSeenObject.prev;
-      } while (lastSeenObject != null);
-    }; // Отслеживать отжатие кнопок мыши
-
-
-    canvas.onmouseup = function () {
-      if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
-        var selectedFragment = arr[objects.SelectFragmentHelper.translatedFragmentId];
-
-        if (globalVariables.shouldConnect) {
-          if (selectedFragment.group == null) {
-            // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
-            var res = selectedFragment.connectToOther(); //ПОЧЕМУ ЭТОТ МЕСТО НЕ ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИЯ?????
-
-            if (res.res) {
-              selectedFragment.broadcasterConnecting(true);
-            }
-          } else {
-            // selectedFragment.broadcasterConnecting(true);//задать свойство для броадкастера чтобы он знал, что надо коннектить
-            var _res = selectedFragment.group.connectTo(); //А ЭТО ГАРАНТИРУЕТ НАМ ПРИСОЕДИНЕНИе?????
-
-
-            if (_res) {
-              selectedFragment.broadcasterConnecting(true);
-            }
-          }
-        } else {
-          selectedFragment.broadcasterConnecting(false); //задать свойство для броадкастера чтобы он знал, что  НЕ надо коннектить
-        }
-
-        if (selectedFragment.group == null) {
-          canvasComponent.sendFragment(arr[objects.SelectFragmentHelper.translatedFragmentId]); //отправить данные
-        } else {
-          canvasComponent.sendGroup(arr[objects.SelectFragmentHelper.translatedFragmentId]); //отправить данные
-        }
-
-        objects.SelectFragmentHelper.translatedFragmentId = -1;
+    var component = this;
+    this.objects = {
+      globalConstants: {
+        FRAMES: 60,
+        imagesX: 4,
+        imagesY: 4,
+        countImages: 4 * 4,
+        FIELD_WIDTH: 3 / 5,
+        // Размеры поля
+        FIELD_HEIGHT: 9 / 11,
+        // Местоположение поля в Field.js -> (27, 28) строки
+        KEY_showSilhouette: 83,
+        // S
+        DIRECTORY: "../img/puzzle/"
+      },
+      SelectFragmentHelper: {
+        translatedFragmentId: -1,
+        deltaX: 0,
+        deltaY: 0
+      },
+      globalVariables: {
+        arr: [],
+        shouldConnect: false,
+        showSilhouette: false,
+        canvas: undefined
       }
     };
+    var arr = component.objects.globalVariables.arr;
+    var canvas = component.objects.globalVariables.canvas;
+    var SelectFragmentHelper = component.objects.SelectFragmentHelper;
+    var globalConstants = component.objects.globalConstants;
+    var globalVariables = component.objects.globalVariables;
+    var showSilhouette = component.objects.globalVariables.showSilhouette;
+    var shouldConnect = component.objects.globalVariables.shouldConnect;
 
-    document.addEventListener('mousedown', function (event) {
-      if (globalVariables.lastDownTarget !== event.target) {
-        globalVariables.showSilhouette = false;
+    function drawAll(canvas, context) {
+      context.lineWidth = "1";
+      context.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
+      canvas.panel.drawFragments(context);
+      var lastSeenObject = _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].firstVisualObject;
+
+      do {
+        lastSeenObject.value.draw(context);
+        lastSeenObject = lastSeenObject.next;
+      } while (lastSeenObject != null);
+
+      canvas.drawBlank(context);
+      canvas.draw(context);
+    }
+
+    function initializeFragmentList(arr) {
+      for (var i = 0; i < globalConstants.countImages; i++) {
+        var x = i % globalConstants.imagesX;
+        var y = Math.floor(i / globalConstants.imagesY);
+        var leftId = i % globalConstants.imagesX - 1;
+        var topId = i - globalConstants.imagesY;
+        arr.push(new _classes_Fragment__WEBPACK_IMPORTED_MODULE_1__["default"](i, globalConstants.DIRECTORY + (i + 1) + '.png', globalConstants.DIRECTORY + (i + 1) + '_.png', 100, 100, leftId >= 0 ? arr[i - 1] : null, topId >= 0 ? arr[topId] : null, i, component.objects));
+        canvas.panel.fragments[i] = i;
+
+        if (_classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject == null) {
+          _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"](arr[arr.length - 1], null);
+          _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].firstVisualObject = _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject;
+        } else {
+          _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject = new _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"](arr[arr.length - 1], _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject);
+        }
       }
+    }
 
-      globalVariables.lastDownTarget = event.target;
-    }, false);
-    document.addEventListener('keydown', function (event) {
-      if (globalVariables.lastDownTarget === canvas) {
-        if (event.keyCode === globalConstants.KEY_shouldConnect) {
-          if (globalVariables.shouldConnect) globalVariables.shouldConnect = false;else globalVariables.shouldConnect = true;
-          console.log("shouldConnect is", globalVariables.shouldConnect);
+    function initializeSizes(fragment, img) {
+      canvas.field.all_width = canvas.canvas.width * FIELD_WIDTH;
+      canvas.field.all_height = canvas.canvas.height * FIELD_HEIGHT;
+      fragment.init(img);
+      canvas.field.init();
+      canvas.panel.init();
+      canvas.left_menu.init();
+      canvas.right_menu.init();
+      canvas.createBlankZones();
+    }
+
+    window.onload = function () {
+      console.log("Started");
+      canvas = new _classes_Canvas__WEBPACK_IMPORTED_MODULE_6__["default"]("canvas-puzzle", component.objects);
+      canvas.initElements();
+      initializeFragmentList(arr);
+
+      canvas.canvas.onmousemove = function (e) {
+        var loc = canvas.getCoords(e.clientX, e.clientY);
+
+        if (SelectFragmentHelper.translatedFragmentId >= 0) {
+          if (canvas.isInZones(loc.x, loc.y)) {
+            var newX = loc.x - SelectFragmentHelper.deltaX;
+            var newY = loc.y - SelectFragmentHelper.deltaY;
+
+            if (arr[SelectFragmentHelper.translatedFragmentId].group == null) {
+              arr[SelectFragmentHelper.translatedFragmentId].move(newX, newY);
+            } else if (arr[SelectFragmentHelper.translatedFragmentId].group != null) {
+              arr[SelectFragmentHelper.translatedFragmentId].group.move(newX, newY, arr[SelectFragmentHelper.translatedFragmentId]);
+            }
+          }
         }
 
-        if (event.keyCode === globalConstants.KEY_showSilhouette) {
-          globalVariables.showSilhouette = true;
+        canvas.panel.onmousemove(loc.x, loc.y);
+        canvas.left_menu.onmousemove(loc.x, loc.y);
+        canvas.right_menu.onmousemove(loc.x, loc.y);
+      };
+
+      canvas.canvas.onmousedown = function (e) {
+        shouldConnect = true;
+        var loc = canvas.getCoords(e.clientX, e.clientY);
+
+        if (canvas.panel.onmousedown(loc)) {
+          return;
         }
 
-        if (event.keyCode === 49) {
-          var lastSeenObject = objects.ListObjectHelper.lastVisualObject;
+        var lastSeenObject = _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject;
+
+        do {
+          var value = lastSeenObject.value;
+          var objInCoords = value.isHadPoint(loc.x, loc.y); // у группы или фрагмента
+
+          if (value instanceof _classes_Fragment__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+            if (objInCoords) {
+              if (!value.smoothing && !value.isConnecting) {
+                // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
+                if (value.onBottomPanel) {
+                  value.onBottomPanel = false;
+                  value.moveToPanel();
+                }
+
+                ranges = value.rangeToStartImage(loc.x, loc.y);
+                SelectFragmentHelper.deltaX = ranges.x;
+                SelectFragmentHelper.deltaY = ranges.y;
+                SelectFragmentHelper.translatedFragmentId = value.ind;
+                lastSeenObject.replaceToTop(); // отображать поверх других объектов
+
+                break;
+              }
+            }
+          } else if (value instanceof _classes_FragmentGroup__WEBPACK_IMPORTED_MODULE_2___default.a) {
+            if (objInCoords > -1) {
+              if (!value.smoothing && !value.isConnecting) {
+                // объект под мышкой, не выполняет анимацию и не подсоединяет к себе чужой объект одновременно
+                ranges = arr[objInCoords].rangeToStartImage(loc.x, loc.y);
+                SelectFragmentHelper.deltaX = ranges.x;
+                SelectFragmentHelper.deltaY = ranges.y;
+                SelectFragmentHelper.translatedFragmentId = objInCoords;
+                lastSeenObject.replaceToTop(); // отображать поверх других объектов
+
+                break;
+              }
+            }
+          }
+
+          lastSeenObject = lastSeenObject.prev;
+        } while (lastSeenObject != null);
+      };
+
+      canvas.canvas.onmouseup = function (e) {
+        if (SelectFragmentHelper.translatedFragmentId >= 0) {
+          if (canvas.onMenuZone()) {}
+
+          var loc = canvas.getCoords(e.clientX, e.clientY);
+          var selectedFragment = arr[SelectFragmentHelper.translatedFragmentId];
+
+          if (selectedFragment.group != null) {
+            selectedFragment.group.editMenuCoords(selectedFragment);
+          } else {
+            selectedFragment.editMenuCoords();
+          }
+
+          if (selectedFragment.group == null && canvas.panel.isHadPoint(loc.x, loc.y)) {
+            selectedFragment.onBottomPanel = true;
+          }
+
+          if (shouldConnect) {
+            _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject.value.connectTo();
+          }
+
+          SelectFragmentHelper.translatedFragmentId = -1;
+        }
+      };
+
+      document.addEventListener('mousedown', function (event) {// if (lastDownTarget != event.target) {
+        //   showSilhouette = false;
+        // }
+        // lastDownTarget = event.target;
+      }, false);
+      document.addEventListener('keydown', function (event) {
+        if (event.keyCode == KEY_shouldConnect) {
+          if (shouldConnect) shouldConnect = false;else shouldConnect = true;
+          console.log("shouldConnect is", shouldConnect);
+        }
+
+        if (event.keyCode == KEY_showSilhouette) {
+          showSilhouette = true;
+        }
+
+        if (event.keyCode == 49) {
+          var lastSeenObject = _classes_FragmentList__WEBPACK_IMPORTED_MODULE_3__["default"].lastVisualObject;
 
           do {
             console.log(lastSeenObject);
@@ -2841,25 +2855,22 @@ __webpack_require__.r(__webpack_exports__);
           console.log("\nEND\n");
         }
 
-        if (event.keyCode === 50) {
-          if (objects.SelectFragmentHelper.translatedFragmentId >= 0) {
-            arr[objects.SelectFragmentHelper.translatedFragmentId].listElem.remove();
-          }
+        if (event.keyCode == 50) {
+          console.log(canvas.blank_zones);
         }
-      }
-    }, false);
-    document.addEventListener('keyup', function (event) {
-      if (globalVariables.lastDownTarget === canvas) {
-        if (event.keyCode === KEY_showSilhouette) {
-          globalVariables.showSilhouette = false;
+      }, false);
+      document.addEventListener('keyup', function (event) {
+        if (event.keyCode == KEY_showSilhouette) {
+          showSilhouette = false;
         }
-      }
-    }, false); // Анимация с определённой частотой для обновления экрана
+      }, false); // Анимация с определённой частотой для обновления экрана
 
-    setInterval(update, 1000 / globalConstants.FRAMES); // Функция для анимации с определённой частотой для обновления экрана
+      setInterval(update, 1000 / globalConstants.FRAMES);
+    }; // Обновление экрана
+
 
     function update() {
-      drawAll();
+      drawAll(canvas, canvas.context);
     }
   },
   methods: {
@@ -2880,7 +2891,7 @@ __webpack_require__.r(__webpack_exports__);
       var canvasComponent = this;
       console.log('sending fragment');
       setTimeout(function () {
-        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, fragment);
+        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_4__["default"](canvasComponent.room, fragment);
         broadcaster.broadcastFragmentMove();
       }, 100);
     },
@@ -2888,7 +2899,7 @@ __webpack_require__.r(__webpack_exports__);
       var canvasComponent = this;
       console.log('sending group');
       setTimeout(function () {
-        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_3__["default"](canvasComponent.room, fragment);
+        var broadcaster = new _classes_Broadcaster__WEBPACK_IMPORTED_MODULE_4__["default"](canvasComponent.room, fragment);
         broadcaster.broadcastGroupMove();
       }, 100);
     }
@@ -61496,6 +61507,286 @@ function () {
 
 /***/ }),
 
+/***/ "./resources/js/classes/Canvas.js":
+/*!****************************************!*\
+  !*** ./resources/js/classes/Canvas.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Canvas; });
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field */ "./resources/js/classes/Field.js");
+/* harmony import */ var _Menu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Menu */ "./resources/js/classes/Menu.js");
+/* harmony import */ var _Panel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Panel */ "./resources/js/classes/Panel.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+// init in script.js
+
+
+
+
+var Canvas =
+/*#__PURE__*/
+function () {
+  function Canvas(id, objects) {
+    _classCallCheck(this, Canvas);
+
+    console.log("Canvas created");
+    this.canvas = document.getElementById(id);
+    this.context = this.canvas.getContext('2d');
+    this.panel = null;
+    this.left_menu = null;
+    this.right_menu = null;
+    this.field = null;
+    this.fr_zones = [];
+    this.fr_zones.length = 4;
+    this.blank_zones = [];
+    this.globalVariables = objects.globalVariables;
+    this.globalConstants = objects.globalConstants;
+  }
+
+  _createClass(Canvas, [{
+    key: "initElements",
+    value: function initElements() {
+      this.field = new _Field__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      this.panel = new _Panel__WEBPACK_IMPORTED_MODULE_2__["default"](this.globalConstants.countImages, this, this.globalVariables, this.globalConstants);
+      this.left_menu = new _Menu__WEBPACK_IMPORTED_MODULE_1__["default"](-1, this);
+      this.right_menu = new _Menu__WEBPACK_IMPORTED_MODULE_1__["default"](1, this);
+      this.fr_zones[0] = this.left_menu;
+      this.fr_zones[1] = this.right_menu;
+      this.fr_zones[2] = this.field;
+      this.fr_zones[3] = this.panel;
+    }
+  }, {
+    key: "sortZonesByFirstX",
+    value: function sortZonesByFirstX() {
+      this.fr_zones.sort(function (a, b) {
+        return a.firstX > b.firstX ? 1 : b.firstX > a.firstX ? -1 : 0;
+      });
+    }
+  }, {
+    key: "getBlankZones",
+    value: function getBlankZones(start, top, bottom) {
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+      // переписать потом на бинарный поиск
+      var ind = -1;
+      var last = -1;
+
+      for (var i = 0; i < this.fr_zones.length; i++) {
+        if (top < this.fr_zones[i].firstY && this.fr_zones[i].firstY < bottom || top < this.fr_zones[i].lastY && this.fr_zones[i].lastY < bottom || this.fr_zones[i].firstY < top && top < this.fr_zones[i].lastY || this.fr_zones[i].firstY < bottom && bottom < this.fr_zones[i].lastY) {
+          if (this.fr_zones[i].firstX > start) {
+            ind = i;
+            last = this.fr_zones[ind].firstX;
+            break;
+          }
+        }
+      }
+
+      if (ind == -1) {
+        // дойти до края карты, если нет элемента
+        last = this.canvas.width;
+      }
+
+      if (bottom > top) {
+        // создать новый пустой прямоугольник
+        this.blank_zones.push(new BlankField(start - 1, top - 1, last - start + 2, bottom - top + 2));
+      }
+
+      if (ind != -1) {
+        // продолжить, если ещё есть элемент справа
+        this.getBlankZones(this.fr_zones[ind].firstX + 1, top, this.fr_zones[ind].firstY - 1); // верх
+
+        this.getBlankZones(this.fr_zones[ind].lastX + 1, this.fr_zones[ind].firstY, this.fr_zones[ind].lastY); // бок
+
+        this.getBlankZones(this.fr_zones[ind].firstX + 1, this.fr_zones[ind].lastY + 1, bottom - 1); // низ
+      }
+    }
+  }, {
+    key: "createBlankZones",
+    value: function createBlankZones() {
+      this.sortZonesByFirstX();
+      this.getBlankZones(0, 0, this.canvas.height, true);
+    }
+  }, {
+    key: "getCoords",
+    value: function getCoords(x, y) {
+      var bbox = this.canvas.getBoundingClientRect();
+      return {
+        x: (x - bbox.left) * (this.canvas.width / bbox.width),
+        y: (y - bbox.top) * (this.canvas.height / bbox.height)
+      };
+    }
+  }, {
+    key: "isInZones",
+    value: function isInZones(x, y) {
+      var zones = this.fr_zones;
+
+      for (var i = 0; i < zones.length; i++) {
+        if (zones[i].isHadPoint(x, y)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "onMenuZone",
+    value: function onMenuZone() {
+      if (this.left_menu.isPlace || this.right_menu.isPlace) {
+        _Menu__WEBPACK_IMPORTED_MODULE_1__["default"].includeInMenu();
+      } else {
+        _Menu__WEBPACK_IMPORTED_MODULE_1__["default"].removeFromMenu();
+      }
+    }
+  }, {
+    key: "draw",
+    value: function draw(context) {
+      var zones = this.fr_zones;
+
+      for (var i = 0; i < zones.length; i++) {
+        zones[i].draw(context);
+
+        if (zones[i] instanceof _Menu__WEBPACK_IMPORTED_MODULE_1__["default"]) {}
+      }
+    }
+  }, {
+    key: "drawBlank",
+    value: function drawBlank(context) {
+      var zones = this.blank_zones;
+
+      for (var i = 0; i < zones.length; i++) {
+        zones[i].draw(context);
+      }
+    }
+  }]);
+
+  return Canvas;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/Field.js":
+/*!***************************************!*\
+  !*** ./resources/js/classes/Field.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
+/* harmony import */ var _base_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base/Component */ "./resources/js/classes/base/Component.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var Field =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Field, _Component);
+
+  function Field() {
+    var _this;
+
+    _classCallCheck(this, Field);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Field).call(this));
+    _this.borderColor = "steelblue";
+    _this.all_width = null; // tmp-размеры для вмещения туда поля
+
+    _this.all_height = null;
+    _this.width = null; // истинные размеры поля
+
+    _this.height = null;
+    _this.firstX = null; // крайние левые/правые координаты поля
+
+    _this.lastX = null;
+    _this.firstY = null; // крайние верхние/нижние координаты поля
+
+    _this.lastY = null;
+    _this.linesX = [];
+    _this.linesY = [];
+    _this.linesColor = "rgba(155,155,155, 0.7)";
+    return _this;
+  }
+
+  _createClass(Field, [{
+    key: "init",
+    value: function init() {
+      this.width = Fragment.widthScale / 5 * 3 * imagesX;
+      this.height = Fragment.heightScale / 5 * 3 * imagesY;
+      this.firstX = canvas.canvas.width / 2 - this.width / 2; // ИЗМЕНИТЬ ДЛЯ МЕСТОПОЛОЖЕНИЯ ОКНА СБОРКИ
+
+      this.firstY = 40; // ИЗМЕНИТЬ ДЛЯ МЕСТОПОЛОЖЕНИЯ ОКНА СБОРКИ
+
+      this.lastX = this.firstX + this.width;
+      this.lastY = this.firstY + this.height;
+
+      for (var i = 1; i < imagesY; i++) {
+        this.linesX.push(this.width / imagesX * i);
+      }
+
+      for (var i = 1; i < imagesY; i++) {
+        this.linesY.push(this.height / imagesY * i);
+      }
+    }
+  }, {
+    key: "draw",
+    value: function draw(context) {
+      _get(_getPrototypeOf(Field.prototype), "draw", this).call(this, context);
+
+      context.strokeStyle = this.linesColor;
+      context.beginPath();
+
+      for (var i = 0; i < this.linesX.length; i++) {
+        context.moveTo(this.firstX + this.linesX[i], this.firstY);
+        context.lineTo(this.firstX + this.linesX[i], this.firstY + this.height);
+      }
+
+      for (var i = 0; i < this.linesY.length; i++) {
+        context.moveTo(this.firstX, this.firstY + this.linesY[i]);
+        context.lineTo(this.firstX + this.width, this.firstY + this.linesY[i]);
+      }
+
+      context.stroke();
+    }
+  }]);
+
+  return Field;
+}(_base_Component__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/js/classes/Fragment.js":
 /*!******************************************!*\
   !*** ./resources/js/classes/Fragment.js ***!
@@ -61506,44 +61797,49 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fragment; });
-/* harmony import */ var _FragmentGroup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FragmentGroup */ "./resources/js/classes/FragmentGroup.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // Возможно стоит убрать подключение к smoothing объекту. а то проблем слишком дохуя??
 // на заметку, потом посмотрим
-
-var hello = 4;
-
 var Fragment =
 /*#__PURE__*/
 function () {
-  function Fragment(ind, src, x, y, left, top, objects, globalConstants, globalVariables) {
+  function Fragment(ind, src, srcBorder, x, y, left, top, bottomInd, objects) {
     _classCallCheck(this, Fragment);
 
     this.src = src;
+    this.srcB = srcBorder; // путь до изображения с границами изображения
+
     this.x = x;
     this.y = y;
+    this.menuDX = 0;
+    this.menuDY = 0;
     this.img = new Image();
-    this.img.src = this.src;
-    this.ind = ind;
-    this.objects = objects;
-    this.globalConstants = globalConstants;
-    this.globalVariables = globalVariables;
+    this.imgB = new Image(); // image-border
+
+    this.mainFragment = this;
     this.downloadImage();
+    this.img.src = this.src;
+    this.imgB.src = this.srcB;
+    this.ind = ind;
+    this.onBottomPanel = true;
+    this.onMenu = false;
+    this.onMenuLast = false;
+    this.bottomPanelInd = bottomInd;
     this.smoothing = false; // для ограничения движения объекта во время анимации
 
     this.isConnecting = false; // объект конектит другой, а потому не может быть выбран. Необходим int, т.к. можно подключать несколько сразу
     // После первого isConnecting станет false, хотя подключается ещё второй объект, а потому будет
 
-    this.shouldConnect = false; // Поле для броадкастера чтобы понять остальным клиентам, нужно ли проверять фрагмент на присоеденение
-
-    objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.SCALE / 5;
-    objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.SCALE / 5;
-    objects.FragmentsGeneralCharacteristic.connectRange = objects.FragmentsGeneralCharacteristic.third_x * 2; // ВРЕМЕННО
+    Fragment.third_x = Fragment.SCALE / 5;
+    Fragment.third_y = Fragment.SCALE / 5;
+    Fragment.connectRange = Fragment.third_x * 2; // ВРЕМЕННО
 
     this.left = left;
     this.top = top;
@@ -61553,62 +61849,85 @@ function () {
     if (this.top != null) this.top.bottom = this;
     this.group = null;
     this.listElem = null; // заполняется
+
+    this.globalVariables = objects.globalVariables;
+    this.globalConstants = objects.globalConstants;
   }
 
   _createClass(Fragment, [{
-    key: "downloadImage",
-    value: function downloadImage() {
-      var objects = this.objects;
-      var globalConstants = this.globalConstants;
-      var globalVariables = this.globalVariables;
-      var canvas = document.getElementById("canvas-puzzle");
-      var context = canvas.getContext('2d');
-
-      this.img.onload = function () {
-        objects.FragmentsGeneralCharacteristic.downloadedImages++;
-
-        if (objects.FragmentsGeneralCharacteristic.downloadedImages === globalConstants.countImages) {
-          console.log("Downloaded all images");
-          objects.FragmentsGeneralCharacteristic.width = this.width;
-          objects.FragmentsGeneralCharacteristic.height = this.height;
-          objects.FragmentsGeneralCharacteristic.SCALE = Math.min(objects.CanvasCharacteristic.all_width / (globalConstants.imagesX / 5 * 3) / objects.FragmentsGeneralCharacteristic.width, objects.CanvasCharacteristic.all_height / (globalConstants.imagesY / 5 * 3) / objects.FragmentsGeneralCharacteristic.height);
-          objects.FragmentsGeneralCharacteristic.widthScale = Math.floor(objects.FragmentsGeneralCharacteristic.SCALE * objects.FragmentsGeneralCharacteristic.width);
-          objects.FragmentsGeneralCharacteristic.heightScale = Math.floor(objects.FragmentsGeneralCharacteristic.SCALE * objects.FragmentsGeneralCharacteristic.height);
-          objects.FragmentsGeneralCharacteristic.third_x = objects.FragmentsGeneralCharacteristic.widthScale / 5;
-          objects.FragmentsGeneralCharacteristic.third_y = objects.FragmentsGeneralCharacteristic.heightScale / 5;
-          objects.FragmentsGeneralCharacteristic.connectRange = Math.min(objects.FragmentsGeneralCharacteristic.third_x, objects.FragmentsGeneralCharacteristic.third_y);
-          objects.CanvasCharacteristic.width = objects.FragmentsGeneralCharacteristic.widthScale / 5 * 3 * globalConstants.imagesX;
-          objects.CanvasCharacteristic.height = objects.FragmentsGeneralCharacteristic.heightScale / 5 * 3 * globalConstants.imagesY;
-          objects.CanvasCharacteristic.firstX = canvas.width / 2 - objects.CanvasCharacteristic.width / 2;
-          objects.CanvasCharacteristic.firstY = 60;
-          objects.CanvasCharacteristic.lastX = objects.CanvasCharacteristic.firstX + objects.CanvasCharacteristic.width;
-          objects.CanvasCharacteristic.lastY = objects.CanvasCharacteristic.firstY + objects.CanvasCharacteristic.height;
-        }
-      };
+    key: "init",
+    value: function init(img) {
+      Fragment.width = img.width;
+      Fragment.height = img.height;
+      Fragment.SCALE = Math.min(this.globalVariables.canvas.field.all_width / (this.globalConstants.imagesX / 5 * 3) / Fragment.width, this.globalVariables.canvas.field.all_height / (this.globalConstants.imagesY / 5 * 3) / Fragment.height);
+      Fragment.widthScale = Math.floor(Fragment.SCALE * Fragment.width);
+      Fragment.heightScale = Math.floor(Fragment.SCALE * Fragment.height);
+      Fragment.third_x = Fragment.widthScale / 5;
+      Fragment.third_y = Fragment.heightScale / 5;
+      Fragment.widthWithoutSpaces = Fragment.widthScale - 2 * Fragment.third_x;
+      Fragment.heightWithoutSpaces = Fragment.heightScale - 2 * Fragment.third_y;
+      Fragment.connectRange = 2.5 * Math.min(Fragment.third_x, Fragment.third_y);
     }
   }, {
-    key: "broadcasterConnecting",
-    value: function broadcasterConnecting(b) {
-      this.shouldConnect = b;
+    key: "initializeSizes",
+    value: function initializeSizes(img) {
+      this.globalVariables.canvas.field.all_width = this.globalVariables.canvas.width * this.globalConstants.FIELD_WIDTH;
+      this.globalVariables.canvas.field.all_height = this.globalVariables.canvas.height * this.globalConstants.FIELD_HEIGHT;
+      this.init(img);
+      this.globalVariables.canvas.field.init();
+      this.globalVariables.canvas.panel.init();
+      this.globalVariables.canvas.left_menu.init();
+      this.globalVariables.canvas.right_menu.init();
+      this.globalVariables.canvas.createBlankZones();
+    }
+  }, {
+    key: "downloadImage",
+    value: function downloadImage() {
+      var fragment = this;
+
+      this.img.onload = function () {
+        Fragment.downloadedImages++;
+
+        if (Fragment.downloadedImages == 1) {
+          fragment.initializeSizes(this);
+        }
+      };
     } // Отображает изображение в заданных координатах
 
   }, {
     key: "draw",
-    value: function draw() {
-      var objects = this.objects;
-      var globalConstants = this.globalConstants;
-      var globalVariables = this.globalVariables;
-      var canvas = document.getElementById("canvas-puzzle");
-      var context = canvas.getContext('2d');
+    value: function draw(context) {
+      if (!this.globalVariables.showSilhouette) {
+        if (!this.onBottomPanel) {
+          // изобразить элемент, если он не на панели
+          var selected = this.group != null ? this.group : this;
 
-      if (!globalVariables.showSilhouette) {
-        context.drawImage(this.img, this.x, this.y, objects.FragmentsGeneralCharacteristic.widthScale, objects.FragmentsGeneralCharacteristic.heightScale);
+          if (selected.onMenu) {
+            // Menu
+            context.drawImage(this.img, selected.mainFragment.x + this.menuDX + Fragment.third_xPanel, selected.mainFragment.y + this.menuDY + Fragment.third_yPanel, Fragment.widthPanel, Fragment.heightPanel);
+          } else {
+            // Обычное расположение на поле
+            context.drawImage(this.img, this.x, this.y, Fragment.widthScale, Fragment.heightScale);
+            context.drawImage(this.imgB, this.x, this.y, Fragment.widthScale, Fragment.heightScale);
+          }
+        }
       } else {
-        context.beginPath();
-        context.rect(this.x + objects.FragmentsGeneralCharacteristic.third_x, this.y + objects.FragmentsGeneralCharacteristic.third_y, objects.FragmentsGeneralCharacteristic.widthScale - 2 * objects.FragmentsGeneralCharacteristic.third_x, objects.FragmentsGeneralCharacteristic.heightScale - 2 * objects.FragmentsGeneralCharacteristic.third_y);
-        context.lineWidth = "7";
-        context.strokeStyle = "black";
-        context.stroke();
+        // изобразить силуэт
+        var _selected = this.group != null ? this.group : this;
+
+        if (_selected.onMenu) {
+          context.beginPath();
+          context.rect(_selected.mainFragment.x + this.menuDX + 2 * Fragment.third_xPanel, _selected.mainFragment.y + this.menuDY + 2 * Fragment.third_yPanel, Fragment.widthPanel - 2 * Fragment.third_xPanel, Fragment.heightPanel - 2 * Fragment.third_yPanel);
+          context.lineWidth = "3";
+          context.strokeStyle = "black";
+          context.stroke();
+        } else if (!this.onBottomPanel) {
+          context.beginPath();
+          context.rect(this.x + Fragment.third_x, this.y + Fragment.third_y, Fragment.widthScale - 2 * Fragment.third_x, Fragment.heightScale - 2 * Fragment.third_y);
+          context.lineWidth = "5";
+          context.strokeStyle = "black";
+          context.stroke();
+        }
       }
     } // Проверяет, есть ли в границах изображения заданная точка или нет
     // Нужно для проверки наведения курсора мыши на изображение
@@ -61616,8 +61935,42 @@ function () {
   }, {
     key: "isHadPoint",
     value: function isHadPoint(x, y) {
-      var objects = this.objects;
-      return x >= this.x + objects.FragmentsGeneralCharacteristic.third_x && x <= this.x + objects.FragmentsGeneralCharacteristic.widthScale - objects.FragmentsGeneralCharacteristic.third_x && y >= this.y + objects.FragmentsGeneralCharacteristic.third_y && y <= this.y + objects.FragmentsGeneralCharacteristic.heightScale - objects.FragmentsGeneralCharacteristic.third_y;
+      if (this.onBottomPanel) {
+        return canvas.panel.fragmentsCount * (canvas.panel.list - 1) <= this.bottomPanelInd && this.bottomPanelInd < canvas.panel.fragmentsCount * canvas.panel.list && x >= canvas.panel.firstX + canvas.panel.buttonWidth + canvas.panel.paddingX + (canvas.panel.fragmentSpace + Fragment.widthPanel) * (this.bottomPanelInd % canvas.panel.fragmentsCount) && x <= canvas.panel.firstX + canvas.panel.buttonWidth + canvas.panel.paddingX + (canvas.panel.fragmentSpace + Fragment.widthPanel) * (this.bottomPanelInd % canvas.panel.fragmentsCount) + Fragment.widthPanel && y >= canvas.panel.firstY + canvas.panel.paddingY && y <= canvas.panel.firstY + canvas.panel.paddingY + Fragment.heightPanel;
+      }
+
+      var selected = this.group != null ? this.group : this;
+
+      if (selected.onMenu) {
+        console.log(Fragment.third_xPanel);
+        var tmp = x >= selected.mainFragment.x + this.menuDX + 2 * Fragment.third_xPanel && x <= selected.mainFragment.x + this.menuDX + Fragment.widthPanel + 2 * Fragment.third_xPanel && y >= selected.mainFragment.y + this.menuDY + Fragment.third_yPanel && y <= selected.mainFragment.y + this.menuDY + Fragment.heightPanel - Fragment.third_yPanel; // console.log("!", tmp, this.src);
+        // console.log(selected.mainFragment.x + this.menuDX + 2 * Fragment.third_xPanel, x,
+        //   (selected.mainFragment.x + this.menuDX + Fragment.widthPanel - Fragment.third_xPanel)
+        // )
+
+        return x >= selected.mainFragment.x + this.menuDX + 2 * Fragment.third_xPanel && x <= selected.mainFragment.x + this.menuDX + Fragment.widthPanel && y >= selected.mainFragment.y + this.menuDY + 2 * Fragment.third_yPanel && y <= selected.mainFragment.y + this.menuDY + Fragment.heightPanel;
+      }
+
+      return x >= this.x + Fragment.third_x && x <= this.x + Fragment.widthScale - Fragment.third_x && y >= this.y + Fragment.third_y && y <= this.y + Fragment.heightScale - Fragment.third_y;
+    }
+  }, {
+    key: "editMenuCoords",
+    value: function editMenuCoords() {
+      this.menuDX = Fragment.third_x;
+      this.menuDY = Fragment.third_y;
+    }
+  }, {
+    key: "setMenuD",
+    value: function setMenuD(dl) {
+      // вызывается только из группы и 1 раз за onmouseup. В проверке нет необходимости
+      if (dl) {
+        // поставить в зависимости от главного, в меню
+        this.menuDX = Fragment.third_x + (this.x - this.group.mainFragment.x) / Fragment.widthScale * Fragment.widthPanel;
+        this.menuDY = Fragment.third_y + (this.y - this.group.mainFragment.y) / Fragment.heightScale * Fragment.heightPanel;
+      } else {
+        this.menuDX = Fragment.third_x;
+        this.menuDY = Fragment.third_y;
+      }
     } // Расстояниме от курсора мыши до старта изображения в левом верхнем углу в пикселях.
     // Если это расстояние не учитывать, то изображение при его взятии будет телепортировано
     // Левым верхним углом к положению курсора, а так к тому положению прибавляется разница
@@ -61632,31 +61985,35 @@ function () {
       };
     }
   }, {
+    key: "moveToPanel",
+    value: function moveToPanel() {
+      // edit
+      var x = canvas.panel.firstX + canvas.panel.buttonWidth + canvas.panel.paddingX + (canvas.panel.fragmentSpace + Fragment.widthPanel) * (this.bottomPanelInd % canvas.panel.fragmentsCount) + Fragment.widthPanel / 2 - Fragment.widthScale / 2;
+      var y = canvas.panel.firstY + canvas.panel.paddingY + Fragment.heightPanel / 2 - Fragment.heightScale / 2;
+      this.move(x, y);
+    }
+  }, {
     key: "workGroups",
     value: function workGroups(selected, other) {
       if (selected.group == null) {
         if (other.group == null) {
           // создание группы
-          selected.group = new _FragmentGroup__WEBPACK_IMPORTED_MODULE_0__["default"]();
+          selected.group = new FragmentGroup();
           other.group = selected.group;
           selected.group.fragments.add(selected);
           selected.group.fragments.add(other);
+          selected.group.mainFragment = this;
           selected.listElem.value = selected.group; // ссылка на фрагмент заменяется на ссылку на группу
+
+          selected.listElem.src = null; // убрать путь до картинки, а то некрасиво
 
           selected.group.listElemGroup = selected.listElem;
           other.listElem.remove(); // удаление "лишнего" объекта из очереди на запись, т.к. он уже отрисовывается в группе
-          // TODO Группы в FragmentList
         } else {
           // selected - not group;
           // other - group
-          // меняем все элементы бОльшей группы, а не наооброт, т.к. ебанутый баг: плохо идет коннект одиночных к группе, если та группа не пред верхняя
           selected.group = other.group;
-          selected.group.fragments.add(selected); // selected.group = new FragmentGroup();
-          // other.group.changeGroup(selected.group);
-          // selected.group.fragments.add(selected);
-          // other.listElem.remove();
-          // other.group.listElemGroup
-
+          selected.group.fragments.add(selected);
           selected.listElem.remove();
         }
       } else {
@@ -61667,6 +62024,7 @@ function () {
 
           other.listElem.remove();
         } else {
+          selected.group.listElemGroup.remove();
           selected.group.changeGroup(other.group);
         }
       }
@@ -61674,46 +62032,41 @@ function () {
   }, {
     key: "rightTop",
     value: function rightTop() {
-      var objects = this.objects;
       return {
-        x: this.x + objects.FragmentsGeneralCharacteristic.widthScale - objects.FragmentsGeneralCharacteristic.third_x,
-        y: this.y + objects.FragmentsGeneralCharacteristic.third_y
+        x: this.x + Fragment.widthScale - Fragment.third_x,
+        y: this.y + Fragment.third_y
       };
     }
   }, {
     key: "leftTop",
     value: function leftTop() {
-      var objects = this.objects;
       return {
-        x: this.x + objects.FragmentsGeneralCharacteristic.third_x,
-        y: this.y + objects.FragmentsGeneralCharacteristic.third_y
+        x: this.x + Fragment.third_x,
+        y: this.y + Fragment.third_y
       };
     }
   }, {
     key: "rightBot",
     value: function rightBot() {
-      var objects = this.objects;
       return {
-        x: this.x + objects.FragmentsGeneralCharacteristic.widthScale - objects.FragmentsGeneralCharacteristic.third_x,
-        y: this.y + objects.FragmentsGeneralCharacteristic.heightScale - objects.FragmentsGeneralCharacteristic.third_y
+        x: this.x + Fragment.widthScale - Fragment.third_x,
+        y: this.y + Fragment.heightScale - Fragment.third_y
       };
     }
   }, {
     key: "leftBot",
     value: function leftBot() {
-      var objects = this.objects;
       return {
-        x: this.x + objects.FragmentsGeneralCharacteristic.third_x,
-        y: this.y + objects.FragmentsGeneralCharacteristic.heightScale - objects.FragmentsGeneralCharacteristic.third_y
+        x: this.x + Fragment.third_x,
+        y: this.y + Fragment.heightScale - Fragment.third_y
       };
     }
   }, {
     key: "canConnectRightFragment",
     value: function canConnectRightFragment() {
-      var objects = this.objects;
       var leftTopOfRightFragment = this.right.leftTop();
       var tmpRes = this.rangeFromRightTop(leftTopOfRightFragment.x, leftTopOfRightFragment.y);
-      if (tmpRes <= objects.FragmentsGeneralCharacteristic.connectRange) return {
+      if (tmpRes <= Fragment.connectRange) return {
         res: true,
         range: tmpRes
       };
@@ -61730,10 +62083,9 @@ function () {
   }, {
     key: "canConnectLeftFragment",
     value: function canConnectLeftFragment() {
-      var objects = this.objects;
       var rightTopOfLeftFragment = this.left.rightTop();
       var tmpRes = this.rangeFromLeftTop(rightTopOfLeftFragment.x, rightTopOfLeftFragment.y);
-      if (tmpRes <= objects.FragmentsGeneralCharacteristic.connectRange) return {
+      if (tmpRes <= Fragment.connectRange) return {
         res: true,
         range: tmpRes
       };
@@ -61750,10 +62102,9 @@ function () {
   }, {
     key: "canConnectBottomFragment",
     value: function canConnectBottomFragment() {
-      var objects = this.objects;
       var leftTopOfBottomFragment = this.bottom.leftTop();
       var tmpRes = this.rangeFromLeftBottom(leftTopOfBottomFragment.x, leftTopOfBottomFragment.y);
-      if (tmpRes <= objects.FragmentsGeneralCharacteristic.connectRange) return {
+      if (tmpRes <= Fragment.connectRange) return {
         res: true,
         range: tmpRes
       };
@@ -61770,10 +62121,9 @@ function () {
   }, {
     key: "canConnectTopFragment",
     value: function canConnectTopFragment() {
-      var objects = this.objects;
       var leftBotOfTopFragment = this.top.leftBot();
       var tmpRes = this.rangeFromLeftTop(leftBotOfTopFragment.x, leftBotOfTopFragment.y);
-      if (tmpRes <= objects.FragmentsGeneralCharacteristic.connectRange) return {
+      if (tmpRes <= Fragment.connectRange) return {
         res: true,
         range: tmpRes
       };
@@ -61790,232 +62140,199 @@ function () {
   }, {
     key: "smoothmoveOneOrGroup",
     value: function smoothmoveOneOrGroup(fr, x, y, connectingFragment) {
-      // нахера тут 2 первых аргумента я уже не ебу, убрал к хуям
-      // connectingFragment для передачи в smoothMove. Если тот, к кому клеется движется, то и этот должен двигаться
-      // просто добавление в группу не работает при его smoothMove
-      // если работает этот метод, значит наш фрагмент начал коннект к кому-то, об этом должен знать броадкастер
       if (fr.group == null) {
         fr.smoothMove(x, y, connectingFragment);
       } else {
         fr.group.smoothMove(x, y, this, connectingFragment); // допилим позже
       }
     }
+    /**
+     *  @param int  newInd - индекс фрагмента, для которого стоит проверить возможность присоединения,
+     *                       по умолчанию выбирается индекс фрагмента, передвигаемого игроком (SelectFragmentHelper.translatedFragmentId).
+     *                       Рассмотрение от других фрагментов нужно при проверке подсоединения для нескольких фрагментов от одной группы
+     *
+     *  @param bool withConnect - выполнить присоединение после подтверждения соответствующей проверки,
+     *                            по умолчанию присоединяет один фрагмент к другому
+     *                            Проверка необходима при подсоединении группы к фрагментам, где сначала узнается вся информация о возможных
+     *                            подсоединениях, а потом полученые данные сортируются по неубыванию, выполняя подсоединение к самому
+     *                            близкому из возможных
+     *
+     *  @return object {
+     *           res
+     *           range
+     *          }
+     *
+     */
+
   }, {
-    key: "connectToOther",
-    value: function connectToOther() {
+    key: "connectTo",
+    value: function connectTo() {
       var newInd = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var withConnect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      // возвращает объект, чтобы в будущем добавить сортировку по расстоянию для групп
-      // newInd чтобы сравнивать объекты, на которые мы Не нажали, но которые обрабатываются
-      // внутри группы на сближение с углами
-      // withConnect - для проверки ближайшего конекта без конекта лол
-      var objects = this.objects;
-      var globalConstants = this.globalConstants;
-      var globalVariables = this.globalVariables;
       var i = null;
 
       if (newInd == null) {
-        i = objects.SelectFragmentHelper.translatedFragmentId;
+        i = SelectFragmentHelper.translatedFragmentId;
       } else {
         i = newInd;
       }
 
-      var x = i % globalConstants.imagesX;
-      var y = Math.floor(i / globalConstants.imagesY);
+      if (arr[i].onMenu) {
+        return;
+      }
 
-      if (x === 0 && y === 0 && this.rangeFromLeftTop(objects.CanvasCharacteristic.firstX, objects.CanvasCharacteristic.firstY) <= objects.FragmentsGeneralCharacteristic.connectRange) {
-        if (withConnect) {
-          this.smoothmoveOneOrGroup(this, objects.CanvasCharacteristic.firstX - objects.FragmentsGeneralCharacteristic.third_x, objects.CanvasCharacteristic.firstY - objects.FragmentsGeneralCharacteristic.third_y);
+      var connectArray = [];
+      var leftFragment = this.left;
+      var rightFragment = this.right;
+      var topFragment = this.top;
+      var bottomFragment = this.bottom;
+      var inner_this = this;
+      var x = i % imagesX;
+      var y = Math.floor(i / imagesY);
+      /**
+       *  @param int  needX, needY - необходимые конечные координаты пазла в изображении, соответствующие заданному углу
+       *
+       *  @param float range - расстояние до заданного угла
+       *
+       *  @param int newX, newY - место, куда необходимо перенести пазл при выполнении всех условий
+       *
+       */
+
+      function connectToCorner(needX, needY, range, newX, newY) {
+        if (x == needX && y == needY && range <= Fragment.connectRange) {
+          connectArray.push({
+            range: range,
+            x: newX,
+            y: newY,
+            fr: null
+          });
         }
+      }
 
-        return {
-          res: true,
-          range: 0
-        };
-      } else if (x === globalConstants.imagesX - 1 && y === 0 && this.rangeFromRightTop(objects.CanvasCharacteristic.lastX, objects.CanvasCharacteristic.firstY) <= objects.FragmentsGeneralCharacteristic.connectRange) {
-        if (withConnect) {
-          this.smoothmoveOneOrGroup(this, objects.CanvasCharacteristic.lastX + objects.FragmentsGeneralCharacteristic.third_x - objects.FragmentsGeneralCharacteristic.widthScale, objects.CanvasCharacteristic.firstY - objects.FragmentsGeneralCharacteristic.third_y);
+      connectToCorner(0, 0, this.rangeFromLeftTop(canvas.field.firstX, canvas.field.firstY), canvas.field.firstX - Fragment.third_x, canvas.field.firstY - Fragment.third_y);
+      connectToCorner(imagesX - 1, 0, this.rangeFromRightTop(canvas.field.lastX, canvas.field.firstY), canvas.field.lastX + Fragment.third_x - Fragment.widthScale, canvas.field.firstY - Fragment.third_y);
+      connectToCorner(imagesX - 1, imagesY - 1, this.rangeFromRightBottom(canvas.field.lastX, canvas.field.lastY), canvas.field.lastX + Fragment.third_x - Fragment.widthScale, canvas.field.lastY + Fragment.third_y - Fragment.heightScale);
+      connectToCorner(0, imagesY - 1, this.rangeFromLeftBottom(canvas.field.firstX, canvas.field.lastY), canvas.field.firstX - Fragment.third_x, canvas.field.lastY + Fragment.third_y - Fragment.heightScale);
+      /**
+       *  @param Fragment other - фрагмент, к которому идет подсоединение
+       *
+       *  @param object getInfo - расстояние до другого фрагмента
+       *
+       *  @param object getCoordinates - координаты одного из углов другого фрагмента
+       *
+       *  @param int newX, newY - координаты, которые необходимо добавить к третьему аргументу
+       *                          для получения новых координат текущего фрагмента (this)
+       *
+       */
+
+      function connectToFragment(other, getInfo, getCoordinates, newX, newY) {
+        if (getInfo.res && (inner_this.group == null || !inner_this.group.fragments.has(other)) && !other.onBottomPanel && (other.group != null && !other.group.onMenu || !other.onMenu)) {
+          // работает только на объекты, отсутствующие в группе, панели и меню
+          connectArray.push({
+            range: getInfo.range,
+            x: getCoordinates.x,
+            y: getCoordinates.y,
+            dX: newX,
+            dY: newY,
+            fr: other
+          });
         }
+      }
 
-        return {
-          res: true,
-          range: 0
-        };
-      } else if (x === globalConstants.imagesX - 1 && y === globalConstants.imagesY - 1 && this.rangeFromRightBottom(objects.CanvasCharacteristic.lastX, objects.CanvasCharacteristic.lastY) <= objects.FragmentsGeneralCharacteristic.connectRange) {
+      if (topFragment != null) connectToFragment(topFragment, topFragment.canConnectBottomFragment(), topFragment.leftBot(), -Fragment.third_x, -Fragment.third_y);
+      if (leftFragment != null) connectToFragment(leftFragment, leftFragment.canConnectRightFragment(), leftFragment.rightTop(), -Fragment.third_x, -Fragment.third_y);
+      if (bottomFragment != null) connectToFragment(bottomFragment, bottomFragment.canConnectTopFragment(), bottomFragment.leftTop(), -Fragment.third_x, -Fragment.heightScale + Fragment.third_y);
+      if (rightFragment != null) connectToFragment(rightFragment, rightFragment.canConnectLeftFragment(), rightFragment.leftTop(), -Fragment.widthScale + Fragment.third_x, -Fragment.third_y);
+      connectArray.sort(function (a, b) {
+        return a.range - b.range;
+      });
+
+      if (connectArray.length > 0) {
+        var near = connectArray[0];
+
         if (withConnect) {
-          this.smoothmoveOneOrGroup(this, objects.CanvasCharacteristic.lastX + objects.FragmentsGeneralCharacteristic.third_x - objects.FragmentsGeneralCharacteristic.widthScale, objects.CanvasCharacteristic.lastY + objects.FragmentsGeneralCharacteristic.third_y - objects.FragmentsGeneralCharacteristic.heightScale);
-        }
+          if (near.fr == null) {
+            // идет присоединение к углу, а не к фрагменту
+            this.smoothmoveOneOrGroup(this, near.x, near.y);
+          } else {
+            // подсоединение к фрагменту
+            var near_frg = near.fr.group == null ? near.fr : near.fr.group;
 
-        return {
-          res: true,
-          range: 0
-        };
-      } else if (x === 0 && y === globalConstants.imagesY - 1 && this.rangeFromLeftBottom(objects.CanvasCharacteristic.firstX, objects.CanvasCharacteristic.lastY) <= objects.FragmentsGeneralCharacteristic.connectRange) {
-        if (withConnect) {
-          this.smoothmoveOneOrGroup(this, objects.CanvasCharacteristic.firstX - objects.FragmentsGeneralCharacteristic.third_x, objects.CanvasCharacteristic.lastY + objects.FragmentsGeneralCharacteristic.third_y - objects.FragmentsGeneralCharacteristic.heightScale);
-        }
-
-        return {
-          res: true,
-          range: 0
-        };
-      } else {
-        var connectToFragment = function connectToFragment(other, getInfo, getCoordinates, newX, newY) {
-          if (getInfo.res && (inner_this.group == null || !inner_this.group.fragments.has(other))) {
-            // работает только на объекты, отсутствующие в группе
-            connectArray.push({
-              range: getInfo.range,
-              x: getCoordinates.x,
-              y: getCoordinates.y,
-              dX: newX,
-              dY: newY,
-              fr: other
-            });
+            if (!near_frg.smoothing && !near_frg.isConnecting) {
+              this.smoothmoveOneOrGroup(this, near.x + near.dX, near.y + near.dY, near.fr);
+            }
           }
-        };
-
-        var leftFragment = this.left;
-        var rightFragment = this.right;
-        var topFragment = this.top;
-        var bottomFragment = this.bottom;
-        var connectArray = [];
-        var inner_this = this;
-        if (topFragment != null) connectToFragment(topFragment, topFragment.canConnectBottomFragment(), topFragment.leftBot(), -objects.FragmentsGeneralCharacteristic.third_x, -objects.FragmentsGeneralCharacteristic.third_y);
-        if (leftFragment != null) connectToFragment(leftFragment, leftFragment.canConnectRightFragment(), leftFragment.rightTop(), -objects.FragmentsGeneralCharacteristic.third_x, -objects.FragmentsGeneralCharacteristic.third_y);
-        if (bottomFragment != null) connectToFragment(bottomFragment, bottomFragment.canConnectTopFragment(), bottomFragment.leftTop(), -objects.FragmentsGeneralCharacteristic.third_x, -objects.FragmentsGeneralCharacteristic.heightScale + objects.FragmentsGeneralCharacteristic.third_y);
-        if (rightFragment != null) connectToFragment(rightFragment, rightFragment.canConnectLeftFragment(), rightFragment.leftTop(), -objects.FragmentsGeneralCharacteristic.widthScale + objects.FragmentsGeneralCharacteristic.third_x, -objects.FragmentsGeneralCharacteristic.third_y);
-        connectArray.sort(function (a, b) {
-          return a.range - b.range;
-        });
-
-        if (connectArray.length > 0) {
-          var near = connectArray[0]; // Из-за второго условия нельзя конектиться к тем, что движутся или уже ждут подключения. Я убрал как и написано сверху. Крч теперь
-          // функциональность сдохла, но этого никто и не заметит при быстрой анимации, главное нет багов
-
-          if (withConnect && near.fr.smoothing == false && near.fr.isConnecting == false && (near.fr.group == null || near.fr.group.isConnecting == false)) {
-            this.smoothmoveOneOrGroup(this, near.x + near.dX, near.y + near.dY, near.fr);
-          }
-
-          return {
-            res: true,
-            range: near.range
-          };
         }
 
         return {
-          res: false
+          res: true,
+          range: near.range
         };
       }
-    } //передать данные idSelected/x/y/move
-    // Изменяет местоположение изображения
 
+      return {
+        res: false
+      };
+    }
   }, {
     key: "move",
     value: function move(x, y) {
       this.x = x;
       this.y = y;
-    } //передать данные idSelected/x/y/smoothMove
+    }
+    /**
+     *  @param int newX - новая координата x
+     *
+     *  @param int newY - новая координата y
+     *
+     *  @param Fragment connectingFragment - фрагмент, к которому, возможно,
+     *                                       подключается наш фрагмент
+     *
+     *
+     */
 
   }, {
     key: "smoothMove",
     value: function smoothMove(newX, newY) {
       var connectingFragment = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-      // тупо вызвать в аргументаъ объект, если идет смув к нему. Он может двигаться, в этом проблема
-      // перемещаемся с его скоростью и без проблем настигаем нахуй хохо Снова пишу в час ночи а завтра 1 пара
-      // охуенно.
-      // connectingFragment - фрагмент, к которому я конекчусь.
-      // при измнении его координат мои подстраиваются
-      // Во время проведения анимации запрещается его двигать как либо!!!
-      // это приведет к нереальному пиздецу
-      // если объект ещё смувится, а к нему смув другого закончился, то надо тот пододвигать
-      this.smoothing = true;
+      var near = null;
+      var this_frg = this.group == null ? this : this.group; // группа или одиночный фрагмент, к которому идет подключение
+
+      this_frg.smoothing = true;
 
       if (connectingFragment != null) {
-        if (connectingFragment.group != null) {
-          connectingFragment.group.isConnecting = true;
-        } else {
-          connectingFragment.isConnecting = true;
-        }
+        near = connectingFragment.group == null ? connectingFragment : connectingFragment.group;
+        near.isConnecting = true;
       }
 
-      var objects = this.objects;
-      var globalConstants = this.globalConstants;
       var oldX = this.x;
       var oldY = this.y;
       var tact = 21;
       var currentTact = 0;
       var dX = (newX - oldX) / tact;
       var dY = (newY - oldY) / tact;
-      var fragment = this;
-      var speedAnimation = 1000 / globalConstants.FRAMES / tact;
-      var connectingX = -1;
-      var connectingY = -1;
-      var connectingX_start = -1;
-      var connectingY_start = -1;
-
-      if (connectingFragment != null) {
-        connectingX = connectingFragment.x;
-        connectingY = connectingFragment.y;
-        connectingX_start = connectingX;
-        connectingY_start = connectingY;
-      } //тактовая отрисовка
-
+      var this_fr = this;
+      var frame_time = 1000 / FRAMES / tact; //тактовая отрисовка
 
       function reDraw() {
-        fragment.x += dX;
-        fragment.y += dY; // при изменении координат присоединяющего элемента следуем за ним
-        // по разнице координат
-
-        if (connectingFragment != null && (connectingX != connectingFragment.x || connectingY != connectingFragment.y)) {
-          fragment.x += connectingFragment.x - connectingX;
-          fragment.y += connectingFragment.y - connectingY;
-          connectingX = connectingFragment.x;
-          connectingY = connectingFragment.y;
-        }
+        this_fr.x += dX;
+        this_fr.y += dY;
 
         if (currentTact < tact - 1) {
-          setTimeout(reDraw, speedAnimation); //ИЗМЕНЕНО
-
+          setTimeout(reDraw, frame_time);
           currentTact++;
         } else {
-          fragment.x = newX;
-          fragment.y = newY;
+          this_fr.x = newX;
+          this_fr.y = newY;
 
           if (connectingFragment != null) {
-            // Если объект подошёл к родителю, но тот ещё смувится, то копировать его перемещение до конца смува последнего.
-            var copyPositionIfNotSmoothmove = function copyPositionIfNotSmoothmove() {
-              fragment.x += connectingFragment.x - connectingX;
-              fragment.y += connectingFragment.y - connectingY;
-              connectingX = connectingFragment.x;
-              connectingY = connectingFragment.y;
+            if (this_fr.group == null) // для работы один раз, чтобы не выполнялось для каждого элемента в группе
+              this_fr.workGroups(this_fr, connectingFragment); // для группы отдельно обрабатывается в группе
 
-              if (connectingFragment.smoothing) {
-                // проверка для повтора смува
-                setTimeout(copyPositionIfNotSmoothmove, speedAnimation);
-              } else {
-                // при окончании убрать смув и добавить возможность к управлению элементов мышкой, убрав isConnecting и smoothing у всех элементов
-                fragment.smoothing = false; // движется до тех пор, пока движется родитель
-
-                if (connectingFragment != null) {
-                  if (connectingFragment.group != null) {
-                    connectingFragment.group.isConnecting = false;
-                  }
-
-                  connectingFragment.isConnecting = false;
-                }
-              }
-            };
-
-            copyPositionIfNotSmoothmove(); // установка финальных координат
-
-            fragment.x += connectingX - connectingX_start;
-            fragment.y += connectingY - connectingY_start;
-            fragment.workGroups(fragment, connectingFragment); // в конце добавляем объект к группе. В начале нельзя делать, иначе фрагмент будети
-            // копировать поведение выбранного объекта, а он и так движется за подсоединяющим в smoothMove
-            // а так не будет
-          } else {
-            fragment.smoothing = false; // нет родителя, незачем двигаться
+            near.isConnecting = false; // !!
           }
+
+          this_frg.smoothing = false;
         }
       }
 
@@ -62026,6 +62343,36 @@ function () {
   return Fragment;
 }();
 
+_defineProperty(Fragment, "SCALE", -1);
+
+_defineProperty(Fragment, "downloadedImages", 0);
+
+_defineProperty(Fragment, "width", -1);
+
+_defineProperty(Fragment, "height", -1);
+
+_defineProperty(Fragment, "widthScale", -1);
+
+_defineProperty(Fragment, "heightScale", -1);
+
+_defineProperty(Fragment, "third_x", -1);
+
+_defineProperty(Fragment, "third_y", -1);
+
+_defineProperty(Fragment, "connectRange", -1);
+
+_defineProperty(Fragment, "widthPanel", -1);
+
+_defineProperty(Fragment, "heightPanel", -1);
+
+_defineProperty(Fragment, "third_xPanel", -1);
+
+_defineProperty(Fragment, "third_yPanel", -1);
+
+_defineProperty(Fragment, "widthWithoutSpacesPanel", -1);
+
+_defineProperty(Fragment, "heightWithoutSpacesPanel", -1);
+
 
 
 /***/ }),
@@ -62034,12 +62381,9 @@ function () {
 /*!***********************************************!*\
   !*** ./resources/js/classes/FragmentGroup.js ***!
   \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FragmentGroup; });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -62056,7 +62400,13 @@ function () {
     this.isConnecting = false; // группа в данный момент подключает другой объект, а потому не может перемещаться.
     // В противном случае нужно чёто рассматривать а мне лень
 
+    this.smoothing = false;
     this.listElemGroup = null;
+    this.mainFragment = null; // главный фрагмент группы, нужный для вычисления расстояния до
+    // в уменьшенной группе в области меню и определения его новых координат
+
+    this.onMenu = false;
+    this.onMenuLast = false;
   }
 
   _createClass(FragmentGroup, [{
@@ -62065,53 +62415,51 @@ function () {
       var found = false;
       var ind_ans = -1;
       this.fragments.forEach(function (fragment, ind, arr) {
-        // ЕЛЕ РАБОЧАЯ ХУЕТА
         if (found) return;
         found = fragment.isHadPoint(x, y);
         if (found) ind_ans = fragment.ind;
       });
       return ind_ans;
-    } //передать данные idSelected/x/y/move/group
-
+    }
   }, {
     key: "move",
     value: function move(x, y, selected) {
       this.fragments.forEach(function (fragment, ind, arr) {
-        // ЕЛЕ РАБОЧАЯ ХУЕТА
         if (fragment !== selected) {
           fragment.move(x - selected.x + fragment.x, y - selected.y + fragment.y);
         }
       });
-      selected.move(x, y);
+      selected.move(x, y); // обрабатывается последним, т.к. в цикле используются его данные
     }
   }, {
     key: "draw",
-    value: function draw() {
+    value: function draw(context) {
       this.fragments.forEach(function (fragment, ind, arr) {
-        // ЕЛЕ РАБОЧАЯ ХУЕТА
-        fragment.draw();
+        fragment.draw(context);
       });
-    } //передать данные idSelected/idConnected/x/y/smoothMove
-
+    }
   }, {
     key: "smoothMove",
-    value: function smoothMove(x, y, selected) {
-      var connectingFragment = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+    value: function smoothMove(x, y, selected, connectingFragment) {
       // connectingFragment - фрагмент, к которому я конекчусь.
       // при измнении его координат мои подстраиваются
       this.fragments.forEach(function (fragment, ind, arr) {
-        // ЕЛЕ РАБОЧАЯ ХУЕТА
         if (fragment !== selected) {
           fragment.smoothMove(x - selected.x + fragment.x, y - selected.y + fragment.y, connectingFragment);
         }
       });
       selected.smoothMove(x, y, connectingFragment);
+
+      if (connectingFragment != null) {
+        // проверка для того, чтобы работать с группами один раз.
+        // Если есть группа - работать, если нет, то работа внутри smoothMove
+        selected.workGroups(selected, connectingFragment);
+      }
     }
   }, {
     key: "changeGroup",
     value: function changeGroup(newGroup) {
       this.fragments.forEach(function (fragment, ind, arr) {
-        // ЕЛЕ РАБОЧАЯ ХУЕТА
         fragment.group = newGroup;
         newGroup.fragments.add(fragment);
       });
@@ -62119,18 +62467,15 @@ function () {
   }, {
     key: "connectTo",
     value: function connectTo() {
-      // нужно сделать копию, потому что в Fragment.js другие фрагменты добавятся к этому классу и пройдут в цикл,
-      // а они могут конектиться к другим и так всё сломается к хуям
-      // копия нахуй не нужна, если к ним не конектиться, а только их проверять. Конект потом
-      // второй аргумент проверяет
       var minRange = -1;
       var minFragment = null;
       this.fragments.forEach(function (fragment, ind, arr) {
-        // ЕЛЕ РАБОЧАЯ ХУЕТА
-        var res = fragment.connectToOther(fragment.ind, false);
+        // для каждого из фрагментов смотрим, можем ли мы присоединить его к другим фрагментам вне группы
+        var res = fragment.connectTo(fragment.ind, false); // информация о возможности присоединения БЕЗ самого присоединения
+        // сортировка по расстоянию, если есть возможность присоединить. Выбор минимального из расстояний
 
         if (res.res) {
-          if (minRange === -1) {
+          if (minRange == -1) {
             minRange = res.range;
             minFragment = fragment;
           }
@@ -62141,20 +62486,36 @@ function () {
           }
         }
       });
-
-      if (minFragment != null) {
-        minFragment.connectToOther(minFragment.ind);
-        return true;
+      if (minFragment != null) minFragment.connectTo(minFragment.ind, true);
+    }
+  }, {
+    key: "editMenuCoords",
+    value: function editMenuCoords(fr) {
+      // fr - фрагмент, который мы взяли. Относительно него будут строиться остальные
+      if (this.onMenuLast == this.onMenu) {
+        return;
       }
 
-      return false;
+      this.onMenuLast = this.onMenu;
+
+      if (!this.onMenu) {
+        // поставить по умолчанию
+        this.fragments.forEach(function (fragment, ind, arr) {
+          fragment.setMenuD(false);
+        });
+        return;
+      } // поставить в зависимости от главного, в меню
+
+
+      this.mainFragment = fr;
+      this.fragments.forEach(function (fragment, ind, arr) {
+        fragment.setMenuD(true);
+      });
     }
   }]);
 
   return FragmentGroup;
 }();
-
-
 
 /***/ }),
 
@@ -62175,12 +62536,14 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var FragmentList =
 /*#__PURE__*/
 function () {
-  function FragmentList(value, prev, objects) {
+  function FragmentList(value, prev) {
     _classCallCheck(this, FragmentList);
 
     this.value = value;
@@ -62194,14 +62557,11 @@ function () {
 
     this.next = null;
     this.value.listElem = this;
-    this.objects = objects;
   }
 
   _createClass(FragmentList, [{
     key: "remove",
     value: function remove() {
-      var objects = this.objects;
-
       if (this.prev != null) {
         if (this.next != null) {
           // середина
@@ -62209,29 +62569,36 @@ function () {
           this.next.prev = this.prev;
         } else if (this.next == null) {
           // конец
-          objects.ListObjectHelper.lastVisualObject = this.prev;
-          this.prev.next = null;
+          if (this.prev != null) {
+            FragmentList.lastVisualObject = this.prev;
+            this.prev.next = null;
+          }
         }
       } else {
         // начало
-        objects.ListObjectHelper.firstVisualObject = this.next;
-        this.next.prev = null;
+        if (this.next != null) {
+          FragmentList.firstVisualObject = this.next;
+          this.next.prev = null;
+        }
       }
     }
   }, {
     key: "replaceToTop",
     value: function replaceToTop() {
-      var objects = this.objects;
-      this.remove();
-
-      if (objects.ListObjectHelper.lastVisualObject !== this) {
-        objects.ListObjectHelper.lastVisualObject.next = this;
-        this.prev = objects.ListObjectHelper.lastVisualObject;
-        this.next = null;
-        objects.ListObjectHelper.lastVisualObject = this;
+      if (FragmentList.lastVisualObject === this) {
+        return;
       }
 
-      var lastSeenObject = objects.ListObjectHelper.lastVisualObject;
+      this.remove();
+
+      if (FragmentList.lastVisualObject !== this) {
+        FragmentList.lastVisualObject.next = this;
+        this.prev = FragmentList.lastVisualObject;
+        this.next = null;
+        FragmentList.lastVisualObject = this;
+      }
+
+      var lastSeenObject = FragmentList.lastVisualObject;
 
       do {
         lastSeenObject = lastSeenObject.prev;
@@ -62240,6 +62607,383 @@ function () {
   }]);
 
   return FragmentList;
+}();
+
+_defineProperty(FragmentList, "lastVisualObject", null);
+
+_defineProperty(FragmentList, "firstVisualObject", null);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/Menu.js":
+/*!**************************************!*\
+  !*** ./resources/js/classes/Menu.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Menu; });
+/* harmony import */ var _base_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base/Component */ "./resources/js/classes/base/Component.js");
+/* harmony import */ var _places_MenuPlace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./places/MenuPlace */ "./resources/js/classes/places/MenuPlace.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// init in Fragment.js
+
+
+
+var Menu =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Menu, _Component);
+
+  function Menu(type, cnv) {
+    var _this;
+
+    _classCallCheck(this, Menu);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Menu).call(this));
+    _this.borderColor = "red"; // при создании ставятся значения по умолчанию. Следует создать пост-конструктор
+    // type = 1 или type = -1 для левого/правого меню
+
+    _this.type = type;
+    _this.place = new _places_MenuPlace__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    _this.width = 400;
+    _this.placeCoef = 1.18;
+    return _this;
+  }
+
+  _createClass(Menu, [{
+    key: "init",
+    value: function init() {
+      this.center = canvas.canvas.width / 2;
+      this.height = canvas.field.height * .85;
+      this.firstY = canvas.field.firstY + canvas.field.height * .1;
+      this.lastY = canvas.field.firstY + canvas.field.height * .95;
+      this.place.width = this.width * this.placeCoef;
+
+      if (this.type == 1) {
+        this.firstX = this.center + canvas.field.width / 2 + 20;
+        this.lastX = this.firstX + this.width;
+        this.place.firstX = this.firstX - (this.placeCoef - 1) * this.width;
+      } else if (this.type == -1) {
+        this.lastX = this.center - canvas.field.width / 2 - 20;
+        this.firstX = this.lastX - this.width;
+        this.place.firstX = this.firstX;
+      }
+
+      this.isPlace = false;
+      this.place.firstY = this.firstY;
+      this.place.height = this.height;
+    }
+  }, {
+    key: "onmousemove",
+    value: function onmousemove(x, y) {
+      if (this.place.isHadPoint(x, y)) {
+        this.isPlace = true;
+      } else {
+        this.isPlace = false;
+      }
+    }
+  }, {
+    key: "draw",
+    value: function draw(context) {
+      _get(_getPrototypeOf(Menu.prototype), "draw", this).call(this, context); // this.drawMask(context);
+
+
+      if (this.isPlace && SelectFragmentHelper.translatedFragmentId >= 0) {
+        context.beginPath();
+        context.rect(this.firstX, this.firstY, this.width, this.height);
+        context.fillStyle = "rgba(12, 155,155,0.15)";
+        context.fill();
+      }
+    }
+  }, {
+    key: "drawMask",
+    value: function drawMask(context) {
+      context.beginPath();
+      context.rect(this.firstX, this.firstY, this.width, this.height);
+      context.fillStyle = "white";
+      context.fill();
+    }
+  }]);
+
+  return Menu;
+}(_base_Component__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+_defineProperty(Menu, "includeInMenu", function () {
+  var selected = arr[SelectFragmentHelper.translatedFragmentId].group != null ? arr[SelectFragmentHelper.translatedFragmentId].group : arr[SelectFragmentHelper.translatedFragmentId];
+  selected.onMenu = true;
+});
+
+_defineProperty(Menu, "removeFromMenu", function () {
+  var selected = arr[SelectFragmentHelper.translatedFragmentId].group != null ? arr[SelectFragmentHelper.translatedFragmentId].group : arr[SelectFragmentHelper.translatedFragmentId];
+  selected.onMenu = false;
+});
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/Panel.js":
+/*!***************************************!*\
+  !*** ./resources/js/classes/Panel.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Panel; });
+/* harmony import */ var _base_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base/Component */ "./resources/js/classes/base/Component.js");
+/* harmony import */ var _places_PanelPlace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./places/PanelPlace */ "./resources/js/classes/places/PanelPlace.js");
+/* harmony import */ var _PanelButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PanelButton */ "./resources/js/classes/PanelButton.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+// init in Fragment.js
+
+
+
+
+var Panel =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Panel, _Component);
+
+  function Panel(imagesCount, cnv, globalVariables, globalConstants) {
+    var _this;
+
+    _classCallCheck(this, Panel);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Panel).call(this));
+    _this.borderColor = "blue";
+    _this.globalVariables = globalVariables;
+    _this.globalConstants = globalConstants;
+    _this.globalVariables.canvas = cnv;
+    _this.width = 900;
+    _this.height = 100;
+    _this.firstX = 200;
+    _this.lastX = 900;
+    _this.firstY = null;
+    _this.lastY = null;
+    _this.paddingX = 0;
+    _this.paddingY = 0;
+    _this.mainWidth = null; // длина без учета кнопок
+
+    _this.fragmentsCount = null; // фрагментов в 1 листе
+
+    _this.fragmentSpace = null; // расстояние между фрагментами
+
+    _this.lists = null; // количество листов
+
+    _this.list = 1; // текущий лист
+
+    _this.buttonWidth = 80;
+    _this.marginTop = 30;
+    _this.place = new _places_PanelPlace__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    _this.place.height = _this.height;
+
+    var th = _assertThisInitialized(_this);
+
+    _this.leftButton = new _PanelButton__WEBPACK_IMPORTED_MODULE_2__["default"](-1, function () {
+      return th.firstX;
+    }, _this.globalVariables);
+    _this.rightButton = new _PanelButton__WEBPACK_IMPORTED_MODULE_2__["default"](1, function () {
+      return th.lastX - th.buttonWidth;
+    }, _this.globalVariables);
+    _this.buttons = [_this.leftButton, _this.rightButton];
+    _this.fragments = []; // id нужных фрагментов, может быть заданно в случайном порядке (теоретически)
+
+    _this.fragments.length = imagesCount;
+    cnv.panel = _assertThisInitialized(_this);
+    return _this;
+  }
+
+  _createClass(Panel, [{
+    key: "init",
+    value: function init() {
+      this.width = this.globalVariables.canvas.field.width * 1.6; // ШИРИНА ПАНЕЛИ
+
+      this.place.width = this.width;
+      this.firstX = this.globalVariables.canvas.width / 2 - this.width / 2; // МЕСТОПОЛОЖЕНИЕ ПАНЕЛИ
+
+      this.place.firstX = this.firstX;
+      this.firstY = this.globalVariables.canvas.field.lastY + this.marginTop; // МЕСТОПОЛОЖЕНИЕ ПАНЕЛИ
+
+      this.place.firstY = this.firstY;
+      this.lastX = this.firstX + this.width;
+      this.lastY = this.firstY + this.height;
+      this.mainWidth = this.width - 2 * this.buttonWidth - 2 * this.paddingX;
+      Fragment.heightPanel = this.height - 2 * this.paddingY;
+      Fragment.widthPanel = Fragment.heightPanel / Fragment.height * Fragment.width;
+      Fragment.third_xPanel = Fragment.widthPanel / 5;
+      Fragment.third_yPanel = Fragment.heightPanel / 5;
+      this.fragmentsCount = Math.floor(this.mainWidth / Fragment.widthPanel);
+      this.fragmentSpace = (this.mainWidth - this.fragmentsCount * Fragment.widthPanel) / (this.fragmentsCount - 1);
+      this.lists = Math.floor(this.globalConstants.countImages / this.fragmentsCount) + 1;
+    }
+  }, {
+    key: "onmousedown",
+    value: function onmousedown(loc) {
+      for (var i = 0; i < this.buttons.length; i++) {
+        if (this.buttons[i].isHadPoint(loc.x, loc.y)) {
+          console.log("Button pressed");
+          this.buttons[i].func();
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "onmousemove",
+    value: function onmousemove(x, y) {// if (!this.place.isHadPoint(x, y)) {
+      //   this.height = this.place.height / 2;
+      // } else {
+      //   this.height = this.place.height;
+      // }
+    }
+  }, {
+    key: "draw",
+    value: function draw(context) {
+      _get(_getPrototypeOf(Panel.prototype), "draw", this).call(this, context); // this.place.draw(context);
+
+
+      for (var i = 0; i < this.buttons.length; i++) {
+        this.buttons[i].draw(context);
+      }
+    }
+  }, {
+    key: "drawFragments",
+    value: function drawFragments(context) {
+      var start = this.fragmentsCount * (this.list - 1);
+      var end = this.fragmentsCount * this.list;
+
+      if (this.list == this.lists) {
+        end = start + this.fragments.length % this.fragmentsCount;
+      }
+
+      for (var i = start; i < end; i++) {
+        var fr = arr[this.fragments[i]];
+        context.drawImage(fr.img, this.firstX + this.buttonWidth + this.paddingX + (this.fragmentSpace + Fragment.widthPanel) * (i % this.fragmentsCount), this.firstY + this.paddingY, Fragment.widthPanel, Fragment.heightPanel);
+
+        if (!fr.onBottomPanel) {
+          // изобразить маску, если объект не на панели
+          context.beginPath();
+          context.fillStyle = "rgba(255,255,255,0.5)";
+          context.rect(this.firstX + this.buttonWidth + this.paddingX + (this.fragmentSpace + Fragment.widthPanel) * (i % this.fragmentsCount), this.firstY + this.paddingY, Fragment.widthPanel, Fragment.heightPanel);
+          context.fill();
+        }
+      }
+    }
+  }]);
+
+  return Panel;
+}(_base_Component__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/PanelButton.js":
+/*!*********************************************!*\
+  !*** ./resources/js/classes/PanelButton.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PanelButton; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var PanelButton =
+/*#__PURE__*/
+function () {
+  function PanelButton(inc, pos, globalVariables) {
+    _classCallCheck(this, PanelButton);
+
+    this.inc = inc;
+    this.getPos = pos; // функция для получения, т.к. соответствующие переменные объявлены позже
+
+    this.globalVariables = globalVariables;
+  }
+
+  _createClass(PanelButton, [{
+    key: "isHadPoint",
+    value: function isHadPoint(x, y) {
+      return x >= this.getPos() && x <= this.getPos() + canvas.panel.buttonWidth && y >= canvas.panel.firstY && y <= canvas.panel.firstY + canvas.panel.height;
+    }
+  }, {
+    key: "draw",
+    value: function draw(context) {
+      context.beginPath();
+      var canvas = this.globalVariables.canvas;
+      context.rect(this.getPos(), canvas.panel.firstY, canvas.panel.buttonWidth, canvas.panel.height);
+      context.strokeStyle = "blue";
+      context.stroke();
+    } // onclick
+    // увеличивает номер страницы на заданный инкремент (увеличивает или уменьшает на 1, разное для левой и правой кнопок)
+
+  }, {
+    key: "func",
+    value: function func() {
+      this.globalVariables.canvas.panel.list += this.inc;
+      if (this.globalVariables.canvas.panel.list === 0) this.globalVariables.canvas.panel.list = 1;
+      if (this.globalVariables.canvas.panel.list === this.globalVariables.canvas.panel.lists + 1) this.globalVariables.canvas.panel.list = this.globalVariables.canvas.panel.lists;
+    }
+  }]);
+
+  return PanelButton;
 }();
 
 
@@ -62371,6 +63115,149 @@ function () {
 
   return PuzzleWorker;
 }();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/base/Component.js":
+/*!************************************************!*\
+  !*** ./resources/js/classes/base/Component.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Component; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Component =
+/*#__PURE__*/
+function () {
+  function Component() {
+    _classCallCheck(this, Component);
+
+    this.borderColor = null;
+    this.width = null;
+    this.height = null;
+    this.firstX = null;
+    this.lastX = null;
+    this.firstY = null;
+    this.lastY = null;
+  }
+
+  _createClass(Component, [{
+    key: "isHadPoint",
+    value: function isHadPoint(x, y) {
+      return x >= this.firstX && x <= this.firstX + this.width && y >= this.firstY && y <= this.firstY + this.height;
+    }
+  }, {
+    key: "draw",
+    value: function draw(context) {
+      context.beginPath();
+      context.rect(this.firstX, this.firstY, this.width, this.height);
+      context.strokeStyle = this.borderColor;
+      context.stroke();
+    }
+  }]);
+
+  return Component;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/places/MenuPlace.js":
+/*!**************************************************!*\
+  !*** ./resources/js/classes/places/MenuPlace.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MenuPlace; });
+/* harmony import */ var _base_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base/Component */ "./resources/js/classes/base/Component.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var MenuPlace =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(MenuPlace, _Component);
+
+  function MenuPlace() {
+    _classCallCheck(this, MenuPlace);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(MenuPlace).apply(this, arguments));
+  }
+
+  return MenuPlace;
+}(_base_Component__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/classes/places/PanelPlace.js":
+/*!***************************************************!*\
+  !*** ./resources/js/classes/places/PanelPlace.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PanelPlace; });
+/* harmony import */ var _base_Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base/Component */ "./resources/js/classes/base/Component.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var PanelPlace =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(PanelPlace, _Component);
+
+  function PanelPlace() {
+    _classCallCheck(this, PanelPlace);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(PanelPlace).apply(this, arguments));
+  }
+
+  return PanelPlace;
+}(_base_Component__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
 
@@ -63219,54 +64106,25 @@ __webpack_require__.r(__webpack_exports__);
     imagesX: 4,
     imagesY: 4,
     countImages: 4 * 4,
-    FIELD_WIDTH: 1,
+    FIELD_WIDTH: 3 / 5,
     // Размеры поля
-    FIELD_HEIGHT: 10 / 11,
-    // Местоположение поля в Fragment.js -> (61, 62) строки
+    FIELD_HEIGHT: 9 / 11,
+    // Местоположение поля в Field.js -> (27, 28) строки
     KEY_showSilhouette: 83,
     // S
-    KEY_shouldConnect: 32,
-    // SPACE
-    DIRECTORY: "../img/"
+    // KEY_shouldConnect = 32, // SPACE
+    DIRECTORY: "images/"
+  },
+  SelectFragmentHelper: {
+    translatedFragmentId: -1,
+    deltaX: 0,
+    deltaY: 0
   },
   globalVariables: {
-    lastDownTarget: null,
+    arr: [],
     shouldConnect: false,
-    showSilhouette: false
-  },
-  objects: {
-    SelectFragmentHelper: {
-      translatedFragmentId: -1,
-      deltaX: 0,
-      deltaY: 0
-    },
-    // Ссылки на первый, последний элементы двусвязного списка фрагментов или групп фрагментов для правильного
-    // отображения поверх остальных элементов на экране
-    ListObjectHelper: {
-      lastVisualObject: null,
-      firstVisualObject: null
-    },
-    FragmentsGeneralCharacteristic: {
-      SCALE: -1,
-      downloadedImages: 0,
-      width: -1,
-      height: -1,
-      widthScale: -1,
-      heightScale: -1,
-      third_x: -1,
-      third_y: -1,
-      connectRange: -1
-    },
-    CanvasCharacteristic: {
-      all_width: -1,
-      all_height: -1,
-      width: -1,
-      height: -1,
-      lastX: -1,
-      lastY: -1,
-      firstX: -1,
-      firstY: -1
-    }
+    showSilhouette: false,
+    canvas: undefined
   }
 });
 
@@ -63290,8 +64148,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! e:\OSPanel\domains\puzzlefortwo\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! e:\OSPanel\domains\puzzlefortwo\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! W:\domains\puzzlefortwo\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! W:\domains\puzzlefortwo\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

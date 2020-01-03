@@ -1,17 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="af82151a-2a66-4d58-b7e5-f2fc31e7f2e7" name="Default Changelist" comment="1.1.3 реализована почта(сейчас отключена, тк тесты)">
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_01_02_210701_create_jobs_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/10_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/11_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/12_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/13_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/14_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/15_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/16_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/1_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/2_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/3_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/4_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/5_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/6_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/7_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/8_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/puzzle/9_.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/BlankField.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/Canvas.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/Field.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/Menu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/Panel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/PanelButton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/base/Component.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/places/MenuPlace.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/places/PanelPlace.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/classes/vars.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/lib/jQuery_3_4_1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/debugbar/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/puzzlefortwolaravel.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/puzzlefortwolaravel.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RoomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RoomController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Room.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Room.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/11.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/12.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/13.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/14.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/14.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/15.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/16.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/puzzle/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/puzzle/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/Fragment.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/Fragment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/FragmentGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/FragmentList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/classes/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/classes/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/puzzle/PuzzleCanvasComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/objects/Objects.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/objects/Objects.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/objects/obj.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/objects/obj.js" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +100,7 @@
     <option name="PREVIEW_PUSH_ON_COMMIT_AND_PUSH" value="false" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="room-jobs-queue" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -164,46 +215,53 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img/main-page" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
     <property name="ts.external.directory.path" value="E:\WorkingPrograms\PhpStorm 2019.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img\main-page" />
-      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img" />
-      <recent name="E:\OSPanel\domains\puzzlefortwo\resources\js\classes" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\working programs\OSPanel\domains\puzzlefortwo\resources\js\classes" />
       <recent name="E:\OSPanel\domains\puzzlefortwo\public\img\puzzle" />
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\app" />
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\app\Models" />
       <recent name="E:\OSPanel\domains\puzzlefortwolaravel\resources\js\components\header" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img\main-page" />
+      <recent name="E:\OSPanel\domains\puzzlefortwo\public\img" />
+      <recent name="E:\OSPanel\domains\puzzlefortwo\resources\js\classes" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -244,6 +302,8 @@
       <workItem from="1575279647651" duration="7078000" />
       <workItem from="1575396202240" duration="4651000" />
       <workItem from="1575448173583" duration="1882000" />
+      <workItem from="1577996345772" duration="4865000" />
+      <workItem from="1578042309277" duration="5473000" />
     </task>
     <task id="LOCAL-00001" summary="1.0.9 косметические изменения в комнатах">
       <created>1575281524614</created>
@@ -299,5 +359,27 @@
     <MESSAGE value="1.1.1 добавлена home-page из старого проекта" />
     <MESSAGE value="1.1.3 реализована почта(сейчас отключена, тк тесты)" />
     <option name="LAST_COMMIT_MESSAGE" value="1.1.3 реализована почта(сейчас отключена, тк тесты)" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="244" y="0" key="CommitChangelistDialog2" timestamp="1578001066393">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="244" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1578001066393" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1577996467379">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1577996467379" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1577998631536">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1280.680@0.0.1280.680" timestamp="1577998631536" />
+    <state x="233" y="70" key="Vcs.Push.Dialog.v2" timestamp="1578001082444">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="233" y="70" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1578001082444" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1578047614864">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1578047614864" />
   </component>
 </project>
