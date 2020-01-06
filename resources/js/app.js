@@ -24,9 +24,9 @@ Vue.component('header-link', require('./components/header/HeaderLinkComponent.vu
 Vue.component('profile-slider', require('./components/sliders/ProfileSliderComponent').default);
 Vue.component('profile', require('./components/profile/ProfileComponent').default);
 Vue.component('room-list', require('./components/profile/RoomsComponent').default);
-Vue.component('puzzle', require('./components/puzzle/PuzzleComponent').default);
+// Vue.component('puzzle', require('./components/puzzle/PuzzleComponent').default);
 Vue.component('home', require('./components/home/HomeComponent').default);
-Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);
+// Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);
 
 
 /**
@@ -42,8 +42,6 @@ Vue.mixin({
     }
 });
 
-import Store from './objects/obj'
 const app = new Vue({
     el: '#app',
-    data:Store
 });

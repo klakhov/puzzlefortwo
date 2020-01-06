@@ -1,12 +1,10 @@
-
-export default class PuzzleWorker {
+class PuzzleWorker {
 
     constructor(){
         this.tasks = [];
         this.working = false;
         this.test = false;
         this.fragment = null;
-
     }
     push(task){
         if(!task.group){
@@ -40,14 +38,15 @@ export default class PuzzleWorker {
             switch (task.type) {
                 case 'fragment_move':{
                     let fragment = arr[task.ind];
-                    console.log('moveing fr '+fragment.ind);
+                    fragment.onBottomPanel = task.onBottomPanel;
+                    console.log('moveing fr ',fragment);
                     fragment.smoothMove(task.x, task.y);
                     break;
                 }
                 case 'fragment_connect':{
                     let fragment = arr[task.ind];
                     console.log('connecting fr '+fragment.ind);
-                    fragment.connectToOther();
+                    fragment.connectTo(fragment.ind);
                     break;
                 }
                 case 'group_move':{

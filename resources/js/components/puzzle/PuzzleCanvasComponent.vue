@@ -9,8 +9,6 @@
     import Fragment from "../../classes/Fragment";
     import FragmentGroup from "../../classes/FragmentGroup";
     import FragmentList from "../../classes/FragmentList";
-    import Broadcaster from '../../classes/Broadcaster';
-    import PuzzleWorker from "../../classes/PuzzleWorker";
     export default {
         props: [
             'room',
