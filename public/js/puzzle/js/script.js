@@ -64,12 +64,17 @@ function initializeSizes(fragment, img) {
   canvas.createBlankZones();
 }
 
-window.onload = function() {
+window.onload = async function() {
+    let puzzleworker = new PuzzleWorker();
+
+  let room = await initializeSockets(puzzleworker);
 
   console.log("Started");
   canvas = new Canvas("canvas-puzzle", countImages);
   canvas.initElements();
   initializeFragmentList(arr);
+
+  let broadcaster = new Broadcaster(room);
 
   canvas.canvas.onmousemove = function(e) {
     var loc = canvas.getCoords(e.clientX, e.clientY);
@@ -79,7 +84,6 @@ window.onload = function() {
         var newY = loc.y - SelectFragmentHelper.deltaY;
         if (arr[SelectFragmentHelper.translatedFragmentId].group == null) {
           arr[SelectFragmentHelper.translatedFragmentId].move(newX, newY);
-
         } else if (arr[SelectFragmentHelper.translatedFragmentId].group != null) {
           arr[SelectFragmentHelper.translatedFragmentId].group.move(
             newX, newY,
@@ -142,8 +146,7 @@ window.onload = function() {
 
   canvas.canvas.onmouseup = function(e) {
     if (SelectFragmentHelper.translatedFragmentId >= 0) {
-      if (canvas.onMenuZone()) {
-
+        if (canvas.onMenuZone()) {
       }
 
       var loc = canvas.getCoords(e.clientX, e.clientY);
@@ -162,6 +165,7 @@ window.onload = function() {
       if (shouldConnect) {
         FragmentList.lastVisualObject.value.connectTo();
       }
+      broadcaster.broadcast('move',formExecutableTask(arr[SelectFragmentHelper.translatedFragmentId]));
       SelectFragmentHelper.translatedFragmentId = -1;
     }
   }

@@ -20,4 +20,9 @@ class PuzzleController extends Controller
     {
         return response()->json('hello');
     }
+
+    public function info($uid)
+    {
+        return response()->json(Room::uid($uid));
+    }
 }
