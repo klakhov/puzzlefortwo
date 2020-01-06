@@ -1,0 +1,3 @@
+
+
+class PanelPlace extends Component {}
