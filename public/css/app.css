@@ -11109,7 +11109,6 @@ button {
 }
 
 .head {
-  height: 55px;
   background: #373737;
   z-index: 100;
   position: relative;
@@ -11126,10 +11125,6 @@ button {
 .header-links:hover {
   color: #b79e73;
   text-decoration: none;
-}
-
-.toheight {
-  height: 45px;
 }
 
 .entrance {
@@ -11215,6 +11210,7 @@ button {
   border: 1px solid #b79e73;
   margin-top: 0;
   background: #373737;
+  margin-left: 5px;
 }
 
 .profile-item {
@@ -11308,13 +11304,41 @@ button {
 
 .rooms-container {
   border: 2px solid black;
-  margin-left: 20vh;
-  margin-right: 15vh;
+  margin-left: 5vh;
+  margin-right: 3vh;
   height: 85vh;
   min-width: 640px;
   display: grid;
   grid-template-columns: 20% 80%;
   overflow: hidden;
+}
+
+@media (min-width: 600px) {
+  .rooms-container {
+    margin-left: 8vh;
+    margin-right: 6vh;
+  }
+}
+
+@media (min-width: 800px) {
+  .rooms-container {
+    margin-left: 12vh;
+    margin-right: 9vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .rooms-container {
+    margin-left: 16vh;
+    margin-right: 12vh;
+  }
+}
+
+@media (min-width: 1500px) {
+  .rooms-container {
+    margin-left: 20vh;
+    margin-right: 15vh;
+  }
 }
 
 #room-list {
@@ -11334,7 +11358,7 @@ button {
 #room-menu {
   border: 2px solid gray;
   grid-column: 1/2;
-  margin: 5%;
+  margin: 16px;
   list-style: none;
   padding: 10px;
   min-width: 110px;

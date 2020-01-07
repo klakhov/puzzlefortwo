@@ -3,13 +3,14 @@
 namespace App;
 
 use App\User;
+use DateTime;
 
 class Room extends MethodModel
 {
     protected $fillable = [
         'user_id', 'user_1', 'user_2', 'status',
         'timestamp_created','img','description',
-        'uid','timestamp_close',
+        'uid','timestamp_close','timestamp_started'
     ];
 
     public static $data = [
@@ -35,5 +36,18 @@ class Room extends MethodModel
         $this->status = 'accepted';
         $this->save();
         return true;
+    }
+
+    public function startTimer()
+    {
+        $this->timestamp_started = time();
+        $this->save();
+    }
+
+    public function timePassed()
+    {
+//        $timestamp = time() - $this->timestamp_started;
+//        $actual_time = date('i:s',$timestamp);
+        return time() - $this->timestamp_started;
     }
 }

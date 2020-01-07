@@ -23,6 +23,12 @@ class PuzzleController extends Controller
 
     public function info($uid)
     {
+
         return response()->json(Room::uid($uid));
+    }
+
+    public function time($uid)
+    {
+        return response()->json(Room::uid($uid)->timePassed());
     }
 }

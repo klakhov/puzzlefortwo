@@ -22,6 +22,7 @@ class CreateRoomsTable extends Migration
             $table->string('user_2');
             $table->string('status');
             $table->integer('timestamp_created');
+            $table->integer('timestamp_started')->nullable();
             $table->string('img');
             $table->text('description');
             $table->string('uid',45)->unique();

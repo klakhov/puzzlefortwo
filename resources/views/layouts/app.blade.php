@@ -22,7 +22,7 @@
 <body>
     <div id="app">
         <nav>
-            <div class="container-fluid head" >
+            <div class="container-fluid head pt-2 pb-3" >
                 <div class="row align-items-center pt-1">
                     <div class="col-10">
                         <header-link></header-link>

@@ -1,13 +1,13 @@
 <template>
-    <div class="row justify-content-center align-items-center toheight">
+    <div class="row justify-content-center align-items-center">
         <div class="col-3"></div>
-        <div class="col-1">
+        <div class="col-md-1">
             <a href="/" class="header-links">Главная</a>
         </div>
-        <div class="col-1">
+        <div class="col-md-1">
             <a href="/play" class="header-links">Пазлы</a>
         </div>
-        <div class="col-1">
+        <div class="col-md-1">
             <a href="/about" class="header-links">О нас</a>
         </div>
     </div>

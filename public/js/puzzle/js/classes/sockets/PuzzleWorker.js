@@ -43,6 +43,7 @@ class PuzzleWorker {
                     if(fragment.onBottomPanel) fragment.moveToPanel();
                     fragment.smoothMove(task.x, task.y);
                     fragment.editMenuCoords();
+                    fragment.listElem.replaceToTop();
                     console.log('moving fragment', fragment);
                     break;
                 }
@@ -60,10 +61,11 @@ class PuzzleWorker {
                         this.tasks.push(cloneTask); //два потомушто один удалиться сразу воркером
                         this.tasks.push(cloneTask);
                     }else{
-                        console.log('group move fr '+fragment.ind);
                         fragment.group.smoothMove(task.x, task.y, fragment);
                         fragment.group.onMenu = task.onMenu;
                         fragment.group.editMenuCoords(arr[task.ind]);
+                        fragment.group.listElemGroup.replaceToTop();
+                        console.log('group move fr '+fragment.ind);
                     }
                     break;
                 }

@@ -1,5 +1,4 @@
 .head{
-    height:55px;
     background: $gray-primary;
     z-index: 100;
     position: relative;
@@ -14,9 +13,6 @@
 .header-links:hover{
     color:$beige;
     text-decoration: none;
-}
-.toheight{
-    height:45px;
 }
 .entrance{
     text-decoration: none;

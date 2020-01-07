@@ -49,6 +49,7 @@ class RoomController extends Controller
 
     public function update_definitive(Request $request){
         $room = Room::uid($request->uid);
+        $room->startTimer();
         event(new AcceptRoom($room, 'definitive'));
         return response()->json('definitive accept');
     }

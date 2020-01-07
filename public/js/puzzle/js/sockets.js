@@ -2,7 +2,7 @@
 async function initializeSockets(puzzleworker){
     let uid = $(location).attr('href').split('/').pop();
     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    let response = await axios.get('/puzzle/info/'+uid+'?_token='+token+'&uid='+uid);
+    let response = await axios.get('/puzzle/info/room/'+uid+'?_token='+token);
     let room = response.data;
     let channel = Echo.private('room.' + room.uid);
     channel.listen('.client-move', (response) => {

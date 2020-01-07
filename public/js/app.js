@@ -47880,23 +47880,23 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "row justify-content-center align-items-center toheight" },
+      { staticClass: "row justify-content-center align-items-center" },
       [
         _c("div", { staticClass: "col-3" }),
         _vm._v(" "),
-        _c("div", { staticClass: "col-1" }, [
+        _c("div", { staticClass: "col-md-1" }, [
           _c("a", { staticClass: "header-links", attrs: { href: "/" } }, [
             _vm._v("Главная")
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-1" }, [
+        _c("div", { staticClass: "col-md-1" }, [
           _c("a", { staticClass: "header-links", attrs: { href: "/play" } }, [
             _vm._v("Пазлы")
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-1" }, [
+        _c("div", { staticClass: "col-md-1" }, [
           _c("a", { staticClass: "header-links", attrs: { href: "/about" } }, [
             _vm._v("О нас")
           ])

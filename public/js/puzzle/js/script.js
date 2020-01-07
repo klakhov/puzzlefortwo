@@ -65,16 +65,19 @@ function initializeSizes(fragment, img) {
 }
 
 window.onload = async function() {
-    let puzzleworker = new PuzzleWorker();
-
+    console.log("Started");
+  let puzzleworker = new PuzzleWorker();
   let room = await initializeSockets(puzzleworker);
 
-  console.log("Started");
+  let timer = new Timer(room);
+  let broadcaster = new Broadcaster(room);
+
+  timer.watchTime();
+
   canvas = new Canvas("canvas-puzzle", countImages);
   canvas.initElements();
   initializeFragmentList(arr);
 
-  let broadcaster = new Broadcaster(room);
 
   canvas.canvas.onmousemove = function(e) {
     var loc = canvas.getCoords(e.clientX, e.clientY);

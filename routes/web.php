@@ -21,4 +21,5 @@ Route::get('/about','PagesController@about');
 Route::get('/play','PagesController@play')->middleware('auth');
 
 Route::get('/puzzle/{uid}', 'PuzzleController@show')->middleware('auth');
-Route::get('/puzzle/info/{uid}','PuzzleController@info')->middleware('auth');
+Route::get('/puzzle/info/room/{uid}','PuzzleController@info')->middleware('auth');
+Route::get('/puzzle/info/time/{uid}','PuzzleController@time')->middleware('auth');
