@@ -1,4 +1,4 @@
-
+//инициализация подключения и слушателя действий оппонента
 async function initializeSockets(puzzleworker){
     let uid = $(location).attr('href').split('/').pop();
     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -13,6 +13,7 @@ async function initializeSockets(puzzleworker){
     return room;
 }
 
+//создаем по передаваемому фрагменту задание для воркера оппонента
 function formExecutableTask(fragment) {
     return  {
         ind:fragment.ind,
@@ -21,5 +22,7 @@ function formExecutableTask(fragment) {
         group:!!fragment.group,
         shouldConnect:shouldConnect,
         onBottomPanel:fragment.onBottomPanel,
+        onMenu:!!fragment.group ? fragment.group.onMenu : fragment.onMenu,
+        mainFragmentInd: !!fragment.group ? fragment.group.mainFragment.ind : null,
     };
 }

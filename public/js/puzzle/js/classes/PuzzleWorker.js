@@ -39,8 +39,11 @@ class PuzzleWorker {
                 case 'fragment_move':{
                     let fragment = arr[task.ind];
                     fragment.onBottomPanel = task.onBottomPanel;
-                    console.log('moveing fr ',fragment);
+                    fragment.onMenu = task.onMenu;
+                    if(fragment.onBottomPanel) fragment.moveToPanel();
                     fragment.smoothMove(task.x, task.y);
+                    fragment.editMenuCoords();
+                    console.log('moving fragment', fragment);
                     break;
                 }
                 case 'fragment_connect':{
@@ -59,6 +62,8 @@ class PuzzleWorker {
                     }else{
                         console.log('group move fr '+fragment.ind);
                         fragment.group.smoothMove(task.x, task.y, fragment);
+                        fragment.group.onMenu = task.onMenu;
+                        fragment.group.editMenuCoords(arr[task.ind]);
                     }
                     break;
                 }

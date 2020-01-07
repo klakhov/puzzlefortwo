@@ -99,7 +99,6 @@ window.onload = async function() {
   };
 
   canvas.canvas.onmousedown = function(e) {
-    var loc = canvas.getCoords(e.clientX, e.clientY);
     shouldConnect = true;
     var loc = canvas.getCoords(e.clientX, e.clientY);
     if (canvas.panel.onmousedown(loc)) {
@@ -165,7 +164,7 @@ window.onload = async function() {
       if (shouldConnect) {
         FragmentList.lastVisualObject.value.connectTo();
       }
-      broadcaster.broadcast('move',formExecutableTask(arr[SelectFragmentHelper.translatedFragmentId]));
+      broadcaster.broadcast('move',formExecutableTask(arr[SelectFragmentHelper.translatedFragmentId])); //formTask->sockets.js
       SelectFragmentHelper.translatedFragmentId = -1;
     }
   }
@@ -210,7 +209,7 @@ window.onload = async function() {
   // Анимация с определённой частотой для обновления экрана
   setInterval(update, 1000 / FRAMES);
 
-}
+};
 
 // Обновление экрана
 function update() {

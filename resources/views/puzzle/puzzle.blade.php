@@ -6,8 +6,8 @@
         <!-- <canvas id="canvas-puzzle" width="1920" height="1080"> -->
     </canvas>
 
-        <script src="/js/puzzle/js/vars.js" defer type="application/javascript"></script>
-        <script type="application/javascript" src="/js/puzzle/js/classes/base/Component.js"></script>
+    <script src="/js/puzzle/js/vars.js" defer type="application/javascript"></script>
+    <script type="application/javascript" src="/js/puzzle/js/classes/base/Component.js"></script>
     <script type="application/javascript" src="/js/puzzle/js/classes/BlankField.js"></script>
     <script type="application/javascript" src="/js/puzzle/js/classes/Field.js"></script>
     <script type="application/javascript" src="/js/puzzle/js/classes/Canvas.js"></script>
