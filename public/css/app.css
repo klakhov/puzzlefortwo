@@ -11108,6 +11108,14 @@ button {
   outline: 0 !important;
 }
 
+.g {
+  color: #373737;
+}
+
+.w {
+  color: white;
+}
+
 .head {
   background: #373737;
   z-index: 100;
@@ -11752,5 +11760,134 @@ button {
   font-family: Arial;
   font-size: 22px;
   font-weight: 500;
+}
+
+.chat-message-n {
+  padding: 10px;
+  margin: 0 5px 5px;
+  color: white;
+  border: 2px solid #b79e73;
+  font-family: Arial;
+  border-radius: 10px;
+}
+
+.chat-message-n .notification-title {
+  font-size: 15px;
+}
+
+.chat-message-n .notification-content {
+  font-size: 14px;
+}
+
+.chat-message-n.message-n {
+  background: #373737;
+}
+
+.r-chat-container {
+  font-family: Arial;
+  min-height: 150px;
+  max-height: 300px;
+  overflow: auto;
+  background: #f3f5f8;
+}
+
+.r-chat-folder {
+  border-radius: 5px;
+  border: 1px solid #252525;
+}
+
+.r-chat-box {
+  border-radius: 5px;
+  padding: 10px 25px;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.r-input {
+  border: none;
+  line-height: 20px;
+  font-size: 18px;
+  font-family: Arial;
+  outline: none;
+}
+
+.r-chat-header {
+  background: #373737;
+  color: white;
+  box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0.2);
+  z-index: 102;
+  border-bottom: none;
+}
+
+.r-close-but {
+  color: white;
+  background: #373737;
+  font-size: 24px;
+  border: none;
+  padding: 0;
+  line-height: 25px;
+}
+
+.r-close-but:hover {
+  color: #b79e73;
+}
+
+.r-button {
+  background: #373737;
+  border: none;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.r-button:hover .my-font {
+  color: #b79e73;
+}
+
+.r-button-disabled {
+  background: #f3f5f8;
+  border: none;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.r-button-disabled:hover {
+  cursor: default;
+}
+
+.material-icons.my-font {
+  font-size: 24px;
+  color: white;
+  margin-top: 8px;
+}
+
+.r-empty-log {
+  font-size: 20px;
+  color: #ADB9CC;
+}
+
+.mr-box {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 7px;
+}
+
+.mr-name {
+  font-family: Arial;
+  color: #373737;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.mr-text {
+  color: #373737;
+  font-size: 16px;
+}
+
+.mr-time {
+  color: gray;
+  font-size: 13px;
 }
 

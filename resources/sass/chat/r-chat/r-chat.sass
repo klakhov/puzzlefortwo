@@ -1,0 +1,71 @@
+.r-chat-container
+    font-family: $font-family-base
+    min-height: 150px
+    max-height: 300px
+    overflow: auto
+    background: $c-silver
+
+
+.r-chat-folder
+    border-radius: 5px
+    border: $border-black-1
+
+.r-chat-box
+    border-radius: 5px
+    padding: 10px 25px
+    box-shadow: 0 -3px 10px rgba(0,0,0,.05)
+
+.r-input
+    border: none
+    line-height: 20px
+    font-size: 18px
+    font-family: $font-family-base
+    outline: none
+
+.r-chat-header
+    background: $gray-primary
+    color: white
+    box-shadow: 0 4px 3px 0 rgba(0,0,0,.2)
+    z-index: 102
+    border-bottom: none
+
+
+.r-close-but
+    color: white
+    background: $gray-primary
+    font-size: 24px
+    border: none
+    padding: 0
+    line-height: 25px
+    &:hover
+        color: $beige
+
+.r-button
+    background: $gray-primary
+    border: none
+    border-radius: 50px
+    width: 40px
+    height: 40px
+    padding: 0
+    &:hover
+        .my-font
+            color: $beige
+
+.r-button-disabled
+    background: $c-silver
+    border: none
+    border-radius: 50px
+    width: 40px
+    height: 40px
+    padding: 0
+    &:hover
+        cursor: default
+
+.material-icons
+    &.my-font
+        font-size: 24px
+        color: white
+        margin-top: 8px
+.r-empty-log
+    font-size: 20px
+    color: $c-dark-silver

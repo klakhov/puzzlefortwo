@@ -4,10 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueNotification from "vue-notification";
+import TextareaAutosize from 'vue-textarea-autosize'
 
+Vue.use(VueNotification);
+Vue.use(TextareaAutosize);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -27,6 +32,7 @@ Vue.component('room-list', require('./components/profile/RoomsComponent').defaul
 // Vue.component('puzzle', require('./components/puzzle/PuzzleComponent').default);
 Vue.component('home', require('./components/home/HomeComponent').default);
 // Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);
+Vue.component('room-chat', require('./components/chat/room-chat/RoomChat').default);
 
 
 /**

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <h1 id="caption-h1">Play with friend</h1>
+
     <canvas id="canvas-puzzle" width="2370" height="1080">
         <!-- <canvas id="canvas-puzzle" width="1920" height="1080"> -->
     </canvas>
@@ -25,5 +25,7 @@
     <script type="application/javascript" src="/js/puzzle/js/classes/utility/Timer.js"></script>
     <script type="application/javascript" src="/js/puzzle/js/sockets.js"></script>
     <script type="application/javascript" src="/js/puzzle/js/script.js"></script>
+
+    <room-chat :user="{{Auth::user()}}"></room-chat>
 
 @endsection

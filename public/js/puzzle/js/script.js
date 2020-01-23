@@ -71,8 +71,8 @@ window.onload = async function() {
 
   let timer = new Timer(room);
   let broadcaster = new Broadcaster(room);
-
-  timer.watchTime();
+  // таймер рабочий, тока пока без фронтэнда поэтому все что он может это спамить время в консоль поэтому закоментил
+  // timer.watchTime();
 
   canvas = new Canvas("canvas-puzzle", countImages);
   canvas.initElements();
