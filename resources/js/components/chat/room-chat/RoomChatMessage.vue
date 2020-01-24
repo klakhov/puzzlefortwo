@@ -1,18 +1,18 @@
 <template>
     <div class="container mt-1 mb-3">
         <div class="row"
-             :class="{'justify-content-start':!this.orientation,
-             'justify-content-end':this.orientation}">
-            <div class="col-auto" :class="{'order-1':!this.orientation,'order-2':this.orientation,}">
+             :class="{'justify-content-start':!this.belongsToUser,
+             'justify-content-end':this.belongsToUser}">
+            <div class="col-auto" :class="{'order-1':!this.belongsToUser,'order-2':this.belongsToUser,}">
                 ava 40x40
             </div>
-            <div class="col-8 m-0 container mr-box" :class="{'order-2':!this.orientation,'order-1':this.orientation,}">
+            <div class="col-8 m-0 container mr-box" :class="{'order-2':!this.belongsToUser,'order-1':this.belongsToUser,}">
                 <div class="row justify-content-between">
                     <div class="col-auto mr-name" v-text="this.user"
-                         :class="{'order-1':!this.orientation,'order-2':this.orientation,}">
+                         :class="{'order-1':!this.belongsToUser,'order-2':this.belongsToUser,}">
                     </div>
                     <div class="col-auto mr-time" v-text="this.timestamp"
-                         :class="{'order-2':!this.orientation,'order-1':this.orientation,}">
+                         :class="{'order-2':!this.belongsToUser,'order-1':this.belongsToUser,}">
                     </div>
                 </div>
                 <div class="row">
@@ -27,7 +27,7 @@
     export default {
         props:[
             'data',
-            'orientation'//true - свое сообщение, false - чужое
+            'belongsToUser'//true - свое сообщение, false - чужое
         ],
         data() {
             return {

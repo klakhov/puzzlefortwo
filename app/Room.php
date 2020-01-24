@@ -46,8 +46,11 @@ class Room extends MethodModel
 
     public function timePassed()
     {
-//        $timestamp = time() - $this->timestamp_started;
-//        $actual_time = date('i:s',$timestamp);
         return time() - $this->timestamp_started;
+    }
+
+    public function chatHistory()
+    {
+        return $this->hasOne('App\ChatHistory');
     }
 }

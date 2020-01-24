@@ -1960,7 +1960,8 @@ __webpack_require__.r(__webpack_exports__);
       room: null,
       sendingMessage: "",
       channel: null,
-      messages: []
+      messages: [],
+      forceScroll: false
     };
   },
   mounted: function mounted() {
@@ -1970,19 +1971,27 @@ __webpack_require__.r(__webpack_exports__);
     var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     axios.get('/puzzle/info/room/' + uid + '?_token=' + token).then(function (response) {
       _this.room = response.data;
-      _this.channel = Echo["private"]('room.' + _this.room.uid);
+      axios.get('/puzzle/chat/room/' + _this.room.uid).then(function (response) {
+        _this.restoreMessages(response.data);
 
-      _this.listenMessages();
+        _this.listenMessages();
+      });
     });
   },
   updated: function updated() {
     if (!!this.messages) {
-      var newMessage = this.messages[this.messages.length - 1];
-      console.log(newMessage);
-
-      if (newMessage.orientation) {
+      if (this.forceScroll) {
         var container = document.getElementById('chat-container');
         container.scrollTop = container.scrollHeight;
+        this.forceScroll = false;
+      } else {
+        var newMessage = this.messages[this.messages.length - 1];
+
+        if (newMessage.belongsToUser) {
+          var _container = document.getElementById('chat-container');
+
+          _container.scrollTop = _container.scrollHeight;
+        }
       }
     }
   },
@@ -1990,17 +1999,22 @@ __webpack_require__.r(__webpack_exports__);
     listenMessages: function listenMessages() {
       var _this2 = this;
 
-      this.channel.listen('.client-room-message', function (pushed) {
-        _this2.messages.push(_this2.messageOrientation(pushed));
+      this.channel = Echo["private"]('room.' + this.room.uid);
+      this.channel.listen('.chat-room-message', function (pushed) {
+        var message = _this2.belongsToUser(pushed.message);
 
-        _this2.$notify({
-          group: 'group-chat-message-n',
-          title: 'You got a chat message',
-          text: pushed.user.name + 'sent a message in #room',
-          type: 'message-n',
-          duration: 4000,
-          max: 3
-        });
+        if (!message.belongsToUser) {
+          _this2.messages.push(message);
+
+          _this2.$notify({
+            group: 'group-chat-message-n',
+            title: 'You got a chat message',
+            text: pushed.message.user.name + ' sent a message in #room',
+            type: 'message-n',
+            duration: 4000,
+            max: 3
+          });
+        }
       });
     },
     sendMessage: function sendMessage() {
@@ -2011,12 +2025,16 @@ __webpack_require__.r(__webpack_exports__);
           id: this.messageId(),
           timestamp: this.messageTimeStamp()
         };
-        this.messages.push(this.messageOrientation(message));
-        this.channel.whisper('room-message', message);
+        this.messages.push(this.belongsToUser(message));
+        this.sendingMessage = "";
+        axios.patch('/puzzle/chat/room/' + this.room.uid, {
+          message: message,
+          uid: this.room.uid
+        });
       }
     },
     messageId: function messageId() {
-      return '_' + Math.random().toString(36).substr(2, 5);
+      return '_' + Math.random().toString(36).substr(2, 9);
     },
     messageTimeStamp: function messageTimeStamp() {
       var date = new Date();
@@ -2024,9 +2042,19 @@ __webpack_require__.r(__webpack_exports__);
       var minutes = !!Math.floor(date.getMinutes() / 10) ? date.getMinutes().toString() : '0' + date.getMinutes().toString();
       return hours + ':' + minutes;
     },
-    messageOrientation: function messageOrientation(message) {
-      message.orientation = message.user.name === this.user.name;
+    belongsToUser: function belongsToUser(message) {
+      message.belongsToUser = message.user.name === this.user.name;
       return message;
+    },
+    restoreMessages: function restoreMessages(messages) {
+      var _this3 = this;
+
+      messages = JSON.parse(messages);
+      messages.forEach(function (message) {
+        message.belongsToUser = message.user.name === _this3.user.name;
+      });
+      this.messages = messages;
+      this.forceScroll = true;
     }
   }
 });
@@ -2068,7 +2096,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data', 'orientation' //true - свое сообщение, false - чужое
+  props: ['data', 'belongsToUser' //true - свое сообщение, false - чужое
   ],
   data: function data() {
     return {
@@ -48135,7 +48163,7 @@ var render = function() {
                           key: message.id,
                           attrs: {
                             data: message,
-                            orientation: message.orientation
+                            "belongs-to-user": message.belongsToUser
                           }
                         })
                       })
@@ -48275,8 +48303,8 @@ var render = function() {
       {
         staticClass: "row",
         class: {
-          "justify-content-start": !this.orientation,
-          "justify-content-end": this.orientation
+          "justify-content-start": !this.belongsToUser,
+          "justify-content-end": this.belongsToUser
         }
       },
       [
@@ -48284,7 +48312,10 @@ var render = function() {
           "div",
           {
             staticClass: "col-auto",
-            class: { "order-1": !this.orientation, "order-2": this.orientation }
+            class: {
+              "order-1": !this.belongsToUser,
+              "order-2": this.belongsToUser
+            }
           },
           [_vm._v("\n            ava 40x40\n        ")]
         ),
@@ -48293,15 +48324,18 @@ var render = function() {
           "div",
           {
             staticClass: "col-8 m-0 container mr-box",
-            class: { "order-2": !this.orientation, "order-1": this.orientation }
+            class: {
+              "order-2": !this.belongsToUser,
+              "order-1": this.belongsToUser
+            }
           },
           [
             _c("div", { staticClass: "row justify-content-between" }, [
               _c("div", {
                 staticClass: "col-auto mr-name",
                 class: {
-                  "order-1": !this.orientation,
-                  "order-2": this.orientation
+                  "order-1": !this.belongsToUser,
+                  "order-2": this.belongsToUser
                 },
                 domProps: { textContent: _vm._s(this.user) }
               }),
@@ -48309,8 +48343,8 @@ var render = function() {
               _c("div", {
                 staticClass: "col-auto mr-time",
                 class: {
-                  "order-2": !this.orientation,
-                  "order-1": this.orientation
+                  "order-2": !this.belongsToUser,
+                  "order-1": this.belongsToUser
                 },
                 domProps: { textContent: _vm._s(this.timestamp) }
               })

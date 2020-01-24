@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ChatHistory;
 use App\Events\AcceptRoom;
 use App\Events\NewRoom;
 use App\Jobs\CloseRoom;
@@ -24,10 +25,13 @@ class RoomController extends Controller
                 'img'=>$request->image,
                 'description'=>$request->description,
                 'uid'=>Str::random(45),
-                'timestamp_close'=>time()+300,
+                'timestamp_close'=>time()+Room::$data['delay'],
             ]);
-            dispatch((new CloseRoom($room))->delay(Room::$data['delay']));
-            event(new NewRoom($room));
+            ChatHistory::create([ //initialise chat with room messages are nullable(obvious)
+               'room_id'=>$room->id,
+            ]);
+            dispatch((new CloseRoom($room))->delay(Room::$data['delay']));//job to close room
+            event(new NewRoom($room));//everyone should know that room was created
             return response()->json($room);
         }else{
            return response()->json('User has actual room');
@@ -53,4 +57,6 @@ class RoomController extends Controller
         event(new AcceptRoom($room, 'definitive'));
         return response()->json('definitive accept');
     }
+
+
 }

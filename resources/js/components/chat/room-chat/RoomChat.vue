@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <room-chat-message v-for="message in messages" :data="message" :key="message.id"
-                            :orientation="message.orientation"/>
+                            :belongs-to-user="message.belongsToUser"/>
                         </div>
                         <div class="r-chat-box container pt-4 pb-3 pl-4 pr-5">
                             <div class="row justify-content-around">
@@ -67,6 +67,7 @@
                 sendingMessage:"",
                 channel:null,
                 messages:[],
+                forceScroll:false
             }
         },
         mounted() {
@@ -75,32 +76,45 @@
             axios.get('/puzzle/info/room/'+uid+'?_token='+token)
                 .then((response)=>{
                     this.room = response.data;
-                    this.channel = Echo.private('room.' + this.room.uid);
-                    this.listenMessages();
+                    axios.get('/puzzle/chat/room/'+this.room.uid)
+                        .then(response=>{
+                            this.restoreMessages(response.data);
+                            this.listenMessages();
+                        });
                 });
         },
+
         updated(){
             if(!!this.messages){
-                let newMessage = this.messages[this.messages.length-1];
-                console.log(newMessage);
-                if(newMessage.orientation){
+                if(this.forceScroll){
                     let container = document.getElementById('chat-container');
                     container.scrollTop = container.scrollHeight;
+                    this.forceScroll = false;
+                }else{
+                    let newMessage = this.messages[this.messages.length-1];
+                    if(newMessage.belongsToUser){
+                        let container = document.getElementById('chat-container');
+                        container.scrollTop = container.scrollHeight;
+                    }
                 }
             }
         },
         methods:{
             listenMessages(){
-                this.channel.listen('.client-room-message', (pushed) => {
-                    this.messages.push(this.messageOrientation(pushed));
-                    this.$notify({
-                        group: 'group-chat-message-n',
-                        title: 'You got a chat message',
-                        text: pushed.user.name + 'sent a message in #room',
-                        type: 'message-n',
-                        duration: 4000,
-                        max: 3,
-                    });
+                this.channel = Echo.private('room.' + this.room.uid);
+                this.channel.listen('.chat-room-message', (pushed) => {
+                    let message = this.belongsToUser(pushed.message);
+                    if(!message.belongsToUser){
+                        this.messages.push(message);
+                        this.$notify({
+                            group: 'group-chat-message-n',
+                            title: 'You got a chat message',
+                            text: pushed.message.user.name + ' sent a message in #room',
+                            type: 'message-n',
+                            duration: 4000,
+                            max: 3,
+                        });
+                    }
                 });
             },
             sendMessage(){
@@ -111,13 +125,17 @@
                         id: this.messageId(),
                         timestamp: this.messageTimeStamp()
                     };
-                    this.messages.push(this.messageOrientation(message));
-                    this.channel.whisper('room-message',message);
+                    this.messages.push(this.belongsToUser(message));
+                    this.sendingMessage = "";
+                    axios.patch('/puzzle/chat/room/'+this.room.uid,{
+                       message: message,
+                       uid: this.room.uid,
+                    })
                 }
             },
 
             messageId () {
-                return '_' + Math.random().toString(36).substr(2, 5);
+                return '_' + Math.random().toString(36).substr(2, 9);
             },
 
             messageTimeStamp(){
@@ -127,10 +145,19 @@
                 return hours+':'+minutes;
             },
 
-            messageOrientation(message){
-                message.orientation  = message.user.name === this.user.name;
+            belongsToUser(message){
+                message.belongsToUser  = message.user.name === this.user.name;
                 return message;
-            }
+            },
+
+            restoreMessages(messages){
+                messages = JSON.parse(messages);
+                messages.forEach(message=>{
+                    message.belongsToUser  = message.user.name === this.user.name;
+                });
+                this.messages = messages;
+                this.forceScroll = true;
+            },
         }
     }
 </script>
