@@ -26,4 +26,5 @@ Route::get('/puzzle/info/room/{uid}','PuzzleController@info')->middleware('auth'
 Route::get('/puzzle/info/time/{uid}','PuzzleController@time')->middleware('auth');
 
 Route::get('/puzzle/chat/room/{uid}','RoomChatController@index')->middleware('auth');
-Route::patch('/puzzle/chat/room/{uid}','RoomChatController@update')->middleware('auth');
+Route::patch('/puzzle/chat/room','RoomChatController@update')->middleware('auth');
+Route::put('/puzzle/chat/room','RoomChatController@read')->middleware('auth');

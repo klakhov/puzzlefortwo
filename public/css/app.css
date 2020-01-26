@@ -11868,6 +11868,10 @@ button {
   color: #ADB9CC;
 }
 
+.m-container {
+  box-sizing: border-box;
+}
+
 .mr-box {
   background: white;
   padding: 15px 20px;

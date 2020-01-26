@@ -2,11 +2,11 @@
     <div>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="btn btn-primary" @click="showChat">
             Launch demo modal
         </button>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="room-chat" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content r-chat-folder">
                     <div class="modal-header r-chat-header">
@@ -67,7 +67,6 @@
                 sendingMessage:"",
                 channel:null,
                 messages:[],
-                forceScroll:false
             }
         },
         mounted() {
@@ -82,21 +81,25 @@
                             this.listenMessages();
                         });
                 });
+
+            $('#room-chat').on('shown.bs.modal',()=>{
+                try{
+                    let container = document.getElementById('chat-container');
+                    let index = this.unreadMessageIndex();
+                    let collection = $('#chat-container')[0].children;
+                    container.scrollTop = collection[index].offsetTop - 10;
+                }catch (e) {} //ошбика может быть из-за пустой коллекции тк сообщений нет, но это нормально
+                this.readAllMessages();
+            });
         },
 
         updated(){
             if(!!this.messages){
-                if(this.forceScroll){
-                    let container = document.getElementById('chat-container');
-                    container.scrollTop = container.scrollHeight;
-                    this.forceScroll = false;
-                }else{
                     let newMessage = this.messages[this.messages.length-1];
                     if(newMessage.belongsToUser){
                         let container = document.getElementById('chat-container');
                         container.scrollTop = container.scrollHeight;
                     }
-                }
             }
         },
         methods:{
@@ -123,11 +126,12 @@
                         user: this.user,
                         text: this.sendingMessage,
                         id: this.messageId(),
-                        timestamp: this.messageTimeStamp()
+                        timestamp: this.messageTimeStamp(),
+                        readBy:[this.user.id],
                     };
                     this.messages.push(this.belongsToUser(message));
                     this.sendingMessage = "";
-                    axios.patch('/puzzle/chat/room/'+this.room.uid,{
+                    axios.patch('/puzzle/chat/room',{
                        message: message,
                        uid: this.room.uid,
                     })
@@ -151,13 +155,56 @@
             },
 
             restoreMessages(messages){
-                messages = JSON.parse(messages);
-                messages.forEach(message=>{
-                    message.belongsToUser  = message.user.name === this.user.name;
-                });
-                this.messages = messages;
-                this.forceScroll = true;
+                if(!this.isEmpty(messages)){
+                    messages = JSON.parse(messages);
+                    messages.forEach(message=>{
+                        message.belongsToUser  = message.user.name === this.user.name;
+                    });
+                    this.messages = messages;
+                }
             },
+
+            readAllMessages(){
+                let hasRead = false;
+                this.messages.forEach((message)=>{
+                    if(!message.readBy.includes(this.user.id)) {
+                        message.readBy.push(this.user.id);
+                        hasRead = true;
+                    }
+                });
+                if(hasRead){
+                    axios.put('/puzzle/chat/room',{
+                        uid:this.room.uid,
+                        user_id: this.user.id,
+                    })
+                }
+
+            },
+
+            showChat(){
+                let chat = $('#room-chat');
+                chat.modal('toggle');
+            },
+
+            unreadMessageIndex(){
+                let lastRead;
+                for (let index = this.messages.length - 1; index>=0; index--){
+                    if(this.messages[index].readBy.includes(this.user.id)){
+                        lastRead = index;
+                        break;
+                    }
+                }
+                if(lastRead === this.messages.length -1 )
+                    return lastRead; // случай когда все сообщения прочитаны, вернем самое последнее
+                return lastRead + 1; //случай когда есть непрочитанные, вернем первое НЕПРОЧИТАННОЕ
+            },
+
+            isEmpty(obj) {
+                for (let key in obj) {
+                    return false;
+                }
+                return true;
+            }
         }
     }
 </script>

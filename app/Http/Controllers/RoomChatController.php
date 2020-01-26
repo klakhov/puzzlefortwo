@@ -28,4 +28,19 @@ class RoomChatController extends Controller
         event(new RoomChatNewMessage($message,$room->uid));
         return response()->json($message);
     }
+
+    public function read(Request $request)
+    {
+        $room = Room::uid($request->uid);
+        $story = $room->chatHistory;
+        $id = $request->user_id;
+        $messages = json_decode($story->messages);
+        foreach ($messages as $message){
+            if(!in_array($id,$message->readBy)) {
+                $message->readBy[] = $id;
+            }
+        }
+        $story->messages = $messages;
+        $story->save();
+    }
 }

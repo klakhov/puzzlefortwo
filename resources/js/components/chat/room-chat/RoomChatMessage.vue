@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-1 mb-3">
+    <div class="m-container container mt-1 mb-3">
         <div class="row"
              :class="{'justify-content-start':!this.belongsToUser,
              'justify-content-end':this.belongsToUser}">

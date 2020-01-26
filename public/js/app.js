@@ -1960,8 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
       room: null,
       sendingMessage: "",
       channel: null,
-      messages: [],
-      forceScroll: false
+      messages: []
     };
   },
   mounted: function mounted() {
@@ -1977,21 +1976,27 @@ __webpack_require__.r(__webpack_exports__);
         _this.listenMessages();
       });
     });
+    $('#room-chat').on('shown.bs.modal', function () {
+      try {
+        var container = document.getElementById('chat-container');
+
+        var index = _this.unreadMessageIndex();
+
+        var collection = $('#chat-container')[0].children;
+        container.scrollTop = collection[index].offsetTop - 10;
+      } catch (e) {} //ошбика может быть из-за пустой коллекции тк сообщений нет, но это нормально
+
+
+      _this.readAllMessages();
+    });
   },
   updated: function updated() {
     if (!!this.messages) {
-      if (this.forceScroll) {
+      var newMessage = this.messages[this.messages.length - 1];
+
+      if (newMessage.belongsToUser) {
         var container = document.getElementById('chat-container');
         container.scrollTop = container.scrollHeight;
-        this.forceScroll = false;
-      } else {
-        var newMessage = this.messages[this.messages.length - 1];
-
-        if (newMessage.belongsToUser) {
-          var _container = document.getElementById('chat-container');
-
-          _container.scrollTop = _container.scrollHeight;
-        }
       }
     }
   },
@@ -2023,11 +2028,12 @@ __webpack_require__.r(__webpack_exports__);
           user: this.user,
           text: this.sendingMessage,
           id: this.messageId(),
-          timestamp: this.messageTimeStamp()
+          timestamp: this.messageTimeStamp(),
+          readBy: [this.user.id]
         };
         this.messages.push(this.belongsToUser(message));
         this.sendingMessage = "";
-        axios.patch('/puzzle/chat/room/' + this.room.uid, {
+        axios.patch('/puzzle/chat/room', {
           message: message,
           uid: this.room.uid
         });
@@ -2049,12 +2055,56 @@ __webpack_require__.r(__webpack_exports__);
     restoreMessages: function restoreMessages(messages) {
       var _this3 = this;
 
-      messages = JSON.parse(messages);
-      messages.forEach(function (message) {
-        message.belongsToUser = message.user.name === _this3.user.name;
+      if (!this.isEmpty(messages)) {
+        messages = JSON.parse(messages);
+        messages.forEach(function (message) {
+          message.belongsToUser = message.user.name === _this3.user.name;
+        });
+        this.messages = messages;
+      }
+    },
+    readAllMessages: function readAllMessages() {
+      var _this4 = this;
+
+      var hasRead = false;
+      this.messages.forEach(function (message) {
+        if (!message.readBy.includes(_this4.user.id)) {
+          message.readBy.push(_this4.user.id);
+          hasRead = true;
+        }
       });
-      this.messages = messages;
-      this.forceScroll = true;
+
+      if (hasRead) {
+        axios.put('/puzzle/chat/room', {
+          uid: this.room.uid,
+          user_id: this.user.id
+        });
+      }
+    },
+    showChat: function showChat() {
+      var chat = $('#room-chat');
+      chat.modal('toggle');
+    },
+    unreadMessageIndex: function unreadMessageIndex() {
+      var lastRead;
+
+      for (var index = this.messages.length - 1; index >= 0; index--) {
+        if (this.messages[index].readBy.includes(this.user.id)) {
+          lastRead = index;
+          break;
+        }
+      }
+
+      if (lastRead === this.messages.length - 1) return lastRead; // случай когда все сообщения прочитаны, вернем самое последнее
+
+      return lastRead + 1; //случай когда есть непрочитанные, вернем первое НЕПРОЧИТАННОЕ
+    },
+    isEmpty: function isEmpty(obj) {
+      for (var key in obj) {
+        return false;
+      }
+
+      return true;
     }
   }
 });
@@ -48114,11 +48164,8 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-primary",
-          attrs: {
-            type: "button",
-            "data-toggle": "modal",
-            "data-target": "#exampleModal"
-          }
+          attrs: { type: "button" },
+          on: { click: _vm.showChat }
         },
         [_vm._v("\n        Launch demo modal\n    ")]
       ),
@@ -48128,10 +48175,9 @@ var render = function() {
         {
           staticClass: "modal fade",
           attrs: {
-            id: "exampleModal",
+            id: "room-chat",
             tabindex: "-1",
             role: "dialog",
-            "aria-labelledby": "exampleModalLabel",
             "aria-hidden": "true"
           }
         },
@@ -48297,7 +48343,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mt-1 mb-3" }, [
+  return _c("div", { staticClass: "m-container container mt-1 mb-3" }, [
     _c(
       "div",
       {
