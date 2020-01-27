@@ -11872,6 +11872,17 @@ button {
   box-sizing: border-box;
 }
 
+.chat-icon:hover {
+  cursor: pointer;
+}
+
+.ico-container {
+  position: absolute;
+  top: 90%;
+  left: 95%;
+  z-index: 100;
+}
+
 .mr-box {
   background: white;
   padding: 15px 20px;

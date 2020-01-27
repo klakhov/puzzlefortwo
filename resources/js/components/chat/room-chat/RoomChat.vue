@@ -2,9 +2,8 @@
     <div>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
-        <button type="button" class="btn btn-primary" @click="showChat">
-            Launch demo modal
-        </button>
+
+        <room-chat-ico :unread="this.hasUnread" :show-modal="this.showChat"/>
 
         <div class="modal fade" id="room-chat" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -48,15 +47,17 @@
                 </div>
             </div>
         </div>
-        <notifications group="group-chat-message-n" classes="chat-message-n" position="bottom right"></notifications>
+        <notifications group="group-chat-message-n" classes="chat-message-n" position="bottom left"></notifications>
     </div>
 </template>
 
 <script>
     import RoomChatMessage from "./RoomChatMessage";
+    import RoomChatIco from "./RoomChatIco";
     export default {
         components:{
-            RoomChatMessage
+            RoomChatMessage,
+            RoomChatIco
         },
         props:[
             'user'
@@ -67,6 +68,7 @@
                 sendingMessage:"",
                 channel:null,
                 messages:[],
+                hasUnread: false,
             }
         },
         mounted() {
@@ -117,6 +119,7 @@
                             duration: 4000,
                             max: 3,
                         });
+                        this.hasUnread = true;
                     }
                 });
             },
@@ -161,6 +164,9 @@
                         message.belongsToUser  = message.user.name === this.user.name;
                     });
                     this.messages = messages;
+                    this.unreadCheck();
+                }else{
+                    this.hasUnread = false;
                 }
             },
 
@@ -178,7 +184,17 @@
                         user_id: this.user.id,
                     })
                 }
+                this.hasUnread = false;
+            },
 
+            unreadCheck(){
+                for(let i=0; i<this.messages.length; i++){
+                    if(!this.messages[i].readBy.includes(this.user.id)) {
+                        this.hasUnread = true;
+                        return;
+                    }
+                }
+                this.hasUnread = false;
             },
 
             showChat(){
@@ -204,7 +220,7 @@
                     return false;
                 }
                 return true;
-            }
+            },
         }
     }
 </script>
