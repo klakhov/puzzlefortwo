@@ -28,3 +28,8 @@ Route::get('/puzzle/info/time/{uid}','PuzzleController@time')->middleware('auth'
 Route::get('/puzzle/chat/room/{uid}','RoomChatController@index')->middleware('auth');
 Route::patch('/puzzle/chat/room','RoomChatController@update')->middleware('auth');
 Route::put('/puzzle/chat/room','RoomChatController@read')->middleware('auth');
+
+Route::get('/edit/{name}', 'UserController@showEdit')->middleware('can_edit');
+Route::post('/edit/{name}','UserController@edit')->middleware('can_edit');
+
+Route::get('/profile/{name}','UserController@search')->middleware('auth');

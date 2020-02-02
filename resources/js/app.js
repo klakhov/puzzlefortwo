@@ -28,7 +28,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('header-link', require('./components/header/HeaderLinkComponent.vue').default);
 Vue.component('profile-slider', require('./components/sliders/ProfileSliderComponent').default);
 Vue.component('profile', require('./components/profile/ProfileComponent').default);
-Vue.component('room-list', require('./components/profile/RoomsComponent').default);
+Vue.component('profile-edit', require('./components/profile/ProfileEditComponent').default);
+Vue.component('room-list', require('./components/rooms/RoomsComponent').default);
 // Vue.component('puzzle', require('./components/puzzle/PuzzleComponent').default);
 Vue.component('home', require('./components/home/HomeComponent').default);
 // Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);

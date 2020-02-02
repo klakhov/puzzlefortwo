@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @if(Auth::check())
-        <profile></profile>
+        <profile :user="{{Auth::user()}}"></profile>
         <room-list v-bind:user_info="{{Auth::user()}}"></room-list>
         <profile-slider></profile-slider>
     @else

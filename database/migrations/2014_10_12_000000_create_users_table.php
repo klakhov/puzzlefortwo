@@ -16,10 +16,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('api_token',60)->unique()->nullable();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('status')->nullable();
+            $table->string('avatars')->default('{"main":"\/uploads\/avatars\/main.png","sub":"\/uploads\/avatars\/sub.png"}');
             $table->rememberToken();
             $table->timestamps();
         });

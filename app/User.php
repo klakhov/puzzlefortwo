@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token',
+        'name', 'email', 'password', 'api_token','avatars','status'
     ];
 
     /**
@@ -37,6 +37,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'avatars'=>'array'
     ];
 
     public static function api($api){
@@ -60,6 +61,14 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public static function search($name)
+    {
+        $users = User::all()->filter(function ($user) use ($name){
+           return stristr($user->name, $name);
+        });
+        return $users;
     }
 
 }
