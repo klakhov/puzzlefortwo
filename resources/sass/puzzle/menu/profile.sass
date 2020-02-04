@@ -51,6 +51,7 @@
     text-align: center
     transition: $transition
     &:hover
+        cursor: pointer
         color: $beige
         border-top: $border-biege-1
         border-bottom: $border-biege-1
@@ -77,12 +78,35 @@
 .a-desc
     font-size: 13px
 .p-event
-    color: black
-    border: $border-black-1
-    border-radius: 5px
+    color: white
+    border: $border-biege-2
+    border-radius: 10px
+    background: $gray-primary
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,.3)
+.p-event-alert
+    @extend .p-event
+    font-size: 18px
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 80px
+.p-event-date
+    font-size: 11px
+    color: gray
+.p-t-event
+    font-size: 16px
+    line-height: 18px
+.material-icons.p-i-event
+    color: white
+    transition: $transition
+    &:hover
+        transition: $transition
+        color: $beige
+        cursor: pointer
 .p-e-pallet
     max-height: 705px
     overflow: auto
+    height: 705px
 .p-f-pallet
     max-height: 580px
     overflow: auto
@@ -91,6 +115,7 @@
     color: white
     border-radius: 5px
     box-shadow: 0 3px 3px 0 rgba(0,0,0,.3)
+    cursor: pointer
 .p-search
     &:focus
         outline: none

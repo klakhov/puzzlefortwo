@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewProfileEvent;
 use App\User;
 use Illuminate\Http\Request;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -40,7 +42,73 @@ class UserController extends Controller
     {
         $users = User::search($name)->take(3);
         if($users->isEmpty()) return response()->json(404);
-        $users = $users->map(function ($user){return $user->name;});
         return response()->json($users);
+    }
+
+    public function profile($name)
+    {
+        $user = User::name($name);
+        $user->friends();
+        $user->profileEvents;
+        return response()->json($user);
+    }
+
+    public function addFriend(Request $request)
+    {
+        $user = Auth::user();
+        $friend = User::name($request->name);
+        event(new NewProfileEvent('friend_request', [
+            'user'=>$user,
+            'friend'=>$friend,
+             'status'=>'waiting',
+        ]));
+        $user->friendsOfMine()->attach($friend->id);
+    }
+
+    public function acceptFriend(Request $request)
+    {
+        $user = Auth::user();
+        $friend=User::name($request->name);
+        DB::table('friends')
+            ->where([['user_id','=',$friend->id],['friend_id','=',$user->id]])
+            ->update(['accepted'=>true]);
+        event(new NewProfileEvent('friend_request', [
+            'user'=>$user,
+            'friend'=>$friend,
+            'status'=>'accepted',
+        ]));
+        return response()->json();
+    }
+
+    public function refuseFriend($name)
+    {
+        $user = Auth::user();
+        $friend = User::name($name);
+        DB::table('friends')
+            ->where([['user_id','=',$friend->id],['friend_id','=',$user->id]])
+            ->delete();
+        DB::table('friends')
+            ->where([['user_id','=',$user->id],['friend_id','=',$friend->id]])
+            ->delete();
+        event(new NewProfileEvent('friend_request', [
+            'user'=>$user,
+            'friend'=>$friend,
+            'status'=>'refused',
+        ]));
+        return response()->json();
+    }
+
+    public function userWithFriends($name)
+    {
+        $user = User::name($name);
+        $user->friends();
+        return response()->json($user);
+    }
+
+    public function userWithEvents($name)
+    {
+        $user = User::name($name);
+        $user->profileEvents();
+        return response()->json($user);
     }
 }

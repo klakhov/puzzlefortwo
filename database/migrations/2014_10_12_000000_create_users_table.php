@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('status')->nullable();
+            $table->string('status')->default('hello puzzle')->nullable();
             $table->string('avatars')->default('{"main":"\/uploads\/avatars\/main.png","sub":"\/uploads\/avatars\/sub.png"}');
             $table->rememberToken();
             $table->timestamps();

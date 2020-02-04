@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 
 
 use App\Room;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
     public function play()
     {
-        return view('pages.play');
+        $user = User::with( 'profileEvents')->find(Auth::id());
+        $user->friends();
+        return view('pages.play', compact('user'));
     }
 
     public function home()

@@ -115,7 +115,6 @@
             getRooms() {
                 axios.get('api/rooms?api_token=' + this.user_info.api_token)
                     .then((response) => {
-                        console.log(response);
                         this.rooms = this.validateRooms(response.data);
                     })
             },

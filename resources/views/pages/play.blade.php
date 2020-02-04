@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('content')
     @if(Auth::check())
-        <profile :user="{{Auth::user()}}"></profile>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
+        <profile :user="{{$user}}"></profile>
         <room-list v-bind:user_info="{{Auth::user()}}"></room-list>
         <profile-slider></profile-slider>
     @else

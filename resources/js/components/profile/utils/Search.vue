@@ -6,8 +6,13 @@
                        :class="{'p-search-searching':this.inString.length>=3}" id="search" autocomplete="off">
                 <div class="p-s-pallet container" :class="{'p-s-pallet-shown':this.inString.length>=3}">
                     <loader v-if="loading"/>
-                    <div class="row row-result" v-for="result in dataFound">
-                        <div class="col s-result p-2" v-text="result.text">
+                    <div  v-if="dataNotFound" class="row row-result">
+                        <div class="col s-result p-2">
+                            Совпадений не найдено
+                        </div>
+                    </div>
+                    <div class="row row-result" v-for="user in dataFound">
+                        <div class="col s-result p-2" v-text="user.name" @click="showProfile(user)">
                         </div>
                     </div>
                 </div>
@@ -17,7 +22,7 @@
 </template>
 
 <script>
-    import Loader from "../utils/Loader";
+    import Loader from "../../utils/Loader";
     export default {
         components:{
             Loader,
@@ -26,7 +31,8 @@
             return {
                 inString: "",
                 dataFound: [],
-                loading: true
+                loading: true,
+                dataNotFound: false,
             }
         },
         mounted() {
@@ -39,15 +45,16 @@
                 this.nullifyResults();
                 if(this.inString.length>=3){
                     this.loading= true;
-                    axios.get('/profile/'+this.inString)
+                    axios.get('/profile/search/'+this.inString)
                         .then(response=>{
                             this.loading = false;
                             this.nullifyResults();
                             if(response.data === 404){
-                                this.dataFound.push({text:'Совпадений не найдено'});
+                                this.dataNotFound = true;
                             }else{
-                                for(let prop in response.data){
-                                    this.dataFound.push({text:response.data[prop]});
+                                this.dataNotFound = false;
+                                for(let user in response.data){
+                                    this.dataFound.push(response.data[user])
                                 }
                             }
                         })
@@ -55,6 +62,11 @@
             },
             nullifyResults(){
                 this.dataFound = [];
+            },
+            showProfile(user){
+                this.$emit('profile-switch',user);
+                this.nullifyResults();
+                this.inString = "";
             }
         },
     }

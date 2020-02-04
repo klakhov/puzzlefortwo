@@ -32,4 +32,13 @@ Route::put('/puzzle/chat/room','RoomChatController@read')->middleware('auth');
 Route::get('/edit/{name}', 'UserController@showEdit')->middleware('can_edit');
 Route::post('/edit/{name}','UserController@edit')->middleware('can_edit');
 
-Route::get('/profile/{name}','UserController@search')->middleware('auth');
+Route::middleware(['auth'])->group(function(){
+    Route::get('/profile/search/{name}','UserController@search');
+    Route::get('/profile/info/{name}','UserController@profile');
+
+    Route::get('/profile/friends/{name}','UserController@userWithFriends');
+    Route::post('/profile/friends','UserController@addFriend');
+    Route::patch('/profile/friends','UserController@acceptFriend');
+    Route::delete('/profile/friends/{name}','UserController@refuseFriend');
+});
+
