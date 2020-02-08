@@ -1,23 +1,23 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-auto">
+            <div class="col-auto p-title">
                 Список друзей
             </div>
         </div>
-        <div class="row p-f-pallet" v-if="haveFriends">
+        <div class="row p-f-pallet p-pallet" v-if="haveFriends">
             <div class="col container pt-2">
                 <friend v-for="friend in this.friends"
                         :friend="friend" :key="friend.id"
                         v-on:profile-switch="profileSwitch"/>
             </div>
         </div>
-        <div class="row p-f-pallet" v-else>
+        <div class="row p-f-pallet p-pallet" v-else>
             <div class="col container pt-2">
                 <div class="container p-event-alert mr-2 ml-2 p-2 mb-2">
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            Список друзей пуст
+                            У Вас пока нет друзей
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
     import Friend from "./Friend";
     export default {
         props:{
-            friends:{},
+            pfriends:{},
             haveFriends:{},
         },
         components:{
@@ -38,7 +38,7 @@
         },
         data() {
             return {
-                friends: this.props.friends
+                friends: this.pfriends
             }
         },
         mounted() {

@@ -1949,6 +1949,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1963,7 +1967,9 @@ __webpack_require__.r(__webpack_exports__);
       sendingMessage: "",
       channel: null,
       messages: [],
-      hasUnread: false
+      hasUnread: false,
+      muted: false,
+      chatShown: false
     };
   },
   mounted: function mounted() {
@@ -1991,7 +1997,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
       _this.readAllMessages();
+
+      _this.chatShown = true;
     });
+    $('#room-chat').on('hidden.bs.modal', function () {
+      _this.chatShown = false;
+    });
+
+    document.onkeyup = function (event) {
+      if (event.key === 'Enter' && !_this.chatShown) {
+        _this.showChat();
+      } else if (event.key === 'Enter' && _this.chatShown) {
+        _this.sendMessage();
+      }
+    };
   },
   updated: function updated() {
     if (!!this.messages) {
@@ -2014,21 +2033,23 @@ __webpack_require__.r(__webpack_exports__);
         if (!message.belongsToUser) {
           _this2.messages.push(message);
 
-          _this2.$notify({
-            group: 'group-chat-message-n',
-            title: 'You got a chat message',
-            text: pushed.message.user.name + ' sent a message in #room',
-            type: 'message-n',
-            duration: 4000,
-            max: 3
-          });
+          if (!_this2.muted) {
+            _this2.$notify({
+              group: 'group-chat-message-n',
+              title: 'You got a chat message',
+              text: pushed.message.user.name + ' sent a message in #room',
+              type: 'message-n',
+              duration: 4000,
+              max: 3
+            });
+          }
 
           _this2.hasUnread = true;
         }
       });
     },
     sendMessage: function sendMessage() {
-      if (this.sendingMessage) {
+      if (!!this.sendingMessage) {
         var message = {
           user: this.user,
           text: this.sendingMessage,
@@ -2103,7 +2124,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     showChat: function showChat() {
       var chat = $('#room-chat');
+      $('#message').focus();
       chat.modal('toggle');
+    },
+    mute: function mute() {
+      this.muted = !this.muted;
     },
     unreadMessageIndex: function unreadMessageIndex() {
       var lastRead;
@@ -2267,7 +2292,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.user = this.data.user.name;
+    this.user = this.data.user;
     this.text = this.data.text;
     this.timestamp = this.data.timestamp;
   }
@@ -2855,11 +2880,15 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     FriendEvent: _FriendEvent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log('events', this.events);
+  },
+  updated: function updated() {
+    console.log('events', this.events);
+  },
   methods: {
     returnBack: function returnBack() {
       this.$emit('return-back');
-      this.$emit('refresh-profile');
     },
     refreshProfile: function refreshProfile() {
       this.$emit('refresh-profile');
@@ -3061,7 +3090,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    friends: {},
+    pfriends: {},
     haveFriends: {}
   },
   components: {
@@ -3069,7 +3098,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      friends: this.props.friends
+      friends: this.pfriends
     };
   },
   mounted: function mounted() {},
@@ -3100,6 +3129,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Friends_FriendPallet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Friends/FriendPallet */ "./resources/js/components/profile/Friends/FriendPallet.vue");
 /* harmony import */ var _utils_Search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/Search */ "./resources/js/components/profile/utils/Search.vue");
 /* harmony import */ var _Events_EventPallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Events/EventPallet */ "./resources/js/components/profile/Events/EventPallet.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 //
 //
 //
@@ -3195,11 +3232,14 @@ __webpack_require__.r(__webpack_exports__);
     FriendPallet: _Friends_FriendPallet__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
-    user: {}
+    initialUser: {}
   },
   data: function data() {
     return {
-      currentUser: this.user,
+      currentUser: this.initialUser,
+      //user to watch
+      user: this.initialUser,
+      // dynamic auth user
       isMe: true,
       haveEvents: false,
       isFriended: false,
@@ -3238,11 +3278,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/profile/info/' + this.user.name).then(function (response) {
-        console.log(_this2.currentUser);
         _this2.currentUser = response.data;
+        _this2.user = response.data;
         _this2.isMe = _this2.user.name === _this2.currentUser.name;
         _this2.haveFriends = !!_this2.currentUser.friends.length;
-        if (_this2.haveEvents) _this2.profileEvents = _this2.user.profile_events.reverse();
+        _this2.haveEvents = !!_this2.currentUser.profile_events.length;
+        _this2.profileEvents = _toConsumableArray(_this2.currentUser.profile_events.reverse());
       });
     },
     addFriend: function addFriend() {
@@ -49636,7 +49677,41 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "modal-content r-chat-folder" }, [
-                _vm._m(0),
+                _c(
+                  "div",
+                  { staticClass: "modal-header r-chat-header container" },
+                  [
+                    _c(
+                      "h5",
+                      {
+                        staticClass: "modal-title col",
+                        attrs: { id: "exampleModalLabel" }
+                      },
+                      [_vm._v("Room chat")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "r-c-mute col-auto mr-4",
+                        attrs: { type: "button" },
+                        on: { click: _vm.mute }
+                      },
+                      [
+                        _c(
+                          "i",
+                          {
+                            staticClass: "material-icons mute",
+                            class: { "mute-active": _vm.muted }
+                          },
+                          [_vm._v("volume_off")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body p-0" }, [
                   _c(
@@ -49677,7 +49752,8 @@ var render = function() {
                               placeholder: "Enter your message here",
                               rows: "1",
                               "min-height": 45,
-                              "max-height": 350
+                              "max-height": 350,
+                              id: "message"
                             },
                             model: {
                               value: _vm.sendingMessage,
@@ -49734,26 +49810,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header r-chat-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Room chat")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "r-close-but",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "r-close-but col-auto",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
   function() {
     var _vm = this
@@ -49839,7 +49907,12 @@ var render = function() {
               "order-2": this.belongsToUser
             }
           },
-          [_vm._v("\n            ava 40x40\n        ")]
+          [
+            _c("img", {
+              staticClass: "a-img",
+              attrs: { src: this.user.avatars.sub, alt: "" }
+            })
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -49859,7 +49932,7 @@ var render = function() {
                   "order-1": !this.belongsToUser,
                   "order-2": this.belongsToUser
                 },
-                domProps: { textContent: _vm._s(this.user) }
+                domProps: { textContent: _vm._s(this.user.name) }
               }),
               _vm._v(" "),
               _c("div", {
@@ -50587,7 +50660,7 @@ var render = function() {
       this.haveEvents && this.isMyProfile
         ? _c(
             "div",
-            { staticClass: "col container pt-2 pb-2 p-e-pallet" },
+            { staticClass: "col container pt-2 pb-2 p-e-pallet p-pallet" },
             _vm._l(this.events, function(event) {
               return _c(
                 "div",
@@ -50609,27 +50682,33 @@ var render = function() {
             0
           )
         : !this.isMyProfile
-        ? _c("div", { staticClass: "col container pt-2 pb-2 p-e-pallet" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "row justify-content-center mt-3" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "col-auto color-button",
-                  on: { click: _vm.returnBack }
-                },
-                [
-                  _vm._v(
-                    "\n                    Вернуться назад\n                "
-                  )
-                ]
-              )
-            ])
-          ])
-        : _c("div", { staticClass: "col container pt-2 pb-2 p-e-pallet" }, [
-            _vm._m(2)
-          ])
+        ? _c(
+            "div",
+            { staticClass: "col container pt-2 pb-2 p-e-pallet p-pallet" },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "row justify-content-center mt-3" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "col-auto color-button",
+                    on: { click: _vm.returnBack }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Вернуться назад\n                "
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
+        : _c(
+            "div",
+            { staticClass: "col container pt-2 pb-2 p-e-pallet p-pallet" },
+            [_vm._m(2)]
+          )
     ])
   ])
 }
@@ -50639,7 +50718,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-auto" }, [_vm._v("Последние События")])
+      _c("div", { staticClass: "col-auto p-title" }, [
+        _vm._v("Последние События")
+      ])
     ])
   },
   function() {
@@ -50906,7 +50987,7 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _vm.haveFriends
-      ? _c("div", { staticClass: "row p-f-pallet" }, [
+      ? _c("div", { staticClass: "row p-f-pallet p-pallet" }, [
           _c(
             "div",
             { staticClass: "col container pt-2" },
@@ -50920,7 +51001,7 @@ var render = function() {
             1
           )
         ])
-      : _c("div", { staticClass: "row p-f-pallet" }, [_vm._m(1)])
+      : _c("div", { staticClass: "row p-f-pallet p-pallet" }, [_vm._m(1)])
   ])
 }
 var staticRenderFns = [
@@ -50929,7 +51010,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-auto" }, [
+      _c("div", { staticClass: "col-auto p-title" }, [
         _vm._v("\n            Список друзей\n        ")
       ])
     ])
@@ -50943,7 +51024,7 @@ var staticRenderFns = [
         _c("div", { staticClass: "row justify-content-center" }, [
           _c("div", { staticClass: "col-auto" }, [
             _vm._v(
-              "\n                        Список друзей пуст\n                    "
+              "\n                        У Вас пока нет друзей\n                    "
             )
           ])
         ])
@@ -50974,180 +51055,201 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "showProfile" } }, [
     _c("div", { staticClass: "profile-container" }, [
-      _c("div", { staticClass: "container-fluid p-5 b-border" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("div", { staticClass: "col-4 container" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col container" }, [
-                  _c("div", { staticClass: "row p-p-pallet pb-4" }, [
-                    _c("div", { staticClass: "col-5" }, [
-                      _c("img", {
-                        attrs: { src: this.currentUser.avatars.main, alt: "" }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col container" }, [
-                      _c("div", { staticClass: "row mb-2" }, [
-                        _c("div", {
-                          staticClass: "col p-nick p-0 ml-1",
-                          domProps: {
-                            textContent: _vm._s(this.currentUser.name)
-                          }
+      _c(
+        "div",
+        { staticClass: "container-fluid p-5 b-border profile-inner-container" },
+        [
+          _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _c("div", { staticClass: "col-4 container" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col container" }, [
+                    _c("div", { staticClass: "row p-p-pallet pb-4" }, [
+                      _c("div", { staticClass: "col-5" }, [
+                        _c("img", {
+                          attrs: { src: this.currentUser.avatars.main, alt: "" }
                         })
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "row mb-2" }, [
-                        _c("div", {
-                          staticClass: "col p-status p-0 ml-1",
-                          domProps: {
-                            textContent: _vm._s(this.currentUser.status)
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _vm.isMe
-                        ? _c("div", { staticClass: "row mt-5" }, [
-                            _c(
-                              "a",
+                      _c("div", { staticClass: "col container" }, [
+                        _c("div", { staticClass: "row mb-2" }, [
+                          _c("div", {
+                            staticClass: "col p-nick p-0 ml-1",
+                            domProps: {
+                              textContent: _vm._s(this.currentUser.name)
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row mb-2" }, [
+                          _c("div", {
+                            staticClass: "col p-status p-0 ml-1",
+                            domProps: {
+                              textContent: _vm._s(this.currentUser.status)
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _vm.isMe
+                          ? _c(
+                              "div",
                               {
-                                staticClass: "col p-link pt-1 pb-1",
-                                attrs: { href: /edit/ + this.user.name }
+                                staticClass: "row justify-content-center mt-5"
                               },
                               [
-                                _vm._v(
-                                  "\n                                            Редактировать\n                                        "
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "col-auto p-link pr-4 pl-4 pt-1 pb-1",
+                                    attrs: { href: /edit/ + this.user.name }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Редактировать\n                                        "
+                                    )
+                                  ]
                                 )
                               ]
                             )
-                          ])
-                        : !_vm.isFriended && !_vm.isRequested
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "row mt-5",
-                              on: { click: _vm.addFriend }
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "col p-link pt-1 pb-1" },
-                                [
-                                  _vm._v(
-                                    "\n                                            Добавить в друзья\n                                        "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        : _vm.isFriended
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "row mt-5",
-                              on: { click: _vm.refuseFriend }
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "col p-link pt-1 pb-1" },
-                                [
-                                  _vm._v(
-                                    "\n                                            Удалить из друзей\n                                        "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        : _vm.isRequested
-                        ? _c("div", { staticClass: "row mt-5" }, [
-                            _c("div", { staticClass: "col p-link pt-1 pb-1" }, [
-                              _vm._v(
-                                "\n                                            Заявка в друзья отправлена\n                                        "
-                              )
-                            ])
-                          ])
-                        : _vm._e()
+                          : !_vm.isFriended && !_vm.isRequested
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "row mt-5 justify-content-center ",
+                                on: { click: _vm.addFriend }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-auto p-link pt-1 pb-1" },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Добавить в друзья\n                                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          : _vm.isFriended
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "row mt-5 justify-content-center ",
+                                on: { click: _vm.refuseFriend }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-auto p-link pt-1 pb-1" },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Удалить из друзей\n                                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          : _vm.isRequested
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "row mt-5 justify-content-center "
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-auto p-link pt-1 pb-1" },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Заявка в друзья отправлена\n                                        "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col container" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row p-a-pallet p-pallet" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col pt-2 pb-2" },
+                        [
+                          _c("achievement"),
+                          _vm._v(" "),
+                          _c("achievement"),
+                          _vm._v(" "),
+                          _c("achievement"),
+                          _vm._v(" "),
+                          _c("achievement"),
+                          _vm._v(" "),
+                          _c("achievement"),
+                          _vm._v(" "),
+                          _c("achievement")
+                        ],
+                        1
+                      )
                     ])
                   ])
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col container" }, [
-                  _vm._m(0),
+              _c("event-pallet", {
+                attrs: {
+                  "profile-events": this.profileEvents,
+                  "is-me": _vm.isMe,
+                  "have-events": _vm.haveEvents
+                },
+                on: {
+                  "return-back": _vm.refreshUser,
+                  "refresh-profile": _vm.refreshUser
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-4 container" },
+                [
+                  _c("friend-pallet", {
+                    attrs: {
+                      friends: this.currentUser.friends,
+                      "have-friends": _vm.haveFriends
+                    },
+                    on: { "profile-switch": _vm.profileSwitch }
+                  }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "row p-a-pallet" }, [
-                    _c(
-                      "div",
-                      { staticClass: "col pt-2 pb-2" },
-                      [
-                        _c("achievement"),
-                        _vm._v(" "),
-                        _c("achievement"),
-                        _vm._v(" "),
-                        _c("achievement"),
-                        _vm._v(" "),
-                        _c("achievement"),
-                        _vm._v(" "),
-                        _c("achievement"),
-                        _vm._v(" "),
-                        _c("achievement")
-                      ],
-                      1
-                    )
+                  _c("div", { staticClass: "container" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col" },
+                        [
+                          _c("search", {
+                            on: { "profile-switch": _vm.profileSwitch }
+                          })
+                        ],
+                        1
+                      )
+                    ])
                   ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("event-pallet", {
-              attrs: {
-                "profile-events": this.profileEvents,
-                "is-me": _vm.isMe,
-                "have-events": _vm.haveEvents
-              },
-              on: {
-                "return-back": _vm.refreshUser,
-                "refresh-profile": _vm.refreshUser
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-4 container" },
-              [
-                _c("friend-pallet", {
-                  attrs: {
-                    friends: this.currentUser.friends,
-                    "have-friends": _vm.haveFriends
-                  },
-                  on: { "profile-switch": _vm.profileSwitch }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "container" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c(
-                      "div",
-                      { staticClass: "col" },
-                      [
-                        _c("search", {
-                          on: { "profile-switch": _vm.profileSwitch }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]
+      )
     ])
   ])
 }
@@ -51156,8 +51258,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-auto p-title" }, [
         _vm._v(
           "\n                                    Достижения\n                                "
         )

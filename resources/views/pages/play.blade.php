@@ -3,7 +3,7 @@
     @if(Auth::check())
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
               rel="stylesheet">
-        <profile :user="{{$user}}"></profile>
+        <profile :initial-user="{{$user}}"></profile>
         <room-list v-bind:user_info="{{Auth::user()}}"></room-list>
         <profile-slider></profile-slider>
     @else

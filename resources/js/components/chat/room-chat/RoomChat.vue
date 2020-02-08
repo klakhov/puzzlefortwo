@@ -8,9 +8,12 @@
         <div class="modal fade" id="room-chat" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content r-chat-folder">
-                    <div class="modal-header r-chat-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Room chat</h5>
-                        <button type="button" class="r-close-but" data-dismiss="modal" aria-label="Close">
+                    <div class="modal-header r-chat-header container">
+                        <h5 class="modal-title col" id="exampleModalLabel">Room chat</h5>
+                        <button type="button" class="r-c-mute col-auto mr-4" @click="mute">
+                            <i class="material-icons mute" :class="{'mute-active':muted}">volume_off</i>
+                        </button>
+                        <button type="button" class="r-close-but col-auto" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -36,6 +39,7 @@
                                     :min-height=45
                                     :max-height="350"
                                     class="col r-input"
+                                    id="message"
                                 />
                                 <button class="col-auto" @click="sendMessage"
                                         :class="{'r-button-disabled':!sendingMessage, 'r-button':sendingMessage}">
@@ -69,6 +73,8 @@
                 channel:null,
                 messages:[],
                 hasUnread: false,
+                muted: false,
+                chatShown: false,
             }
         },
         mounted() {
@@ -92,7 +98,18 @@
                     container.scrollTop = collection[index].offsetTop - 10;
                 }catch (e) {} //ошбика может быть из-за пустой коллекции тк сообщений нет, но это нормально
                 this.readAllMessages();
+                this.chatShown = true;
             });
+            $('#room-chat').on('hidden.bs.modal',()=>{
+                this.chatShown = false;
+            });
+            document.onkeyup = event => {
+                if(event.key === 'Enter' && !this.chatShown){
+                    this.showChat();
+                }else if(event.key === 'Enter' && this.chatShown){
+                    this.sendMessage();
+                }
+            }
         },
 
         updated(){
@@ -111,20 +128,22 @@
                     let message = this.belongsToUser(pushed.message);
                     if(!message.belongsToUser){
                         this.messages.push(message);
-                        this.$notify({
-                            group: 'group-chat-message-n',
-                            title: 'You got a chat message',
-                            text: pushed.message.user.name + ' sent a message in #room',
-                            type: 'message-n',
-                            duration: 4000,
-                            max: 3,
-                        });
+                        if(!this.muted){
+                            this.$notify({
+                                group: 'group-chat-message-n',
+                                title: 'You got a chat message',
+                                text: pushed.message.user.name + ' sent a message in #room',
+                                type: 'message-n',
+                                duration: 4000,
+                                max: 3,
+                            });
+                        }
                         this.hasUnread = true;
                     }
                 });
             },
             sendMessage(){
-                if(this.sendingMessage){
+                if(!!this.sendingMessage){
                     const message = {
                         user: this.user,
                         text: this.sendingMessage,
@@ -199,9 +218,12 @@
 
             showChat(){
                 let chat = $('#room-chat');
+                $('#message').focus();
                 chat.modal('toggle');
             },
-
+            mute(){
+                this.muted = !this.muted;
+            },
             unreadMessageIndex(){
                 let lastRead;
                 for (let index = this.messages.length - 1; index>=0; index--){

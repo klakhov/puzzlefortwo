@@ -5,7 +5,15 @@
     overflow: auto
     background: $c-silver
 
-
+.r-chat-container::-webkit-scrollbar
+    width: 1em
+    background: $c-silver
+.r-chat-container::-webkit-scrollbar-track
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3)
+.r-chat-container::-webkit-scrollbar-thumb
+    background-color: $gray-primary
+    outline: 1px solid slategrey
+    border-radius: 10px
 .r-chat-folder
     border-radius: 5px
     border: $border-black-1
@@ -81,3 +89,19 @@
     top: 90%
     left: 95%
     z-index: 100
+
+.r-c-mute
+    background: $gray-primary
+    border: none
+    padding: 0
+.material-icons
+    &.mute
+        color: white
+        margin-top: 2px
+        font-size: 20px
+        transition: $transition
+        &:hover
+            transition: $transition
+            color: $beige
+    &.mute-active
+        color: $beige

@@ -1,7 +1,7 @@
 <template>
     <div id="showProfile">
         <div class="profile-container">
-            <div class="container-fluid p-5 b-border">
+            <div class="container-fluid p-5 b-border profile-inner-container">
                 <div class="row">
                     <div class="col-4 container">
                         <div class="row">
@@ -18,23 +18,23 @@
                                         <div class="row mb-2">
                                             <div class="col p-status p-0 ml-1" v-text="this.currentUser.status"></div>
                                         </div>
-                                        <div class="row mt-5" v-if="isMe">
-                                            <a class="col p-link pt-1 pb-1" :href="/edit/+this.user.name">
+                                        <div class="row justify-content-center mt-5" v-if="isMe">
+                                            <a class="col-auto p-link pr-4 pl-4 pt-1 pb-1" :href="/edit/+this.user.name">
                                                 Редактировать
                                             </a>
                                         </div>
-                                        <div class="row mt-5" v-else-if="!isFriended && !isRequested" @click="addFriend">
-                                            <div class="col p-link pt-1 pb-1">
+                                        <div class="row mt-5 justify-content-center " v-else-if="!isFriended && !isRequested" @click="addFriend">
+                                            <div class="col-auto p-link pt-1 pb-1">
                                                 Добавить в друзья
                                             </div>
                                         </div>
-                                        <div class="row mt-5" v-else-if="isFriended" @click="refuseFriend">
-                                            <div class="col p-link pt-1 pb-1">
+                                        <div class="row mt-5 justify-content-center " v-else-if="isFriended" @click="refuseFriend">
+                                            <div class="col-auto p-link pt-1 pb-1">
                                                 Удалить из друзей
                                             </div>
                                         </div>
-                                        <div class="row mt-5" v-else-if="isRequested">
-                                            <div class="col p-link pt-1 pb-1">
+                                        <div class="row mt-5 justify-content-center " v-else-if="isRequested">
+                                            <div class="col-auto p-link pt-1 pb-1">
                                                 Заявка в друзья отправлена
                                             </div>
                                         </div>
@@ -44,12 +44,12 @@
                         </div>
                         <div class="row">
                             <div class="col container">
-                                <div class="row">
-                                    <div class="col">
+                                <div class="row justify-content-center">
+                                    <div class="col-auto p-title">
                                         Достижения
                                     </div>
                                 </div>
-                                <div class="row p-a-pallet">
+                                <div class="row p-a-pallet p-pallet">
                                     <div class="col pt-2 pb-2">
                                         <achievement/>
                                         <achievement/>
@@ -94,11 +94,12 @@
             FriendPallet
         },
         props: {
-            user: {},
+            initialUser: {},
         },
         data() {
             return {
-                currentUser: this.user,
+                currentUser: this.initialUser, //user to watch
+                user:this.initialUser, // dynamic auth user
                 isMe: true,
                 haveEvents: false,
                 isFriended: false,
@@ -133,11 +134,12 @@
             refreshUser(){
                 axios.get('/profile/info/'+this.user.name)
                     .then(response=>{
-                        console.log(this.currentUser);
                         this.currentUser = response.data;
+                        this.user = response.data;
                         this.isMe = this.user.name === this.currentUser.name;
                         this.haveFriends = !!this.currentUser.friends.length;
-                        if(this.haveEvents) this.profileEvents = this.user.profile_events.reverse();
+                        this.haveEvents = !!this.currentUser.profile_events.length;
+                        this.profileEvents = [...this.currentUser.profile_events.reverse()];
                     })
             },
             addFriend(){

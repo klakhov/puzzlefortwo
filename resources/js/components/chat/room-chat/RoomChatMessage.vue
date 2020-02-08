@@ -4,11 +4,11 @@
              :class="{'justify-content-start':!this.belongsToUser,
              'justify-content-end':this.belongsToUser}">
             <div class="col-auto" :class="{'order-1':!this.belongsToUser,'order-2':this.belongsToUser,}">
-                ava 40x40
+                <img :src="this.user.avatars.sub" class="a-img" alt="">
             </div>
             <div class="col-8 m-0 container mr-box" :class="{'order-2':!this.belongsToUser,'order-1':this.belongsToUser,}">
                 <div class="row justify-content-between">
-                    <div class="col-auto mr-name" v-text="this.user"
+                    <div class="col-auto mr-name" v-text="this.user.name"
                          :class="{'order-1':!this.belongsToUser,'order-2':this.belongsToUser,}">
                     </div>
                     <div class="col-auto mr-time" v-text="this.timestamp"
@@ -37,7 +37,7 @@
             }
         },
         mounted() {
-            this.user = this.data.user.name;
+            this.user = this.data.user;
             this.text = this.data.text;
             this.timestamp = this.data.timestamp;
         },

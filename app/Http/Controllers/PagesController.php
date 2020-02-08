@@ -12,7 +12,7 @@ class PagesController extends Controller
 {
     public function play()
     {
-        $user = User::with( 'profileEvents')->find(Auth::id());
+        $user = User::with( 'profileEvents','requestsOfMine')->find(Auth::id());
         $user->friends();
         return view('pages.play', compact('user'));
     }

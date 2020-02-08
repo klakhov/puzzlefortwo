@@ -50,6 +50,7 @@ class UserController extends Controller
         $user = User::name($name);
         $user->friends();
         $user->profileEvents;
+        $user->requestsOfMine;
         return response()->json($user);
     }
 

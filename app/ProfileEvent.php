@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-
+use Barryvdh\Debugbar\Facade as Debugbar;
 class ProfileEvent extends MethodModel
 {
 
@@ -17,7 +17,7 @@ class ProfileEvent extends MethodModel
     public function getCreatedAtAttribute($value)
     {
         $date = Carbon::parse($value);
-        return $date->format('h:m d.m.Y');
+        return $date->format('h:i d.m.Y');
     }
 
 
