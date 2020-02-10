@@ -12,7 +12,7 @@
                                         photo_camera
                                     </i>
                                 </div>
-                                <input type="file" id="avatar" name="avatar">
+                                <input type="file" id="avatar" name="avatar" @change="preview">
                             </div>
                             <div class="col container">
                                 <div class="row">
@@ -28,9 +28,9 @@
                             <button class="col-auto color-button mr-3" type="submit">
                                 Сохранить
                             </button>
-                            <button class="col-auto empty-button">
+                            <a class="col-auto empty-button" href="/play">
                                 Назад
-                            </button>
+                            </a>
                         </div>
                         <input type="hidden" name="_token" :value="csrf">
                     </form>
@@ -57,6 +57,18 @@
         methods: {
             inputAvatar() {
                 $('#avatar').click();
+            },
+            preview(){
+                let fData = new FormData();
+                let file = event.target.files[0];
+                fData.append("avatar",file);
+                axios.post('/edit/avatar/'+this.user.name,fData,
+                    {headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                }).then(response=>{
+                    this.avatar = response.data;
+                })
             }
         },
     }

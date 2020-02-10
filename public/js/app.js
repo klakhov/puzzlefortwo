@@ -3397,6 +3397,20 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     inputAvatar: function inputAvatar() {
       $('#avatar').click();
+    },
+    preview: function preview() {
+      var _this = this;
+
+      var fData = new FormData();
+      var file = event.target.files[0];
+      fData.append("avatar", file);
+      axios.post('/edit/avatar/' + this.user.name, fData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        _this.avatar = response.data;
+      });
     }
   }
 });
@@ -51322,7 +51336,8 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("input", {
-                    attrs: { type: "file", id: "avatar", name: "avatar" }
+                    attrs: { type: "file", id: "avatar", name: "avatar" },
+                    on: { change: _vm.preview }
                   })
                 ]),
                 _vm._v(" "),
@@ -51376,9 +51391,15 @@ var staticRenderFns = [
         ]
       ),
       _vm._v(" "),
-      _c("button", { staticClass: "col-auto empty-button" }, [
-        _vm._v("\n                            Назад\n                        ")
-      ])
+      _c(
+        "a",
+        { staticClass: "col-auto empty-button", attrs: { href: "/play" } },
+        [
+          _vm._v(
+            "\n                            Назад\n                        "
+          )
+        ]
+      )
     ])
   }
 ]

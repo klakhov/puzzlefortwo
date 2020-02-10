@@ -38,6 +38,18 @@ class UserController extends Controller
         return view('pages.play');
     }
 
+    public function avatarPreview(Request $request)
+    {
+        if($request->hasFile('avatar')){
+            $avatar_path = '/uploads/avatars/previews/';
+            $avatar = $request->file('avatar');
+            $name = Str::random(10).'.'.$avatar->getClientOriginalExtension();
+            Image::make($avatar)->fit(170,280)->save(public_path($avatar_path.$name));
+            return response()->json($avatar_path.$name);
+        }
+        return response()->json(500);
+    }
+
     public function search($name)
     {
         $users = User::search($name)->take(3);

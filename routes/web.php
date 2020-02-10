@@ -29,8 +29,11 @@ Route::get('/puzzle/chat/room/{uid}','RoomChatController@index')->middleware('au
 Route::patch('/puzzle/chat/room','RoomChatController@update')->middleware('auth');
 Route::put('/puzzle/chat/room','RoomChatController@read')->middleware('auth');
 
-Route::get('/edit/{name}', 'UserController@showEdit')->middleware('can_edit');
-Route::post('/edit/{name}','UserController@edit')->middleware('can_edit');
+Route::middleware(['auth','can_edit'])->group(function(){
+    Route::post('/edit/avatar/{name}','UserController@avatarPreview');
+    Route::get('/edit/{name}', 'UserController@showEdit');
+    Route::post('/edit/{name}','UserController@edit');
+});
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/profile/search/{name}','UserController@search');

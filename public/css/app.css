@@ -11696,6 +11696,7 @@ button {
 .empty-button:hover {
   color: #b79e73;
   border: 1px solid #b79e73;
+  text-decoration: none;
 }
 
 #showRooms {
