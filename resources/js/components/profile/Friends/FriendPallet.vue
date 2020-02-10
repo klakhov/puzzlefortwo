@@ -5,11 +5,11 @@
                 Список друзей
             </div>
         </div>
-        <div class="row p-f-pallet p-pallet" v-if="haveFriends">
+        <div class="row p-f-pallet p-pallet" v-if="this.haveFriends">
             <div class="col container pt-2">
                 <friend v-for="friend in this.friends"
                         :friend="friend" :key="friend.id"
-                        v-on:profile-switch="profileSwitch"/>
+                        />
             </div>
         </div>
         <div class="row p-f-pallet p-pallet" v-else>
@@ -28,30 +28,23 @@
 
 <script>
     import Friend from "./Friend";
+    import {mapState} from 'vuex';
     export default {
-        props:{
-            pfriends:{},
-            haveFriends:{},
-        },
         components:{
             Friend
         },
-        data() {
-            return {
-                friends: this.pfriends
+        computed: {
+            ...mapState([
+                'currentUser',
+                'haveFriends',
+            ]),
+            friends(){
+                return this.currentUser.friends;
             }
         },
         mounted() {
         },
         methods: {
-            profileSwitch($friend) {
-                this.$emit('profile-switch',$friend);
-            }
         },
-        watch:{
-            friends:function (newVal) {
-                this.friends = newVal;
-            }
-        }
     }
 </script>

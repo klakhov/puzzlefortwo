@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -10,9 +12,12 @@ require('./bootstrap');
 window.Vue = require('vue');
 import VueNotification from "vue-notification";
 import TextareaAutosize from 'vue-textarea-autosize'
+import Vuex from 'vuex'
 
 Vue.use(VueNotification);
 Vue.use(TextareaAutosize);
+Vue.use(Vuex);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

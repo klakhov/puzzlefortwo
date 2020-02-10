@@ -1,0 +1,36 @@
+export default {
+    initProfile({commit},name){
+        axios.get('/profile/info/'+name)
+            .then(response=>{
+                commit('setUser',response.data);
+                commit('setCurrentUser',response.data);
+                commit('setIsMe');
+                commit('setHaveFriends');
+                commit('setHaveEvents');
+                commit('setProfileEvents');
+                commit('setInit',true);
+            })
+    },
+    profileSwitch({commit},user){
+        axios.get('/profile/friends/'+user.name)
+            .then(response=>{
+                //перезагружаем профиль с друзьями
+                commit('setCurrentUser',response.data);
+                commit('setIsMe');
+                commit('setHaveFriends');
+                commit('checkIfRequested');
+                commit('checkIfFriended');
+            });
+    },
+    refreshUser({commit,state}){
+        axios.get('/profile/info/'+state.user.name)
+            .then(response=>{
+                commit('setUser',response.data);
+                commit('setCurrentUser',response.data);
+                commit('setIsMe');
+                commit('setHaveFriends');
+                commit('setHaveEvents');
+                commit('setProfileEvents');
+            })
+    }
+}

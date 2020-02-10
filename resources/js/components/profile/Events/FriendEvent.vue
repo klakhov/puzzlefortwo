@@ -81,7 +81,7 @@
                     })
             },
             refreshProfile(){
-                this.$emit('refresh-profile');
+                this.$store.dispatch('refreshUser');
             }
         },
     }

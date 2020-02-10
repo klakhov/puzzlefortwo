@@ -1,5 +1,5 @@
 <template>
-    <div class="container mb-2 p-3 p-friend" @click="profileSwitch">
+    <div class="container mb-2 p-3 p-friend" @click="switchProfile">
         <div class="row">
             <div class="col-auto">
                 <img :src="friend.avatars.sub" alt="" class="a-img">
@@ -19,15 +19,21 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     export default {
         props:{
             friend:{}
         },
+        computed: {
+            ...mapActions([
+                'profileSwitch',
+            ])
+        },
         mounted() {
         },
         methods: {
-            profileSwitch() {
-                this.$emit('profile-switch',this.friend)
+            switchProfile(){
+                this.$store.dispatch('profileSwitch',this.friend);
             }
         },
     }

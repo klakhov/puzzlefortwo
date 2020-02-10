@@ -1,6 +1,6 @@
 <template>
     <div id="showProfile">
-        <div class="profile-container">
+        <div class="profile-container" v-if="this.initiated">
             <div class="container-fluid p-5 b-border profile-inner-container">
                 <div class="row">
                     <div class="col-4 container">
@@ -18,22 +18,22 @@
                                         <div class="row mb-2">
                                             <div class="col p-status p-0 ml-1" v-text="this.currentUser.status"></div>
                                         </div>
-                                        <div class="row justify-content-center mt-5" v-if="isMe">
+                                        <div class="row justify-content-center mt-5" v-if="this.isMe">
                                             <a class="col-auto p-link pr-4 pl-4 pt-1 pb-1" :href="/edit/+this.user.name">
                                                 Редактировать
                                             </a>
                                         </div>
-                                        <div class="row mt-5 justify-content-center " v-else-if="!isFriended && !isRequested" @click="addFriend">
+                                        <div class="row mt-5 justify-content-center " v-else-if="!this.isFriended && !this.isRequested" @click="addFriend">
                                             <div class="col-auto p-link pt-1 pb-1">
                                                 Добавить в друзья
                                             </div>
                                         </div>
-                                        <div class="row mt-5 justify-content-center " v-else-if="isFriended" @click="refuseFriend">
+                                        <div class="row mt-5 justify-content-center " v-else-if="this.isFriended" @click="refuseFriend">
                                             <div class="col-auto p-link pt-1 pb-1">
                                                 Удалить из друзей
                                             </div>
                                         </div>
-                                        <div class="row mt-5 justify-content-center " v-else-if="isRequested">
+                                        <div class="row mt-5 justify-content-center " v-else-if="this.isRequested">
                                             <div class="col-auto p-link pt-1 pb-1">
                                                 Заявка в друзья отправлена
                                             </div>
@@ -62,15 +62,13 @@
                             </div>
                         </div>
                     </div>
-                   <event-pallet :profile-events="this.profileEvents" :is-me="isMe" :have-events="haveEvents"
-                   v-on:return-back="refreshUser" v-on:refresh-profile="refreshUser"/>
+                   <event-pallet/>
                     <div class="col-4 container">
-                        <friend-pallet :friends="this.currentUser.friends" :have-friends="haveFriends"
-                                       v-on:profile-switch="profileSwitch"/>
+                        <friend-pallet/>
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <search v-on:profile-switch="profileSwitch"/>
+                                    <search/>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +84,10 @@
     import FriendPallet from "./Friends/FriendPallet";
     import Search from "./utils/Search";
     import EventPallet from "./Events/EventPallet";
+    import store from "./Store/Store";
+    import {mapActions, mapState} from 'vuex';
     export default {
+        store,
         components:{
             Achievement,
             Search,
@@ -98,84 +99,42 @@
         },
         data() {
             return {
-                currentUser: this.initialUser, //user to watch
-                user:this.initialUser, // dynamic auth user
-                isMe: true,
-                haveEvents: false,
-                isFriended: false,
-                haveFriends: false,
-                isRequested: false,
-                profileEvents: [],
             }
         },
+        computed: {
+            ...mapActions([
+                'initProfile',
+            ]),
+            ...mapState([
+                'user',
+                'currentUser',
+                'isMe',
+                'haveEvents',
+                'haveFriends',
+                'isRequested',
+                'isFriended',
+                'profileEvents',
+                'initiated'
+            ])
+        },
         mounted(){
-            this.haveEvents = !!this.currentUser.profile_events.length;
-            this.haveFriends = !!this.currentUser.friends.length;
-            if(this.haveEvents) this.profileEvents = this.user.profile_events.reverse();
-            console.log(this.user);
+            this.$store.dispatch('initProfile',this.initialUser.name);
         },
         methods:{
-            profileSwitch(user){
-                axios.get('/profile/friends/'+user.name)
-                    .then(response=>{
-                        //перезагружаем профиль с друзьями
-                        this.currentUser = response.data;
-                        this.isMe = this.user.name === this.currentUser.name;
-                        this.haveFriends = !!this.currentUser.friends.length;
-                        if(!this.isMe){
-                            this.checkIfRequested(this.currentUser);
-                            this.checkIfFriended(this.currentUser);
-                        }else{
-                            this.isRequested = false;
-                            this.isFriended = false;
-                        }
-                    });
-            },
-            refreshUser(){
-                axios.get('/profile/info/'+this.user.name)
-                    .then(response=>{
-                        this.currentUser = response.data;
-                        this.user = response.data;
-                        this.isMe = this.user.name === this.currentUser.name;
-                        this.haveFriends = !!this.currentUser.friends.length;
-                        this.haveEvents = !!this.currentUser.profile_events.length;
-                        this.profileEvents = [...this.currentUser.profile_events.reverse()];
-                    })
-            },
             addFriend(){
                 axios.post('/profile/friends',{
                     name:this.currentUser.name,
                 }).then(response=>{
-                    this.isRequested = true;
+                    this.$store.commit('setIsRequested',true)
                 })
             },
             refuseFriend(){
                 axios.delete('/profile/friends/'+this.currentUser.name)
                     .then(response=>{
-                        this.isRequested = false;
-                        this.isFriended = false;
+                        this.$store.commit('setIsRequested',false);
+                        this.$store.commit('setIsFriended',false);
                     })
             },
-            checkIfRequested(friend){
-                for(let prop in this.user.requests_of_mine){
-                    if(this.user.requests_of_mine[prop].name === friend.name) {
-                        this.isRequested = true;
-                        return true;
-                    }
-                }
-                this.isRequested = false;
-                return false;
-            },
-            checkIfFriended(friend){
-                for(let prop in this.user.friends){
-                    if(this.user.friends[prop].name === friend.name) {
-                        this.isFriended = true;
-                        return true;
-                    }
-                }
-                this.isFriended = false;
-                return false;
-            }
         }
     }
 </script>

@@ -4,15 +4,14 @@
             <div class="col-auto p-title">Последние События</div>
         </div>
         <div class="row" >
-            <div v-if="this.haveEvents && this.isMyProfile" class="col container pt-2 pb-2 p-e-pallet p-pallet">
-                <div v-for="event in this.events">
+            <div v-if="this.haveEvents && this.isMe" class="col container pt-2 pb-2 p-e-pallet p-pallet">
+                <div v-for="event in this.profileEvents">
                     <friend-event v-if="event.type === 'friend_request'"
                                   :options="event.options" :date="event.created_at"
-                                  :key="event.id"
-                                    v-on:refresh-profile="refreshProfile"/>
+                                  :key="event.id"/>
                 </div>
             </div>
-            <div v-else-if="!this.isMyProfile" class="col container pt-2 pb-2 p-e-pallet p-pallet">
+            <div v-else-if="!this.isMe" class="col container pt-2 pb-2 p-e-pallet p-pallet">
                 <div class="container p-event-alert mr-2 ml-2 p-2 mb-2">
                     <div class="row justify-content-center">
                         <div class="col-auto text-center">
@@ -41,42 +40,26 @@
 
 <script>
     import FriendEvent from "./FriendEvent";
+    import {mapState} from 'vuex';
     export default {
-        props:{
-          profileEvents:{},
-          haveEvents:{},
-          isMe:{},
-        },
-        data() {
-            return {
-                isMyProfile: this.isMe,
-                events: this.profileEvents,
-            }
+
+        computed: {
+            ...mapState([
+                'profileEvents',
+                'haveEvents',
+                'isMe',
+            ])
         },
         components:{
             FriendEvent
         },
-        mounted() {
-            console.log('events',this.events);
-        },
-        updated(){
-            console.log('events',this.events);
-        },
         methods: {
             returnBack() {
-                this.$emit('return-back');
+                this.$store.dispatch('refreshUser');
             },
             refreshProfile(){
-                this.$emit('refresh-profile');
+                this.$store.dispatch('refreshUser');
             }
         },
-        watch:{
-            isMe: function(newVal){
-                this.isMyProfile = newVal;
-            },
-            profileEvents:function (newVal) {
-                this.events = newVal;
-            }
-        }
     }
 </script>

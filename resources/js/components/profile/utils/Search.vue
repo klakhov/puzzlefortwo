@@ -23,9 +23,15 @@
 
 <script>
     import Loader from "../../utils/Loader";
+    import {mapActions} from 'vuex';
     export default {
         components:{
             Loader,
+        },
+        computed: {
+            ...mapActions([
+                'profileSwitch'
+            ])
         },
         data() {
             return {
@@ -64,7 +70,7 @@
                 this.dataFound = [];
             },
             showProfile(user){
-                this.$emit('profile-switch',user);
+                this.$store.dispatch('profileSwitch',user);
                 this.nullifyResults();
                 this.inString = "";
             }
