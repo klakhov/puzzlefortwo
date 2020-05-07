@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="modal fade" id="room-wait-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        <div class="modal fade" id="room-wait-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true"
              data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog" role="document">
                 <div class="modal-content content-modal">
@@ -26,42 +27,46 @@
 <script>
 
     export default {
-        data:function(){
-          return {
-              timeLeft:10,
-              room:{},
-              user_info:{}
-          }
+        data: function () {
+            return {
+                timeLeft: 15,
+                room: {},
+                user_info: {}
+            }
         },
 
-        methods:{
-            closeModal(){
+        methods: {
+            closeModal() {
                 $('#room-wait-modal').modal('hide');
 
             },
-            showModal(){
+            showModal() {
                 $('#room-wait-modal').modal('show');
             },
-            start(room,user){
+            start(room, user) {
                 this.room = room;
                 this.user_info = user;
                 $('#room-wait-message').text('Ожидание игрока ' + room.user_1);
                 this.showModal();
                 this.waitTimer();
             },
-            waitTimer(){
-                if(this.timeLeft>=0){
-                    $('#room-wait-timer').text('Осталось: '+this.timeLeft);
+            waitTimer() {
+                if (this.timeLeft >= 0) {
+                    $('#room-wait-timer').text('Осталось: ' + this.timeLeft);
                     this.timeLeft--;
                     setTimeout(this.waitTimer, 1000);
-                }else{
+                } else {
                     $('#room-wait-timer').text('Время вышло');
-                    setTimeout(this.closeModal, 3000);
-                    //here will be axios to close the room
-                    this.timeLeft = 10;
+                    setTimeout(this.removeOutdatedRoom, 3000);
+                    this.timeLeft = 15;
                 }
             },
-
+            removeOutdatedRoom() {
+                axios.delete('api/rooms?api_token=' + this.user_info.api_token + "&uid=" + this.room.uid,)
+                    .then(() => {
+                        this.closeModal();
+                    })
+            }
         }
     }
 </script>

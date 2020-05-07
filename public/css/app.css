@@ -11974,39 +11974,6 @@ button {
   margin-top: 8%;
 }
 
-.field {
-  height: 85vh;
-  border: 2px solid black;
-  display: grid;
-  grid-template-columns: 10% 80% 10%;
-}
-
-.first-user {
-  grid-column: 1/2;
-  border: 2px solid #b79e73;
-}
-
-.our-canvas {
-  grid-column: 2/3;
-  border: 2px solid green;
-}
-
-.second-user {
-  grid-column: 3/4;
-  border: 2px solid #b79e73;
-}
-
-#canvas-puzzle {
-  display: block;
-  border: 1px solid darkblue;
-  box-sizing: border-box;
-  width: 1760px;
-  /* ЗАМЕНИТЬ */
-  height: 990px;
-  /* height: 495px; */
-  margin: auto;
-}
-
 .slider {
   height: 350px;
   width: 1000px;

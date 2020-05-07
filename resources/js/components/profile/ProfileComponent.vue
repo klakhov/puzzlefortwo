@@ -1,5 +1,5 @@
 <template>
-    <div id="showProfile">
+    <div id="showProfile" class="pt-4">
         <div class="profile-container" v-if="this.initiated">
             <div class="container-fluid p-5 b-border profile-inner-container">
                 <div class="row">

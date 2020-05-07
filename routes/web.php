@@ -29,6 +29,7 @@ Route::get('/puzzle/chat/room/{uid}','RoomChatController@index')->middleware('au
 Route::patch('/puzzle/chat/room','RoomChatController@update')->middleware('auth');
 Route::put('/puzzle/chat/room','RoomChatController@read')->middleware('auth');
 
+
 Route::middleware(['auth','can_edit'])->group(function(){
     Route::post('/edit/avatar/{name}','UserController@avatarPreview');
     Route::get('/edit/{name}', 'UserController@showEdit');

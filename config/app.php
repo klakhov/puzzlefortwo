@@ -227,5 +227,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'facades' =>[
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+    ]
 ];

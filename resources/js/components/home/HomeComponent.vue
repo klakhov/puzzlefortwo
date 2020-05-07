@@ -26,7 +26,7 @@
             </div>
             <div class="row">
                 <div class="col greet-img">
-                    <img src="" alt="img has not been created yet" >
+<!--                    <img src="" alt="img has not been created yet" >-->
                 </div>
             </div>
             <div class="row" style="margin-top:5%;">

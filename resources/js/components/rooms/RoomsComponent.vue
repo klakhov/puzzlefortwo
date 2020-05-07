@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pt-4">
         <created-modal ref="createdModal"></created-modal>
         <wait-modal ref="waitModal"></wait-modal>
         <accept-modal ref="acceptModal"></accept-modal>
@@ -151,9 +151,8 @@
                 let channel = Echo.channel('rooms');
                 console.log('listening on='+uid);
                 channel.listen('.'+uid, (pushed)=>{
-                    if(pushed.type === 'initial'){
+                    if(pushed.type === 'initial' && pushed.accepted_room.user_1 === this.user_info.name){
                         this.$refs.acceptModal.start(pushed.accepted_room, this.user_info);
-                        console.log(pushed.accepted_room);
                     }else if(pushed.type === 'definitive'){
                         this.redirectToPlay(pushed.accepted_room.uid);
                     }

@@ -19,6 +19,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('rooms','RoomController@store');
     Route::put('rooms','RoomController@update_initial');
     Route::patch('rooms', 'RoomController@update_definitive');
-
+    Route::delete('rooms','RoomController@destroy');
     Route::patch('puzzle','PuzzleController@update');
 });

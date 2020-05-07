@@ -15,10 +15,11 @@ class DestroyRoom implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     protected $room;
+
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Room $room
      */
     public function __construct(Room $room)
     {

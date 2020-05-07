@@ -30,7 +30,7 @@
     export default {
         data:function(){
             return {
-                timeLeft:10,
+                timeLeft:15,
                 room:{},
                 user_info:{},
             }
@@ -57,8 +57,8 @@
                 }else{
                     $('#room-accept-timer').text('Время вышло');
                     setTimeout(this.closeModal, 3000);
-                    //here will be axios to close the room
-                    this.timeLeft = 10;
+                    setTimeout(this.removeOutdatedRoom, 3000);
+                    this.timeLeft = 15;
                 }
             },
             acceptRoom(){
@@ -68,6 +68,12 @@
                 }).then((response)=>{
                     console.log(response.data);
                 })
+            },
+            removeOutdatedRoom() {
+                axios.delete('api/rooms?api_token=' + this.user_info.api_token + "&uid=" + this.room.uid,)
+                    .then(() => {
+                        this.closeModal();
+                    })
             }
         }
     }

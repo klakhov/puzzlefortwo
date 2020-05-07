@@ -2617,7 +2617,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      timeLeft: 10,
+      timeLeft: 15,
       room: {},
       user_info: {}
     };
@@ -2643,9 +2643,9 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(this.waitTimer, 1000);
       } else {
         $('#room-accept-timer').text('Время вышло');
-        setTimeout(this.closeModal, 3000); //here will be axios to close the room
-
-        this.timeLeft = 10;
+        setTimeout(this.closeModal, 3000);
+        setTimeout(this.removeOutdatedRoom, 3000);
+        this.timeLeft = 15;
       }
     },
     acceptRoom: function acceptRoom() {
@@ -2654,6 +2654,13 @@ __webpack_require__.r(__webpack_exports__);
         uid: this.room.uid
       }).then(function (response) {
         console.log(response.data);
+      });
+    },
+    removeOutdatedRoom: function removeOutdatedRoom() {
+      var _this = this;
+
+      axios["delete"]('api/rooms?api_token=' + this.user_info.api_token + "&uid=" + this.room.uid).then(function () {
+        _this.closeModal();
       });
     }
   }
@@ -2695,10 +2702,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      timeLeft: 10,
+      timeLeft: 15,
       room: {},
       user_info: {}
     };
@@ -2724,10 +2732,16 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(this.waitTimer, 1000);
       } else {
         $('#room-wait-timer').text('Время вышло');
-        setTimeout(this.closeModal, 3000); //here will be axios to close the room
-
-        this.timeLeft = 10;
+        setTimeout(this.removeOutdatedRoom, 3000);
+        this.timeLeft = 15;
       }
+    },
+    removeOutdatedRoom: function removeOutdatedRoom() {
+      var _this = this;
+
+      axios["delete"]('api/rooms?api_token=' + this.user_info.api_token + "&uid=" + this.room.uid).then(function () {
+        _this.closeModal();
+      });
     }
   }
 });
@@ -3440,6 +3454,105 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/puzzle/Puzzle.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/puzzle/Puzzle.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Puzzle",
+  mounted: function mounted() {
+    this.loadScripts();
+  },
+  methods: {
+    loadScripts: function loadScripts() {
+      this.appendStyle("/js/PuzzleCanvas/dist/puzzle.css");
+      this.appendScipt("/js/PuzzleCanvas/dist/puzzle.js");
+    },
+    appendScipt: function appendScipt(path) {
+      var script = document.createElement('script');
+      script.setAttribute('src', path);
+      script.setAttribute('type', 'module');
+      document.head.appendChild(script);
+    },
+    appendStyle: function appendStyle(path) {
+      var style = document.createElement('style');
+      style.setAttribute('href', path);
+      document.head.appendChild(style);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rooms/RoomsComponent.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rooms/RoomsComponent.vue?vue&type=script&lang=js& ***!
@@ -3620,10 +3733,8 @@ __webpack_require__.r(__webpack_exports__);
       var channel = Echo.channel('rooms');
       console.log('listening on=' + uid);
       channel.listen('.' + uid, function (pushed) {
-        if (pushed.type === 'initial') {
+        if (pushed.type === 'initial' && pushed.accepted_room.user_1 === _this5.user_info.name) {
           _this5.$refs.acceptModal.start(pushed.accepted_room, _this5.user_info);
-
-          console.log(pushed.accepted_room);
         } else if (pushed.type === 'definitive') {
           _this5.redirectToPlay(pushed.accepted_room.uid);
         }
@@ -50032,18 +50143,14 @@ var staticRenderFns = [
           _c("div", { staticClass: "col greet-info" }, [
             _c("i", [
               _vm._v(
-                "Не просто возможность собирать пазлы, это возможность собирать пазлы в компании\n                    людей, которые находятся от вас на расстоянии. Создавайте аккаунт, приглашайте\n                    друзей и начинайте играть. Получайте достижения,отслеживайте статистику других\n                    игроков, заводите новых друзей, станьте настоящим спидпазлером"
+                "Не просто возможность собирать пазлы, это возможность собирать пазлы в компании\n                        людей, которые находятся от вас на расстоянии. Создавайте аккаунт, приглашайте\n                        друзей и начинайте играть. Получайте достижения,отслеживайте статистику других\n                        игроков, заводите новых друзей, станьте настоящим спидпазлером"
               )
             ])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col greet-img" }, [
-            _c("img", {
-              attrs: { src: "", alt: "img has not been created yet" }
-            })
-          ])
+          _c("div", { staticClass: "col greet-img" })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row", staticStyle: { "margin-top": "5%" } }, [
@@ -50994,7 +51101,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "showProfile" } }, [
+  return _c("div", { staticClass: "pt-4", attrs: { id: "showProfile" } }, [
     this.initiated
       ? _c("div", { staticClass: "profile-container" }, [
           _c(
@@ -51421,6 +51528,41 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/puzzle/Puzzle.vue?vue&type=template&id=6bc24794&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/puzzle/Puzzle.vue?vue&type=template&id=6bc24794& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("canvas", {
+        attrs: { id: "canvas-puzzle", width: "1490", height: "820" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rooms/RoomsComponent.vue?vue&type=template&id=29a96872&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rooms/RoomsComponent.vue?vue&type=template&id=29a96872& ***!
@@ -51438,6 +51580,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "pt-4" },
     [
       _c("created-modal", { ref: "createdModal" }),
       _vm._v(" "),
@@ -66373,6 +66516,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('room-list', __webpack_requ
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('home', __webpack_require__(/*! ./components/home/HomeComponent */ "./resources/js/components/home/HomeComponent.vue")["default"]); // Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('room-chat', __webpack_require__(/*! ./components/chat/room-chat/RoomChat */ "./resources/js/components/chat/room-chat/RoomChat.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('puzzle', __webpack_require__(/*! ./components/puzzle/Puzzle */ "./resources/js/components/puzzle/Puzzle.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -67825,6 +67969,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_2fb19b52___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_2fb19b52___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/puzzle/Puzzle.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/puzzle/Puzzle.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Puzzle_vue_vue_type_template_id_6bc24794___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Puzzle.vue?vue&type=template&id=6bc24794& */ "./resources/js/components/puzzle/Puzzle.vue?vue&type=template&id=6bc24794&");
+/* harmony import */ var _Puzzle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Puzzle.vue?vue&type=script&lang=js& */ "./resources/js/components/puzzle/Puzzle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Puzzle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Puzzle_vue_vue_type_template_id_6bc24794___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Puzzle_vue_vue_type_template_id_6bc24794___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/puzzle/Puzzle.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/puzzle/Puzzle.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/puzzle/Puzzle.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Puzzle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Puzzle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/puzzle/Puzzle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Puzzle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/puzzle/Puzzle.vue?vue&type=template&id=6bc24794&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/puzzle/Puzzle.vue?vue&type=template&id=6bc24794& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Puzzle_vue_vue_type_template_id_6bc24794___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Puzzle.vue?vue&type=template&id=6bc24794& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/puzzle/Puzzle.vue?vue&type=template&id=6bc24794&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Puzzle_vue_vue_type_template_id_6bc24794___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Puzzle_vue_vue_type_template_id_6bc24794___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

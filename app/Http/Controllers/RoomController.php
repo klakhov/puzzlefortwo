@@ -7,6 +7,8 @@ use App\Events\AcceptRoom;
 use App\Events\NewRoom;
 use App\Jobs\CloseRoom;
 use App\Room;
+use Barryvdh\Debugbar\Facade as Debugbar;
+
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Str;
@@ -56,6 +58,13 @@ class RoomController extends Controller
         $room->startTimer();
         event(new AcceptRoom($room, 'definitive'));
         return response()->json('definitive accept');
+    }
+
+    public function destroy(Request $request)
+    {
+        DebugBar::info($request);
+        $room = Room::uid($request->uid);
+        dispatch((new CloseRoom($room))->delay(Room::$data['short_delay']));//job to close room
     }
 
 

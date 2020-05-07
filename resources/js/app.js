@@ -40,6 +40,7 @@ Vue.component('home', require('./components/home/HomeComponent').default);
 // Vue.component('our-canvas', require('./components/puzzle/PuzzleCanvasComponent').default);
 Vue.component('room-chat', require('./components/chat/room-chat/RoomChat').default);
 
+Vue.component('puzzle', require('./components/puzzle/Puzzle').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

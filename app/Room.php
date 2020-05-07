@@ -14,7 +14,8 @@ class Room extends MethodModel
     ];
 
     public static $data = [
-        'delay' => 300
+        'delay' => 300,
+        'short_delay' => 5,
     ];
 
     public static function uid($uid){

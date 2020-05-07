@@ -1,0 +1,3 @@
+[submodule "public/js/PuzzleCanvas"]
+	path = public/js/PuzzleCanvas
+	url = https://github.com/S11as/PuzzleCanvas.git
