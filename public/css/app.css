@@ -11252,7 +11252,7 @@ button {
   -webkit-transition-delay: 0.14s;
           transition-delay: 0.14s;
   box-sizing: border-box;
-  padding: 0;
+  padding: 30px 0;
   list-style: none;
   z-index: 10;
 }

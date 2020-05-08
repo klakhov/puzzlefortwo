@@ -35,7 +35,7 @@ class UserController extends Controller
         }
         $user->status = $request->status;
         $user->save();
-        return view('pages.play');
+        return redirect('/play');
     }
 
     public function avatarPreview(Request $request)

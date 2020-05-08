@@ -48,10 +48,24 @@
                 'profileEvents',
                 'haveEvents',
                 'isMe',
+                'user',
             ])
         },
         components:{
             FriendEvent
+        },
+        mounted(){
+            let channel = Echo.channel('profile');
+            channel.listen('.event', (pushed)=>{
+                if(pushed.type === "friend_request"){
+                    if(this.checkIfMyEvent(pushed.options.user.name) || this.checkIfMyEvent(pushed.options.friend.name)){
+                        this.$store.dispatch('updateUser');
+                        if(this.isMe){
+                            this.$store.dispatch('refreshUser');
+                        }
+                    }
+                }
+            });
         },
         methods: {
             returnBack() {
@@ -59,6 +73,9 @@
             },
             refreshProfile(){
                 this.$store.dispatch('refreshUser');
+            },
+            checkIfMyEvent(name){
+                return name === this.user.name;
             }
         },
     }

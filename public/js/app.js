@@ -2887,9 +2887,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['profileEvents', 'haveEvents', 'isMe'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['profileEvents', 'haveEvents', 'isMe', 'user'])),
   components: {
     FriendEvent: _FriendEvent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    var channel = Echo.channel('profile');
+    channel.listen('.event', function (pushed) {
+      if (pushed.type === "friend_request") {
+        if (_this.checkIfMyEvent(pushed.options.user.name) || _this.checkIfMyEvent(pushed.options.friend.name)) {
+          _this.$store.dispatch('updateUser');
+
+          if (_this.isMe) {
+            _this.$store.dispatch('refreshUser');
+          }
+        }
+      }
+    });
   },
   methods: {
     returnBack: function returnBack() {
@@ -2897,6 +2913,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     refreshProfile: function refreshProfile() {
       this.$store.dispatch('refreshUser');
+    },
+    checkIfMyEvent: function checkIfMyEvent(name) {
+      return name === this.user.name;
     }
   }
 });
@@ -51550,7 +51569,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
+    return _c("div", { staticClass: "pt-4" }, [
       _c("canvas", {
         attrs: { id: "canvas-puzzle", width: "1490", height: "820" }
       })
@@ -67777,6 +67796,13 @@ __webpack_require__.r(__webpack_exports__);
       commit('setHaveFriends');
       commit('setHaveEvents');
       commit('setProfileEvents');
+    });
+  },
+  updateUser: function updateUser(_ref4) {
+    var commit = _ref4.commit,
+        state = _ref4.state;
+    axios.get('/profile/info/' + state.user.name).then(function (response) {
+      commit('setUser', response.data);
     });
   }
 });

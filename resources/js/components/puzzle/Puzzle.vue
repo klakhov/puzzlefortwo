@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pt-4">
         <canvas id="canvas-puzzle" width="1490" height="820"></canvas>
 <!--            <div id="right-menu">-->
 <!--                <div id="right-menu-top">-->

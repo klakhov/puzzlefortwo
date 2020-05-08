@@ -32,5 +32,11 @@ export default {
                 commit('setHaveEvents');
                 commit('setProfileEvents');
             })
+    },
+    updateUser({commit, state}){
+        axios.get('/profile/info/'+state.user.name)
+            .then(response=>{
+                commit('setUser',response.data);
+            })
     }
 }
