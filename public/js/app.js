@@ -1975,6 +1975,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    console.log("chat created");
     var uid = $(location).attr('href').split('/').pop();
     var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     axios.get('/puzzle/info/room/' + uid + '?_token=' + token).then(function (response) {
@@ -2537,10 +2538,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      slideIndex: 0
+      slideIndex: 0,
+      cup: "/img/main-page/cup.png",
+      preferences: "/img/main-page/preferences.png",
+      teamplay: "/img/main-page/teamplay.png",
+      play: "/img/main-page/play.png",
+      progress: "/img/main-page/progress.png",
+      friends: "/img/main-page/friends.png",
+      settings: "/img/main-page/settings.png",
+      support: "/img/main-page/support.png",
+      communication: "/img/main-page/commuication.png"
     };
   },
   mounted: function mounted() {
@@ -50110,269 +50132,465 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "container" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _c("div", { staticClass: "row", staticStyle: { "margin-top": "5%" } }, [
+        _c(
+          "div",
+          { staticClass: "col-4 container greet-first-col pt-4 pb-4" },
+          [
+            _c(
+              "div",
+              { staticClass: "row justify-content-center align-items-center" },
+              [
+                _c("img", {
+                  staticClass: "col-auto",
+                  attrs: {
+                    src: this.teamplay,
+                    alt: "",
+                    width: "120px",
+                    height: "120px"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-auto greet-title" }, [
+                  _vm._v(
+                    "\n                           Тимплей\n                        "
+                  )
+                ])
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "col-4 container greet-first-col pt-4 pb-4",
+            staticStyle: { "background-color": "rgb(43,42,41)" }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "row justify-content-center align-items-center" },
+              [
+                _c("img", {
+                  staticClass: "col-auto",
+                  attrs: {
+                    src: this.cup,
+                    alt: "",
+                    width: "120px",
+                    height: "120px"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-auto greet-title" }, [
+                  _vm._v(
+                    "\n                            Достижения\n                        "
+                  )
+                ])
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-4 container greet-first-col pt-4 pb-4" },
+          [
+            _c(
+              "div",
+              { staticClass: "row justify-content-center align-items-center" },
+              [
+                _c("img", {
+                  staticClass: "col-auto",
+                  attrs: {
+                    src: this.preferences,
+                    alt: "",
+                    width: "120px",
+                    height: "120px"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-auto greet-title" }, [
+                  _vm._v(
+                    "\n                            Настройки\n                        "
+                  )
+                ])
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row gray-row" }, [
+        _c("div", { staticClass: "col-md-12 greet-second-info" }, [
+          _vm._v("НАШИ ПРЕИМУЩЕСТВА")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4 greet-second-col container" }, [
+          _c(
+            "div",
+            {
+              staticClass: "row justify-content-center white-block pt-5 pb-5",
+              staticStyle: { "margin-right": "0", "margin-left": "0" }
+            },
+            [
+              _c("div", { staticClass: "col-auto" }, [
+                _c("img", {
+                  attrs: {
+                    src: this.play,
+                    alt: "ach-icon",
+                    width: "80px",
+                    height: "80px"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._m(5)
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4 greet-second-col container" }, [
+          _c(
+            "div",
+            {
+              staticClass: "row justify-content-center white-block pt-5 pb-5",
+              staticStyle: { "margin-right": "0", "margin-left": "0" }
+            },
+            [
+              _c("div", { staticClass: "col-auto" }, [
+                _c("img", {
+                  attrs: {
+                    src: this.progress,
+                    alt: "ach-icon",
+                    width: "80px",
+                    height: "80px"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(6),
+              _vm._v(" "),
+              _vm._m(7)
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4 greet-second-col container" }, [
+          _c(
+            "div",
+            {
+              staticClass: "row justify-content-center white-block pt-5 pb-5",
+              staticStyle: { "margin-right": "0", "margin-left": "0" }
+            },
+            [
+              _c("div", { staticClass: "col-auto" }, [
+                _c("img", {
+                  attrs: {
+                    src: this.settings,
+                    alt: "ach-icon",
+                    width: "80px",
+                    height: "80px"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(8),
+              _vm._v(" "),
+              _vm._m(9)
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4 greet-second-col container" }, [
+          _c(
+            "div",
+            {
+              staticClass: "row justify-content-center white-block pt-5 pb-5",
+              staticStyle: { "margin-right": "0", "margin-left": "0" }
+            },
+            [
+              _c("div", { staticClass: "col-auto" }, [
+                _c("img", {
+                  attrs: {
+                    src: this.friends,
+                    alt: "ach-icon",
+                    width: "80px",
+                    height: "80px"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(10),
+              _vm._v(" "),
+              _vm._m(11)
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4 greet-second-col container" }, [
+          _c(
+            "div",
+            {
+              staticClass: "row justify-content-center white-block pt-5 pb-5",
+              staticStyle: { "margin-right": "0", "margin-left": "0" }
+            },
+            [
+              _c("div", { staticClass: "col-auto" }, [
+                _c("img", {
+                  attrs: {
+                    src: this.communication,
+                    alt: "ach-icon",
+                    width: "80px",
+                    height: "80px"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(12),
+              _vm._v(" "),
+              _vm._m(13)
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4 greet-second-col container" }, [
+          _c(
+            "div",
+            {
+              staticClass: "row justify-content-center white-block pt-5 pb-5",
+              staticStyle: { "margin-right": "0", "margin-left": "0" }
+            },
+            [
+              _c("div", { staticClass: "col-auto" }, [
+                _c("img", {
+                  attrs: {
+                    src: this.support,
+                    alt: "ach-icon",
+                    width: "80px",
+                    height: "80px"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(14),
+              _vm._v(" "),
+              _vm._m(15)
+            ]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(16)
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        {
-          staticClass: "container-fluid gray-fone",
-          staticStyle: { scroll: "hidden" }
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "container slider", attrs: { id: "slider" } },
-            [
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col content-info content-info-big" },
-                  [_vm._v("Пазлы для игры с другом")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col content-info content-info-small" },
-                  [_vm._v("Играть вместе всегда приятнее")]
-                )
+    return _c(
+      "div",
+      {
+        staticClass: "container-fluid gray-fone",
+        staticStyle: { scroll: "hidden" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "container slider", attrs: { id: "slider" } },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col content-info content-info-big" }, [
+                _vm._v("Пазлы для игры с другом")
               ])
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col greet-holder" }, [
-            _c("a", { attrs: { href: "#" } }, [
-              _vm._v("Приветствуем в PuzzleForTwo")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col greet-info" }, [
-            _c("i", [
-              _vm._v(
-                "Не просто возможность собирать пазлы, это возможность собирать пазлы в компании\n                        людей, которые находятся от вас на расстоянии. Создавайте аккаунт, приглашайте\n                        друзей и начинайте играть. Получайте достижения,отслеживайте статистику других\n                        игроков, заводите новых друзей, станьте настоящим спидпазлером"
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col greet-img" })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row", staticStyle: { "margin-top": "5%" } }, [
-          _c("div", { staticClass: "col-4 greet-first-col" }, [
-            _c("img", {
-              attrs: { src: "", alt: "", width: "90px", height: "60px" }
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Тимплей")])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-4 greet-first-col",
-              staticStyle: { "background-color": "rgb(43,42,41)" }
-            },
-            [
-              _c("img", {
-                attrs: { src: "", alt: "", width: "60px", height: "60px" }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v("Достижения")])
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-4 greet-first-col" }, [
-            _c("img", {
-              attrs: { src: "", alt: "", width: "60px", height: "60px" }
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Настройки")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row gray-row" }, [
-          _c("div", { staticClass: "col-md-12 greet-second-info" }, [
-            _vm._v("НАШИ ПРЕИМУЩЕСТВА")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 greet-second-col" }, [
-            _c(
-              "div",
-              {
-                staticClass: "row white-block",
-                staticStyle: { "margin-right": "0", "margin-left": "0" }
-              },
-              [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("img", { attrs: { src: "", alt: "ach-icon" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-header" }, [
-                  _c("span", [_vm._v("Ach-header")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-pattern" }, [
-                  _c("span", [_vm._v("Ach-pattern")])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 greet-second-col" }, [
-            _c(
-              "div",
-              {
-                staticClass: "row white-block",
-                staticStyle: { "margin-right": "0", "margin-left": "0" }
-              },
-              [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("img", { attrs: { src: "", alt: "ach-icon" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-header" }, [
-                  _c("span", [_vm._v("Ach-header")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-pattern" }, [
-                  _c("span", [_vm._v("Ach-pattern")])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 greet-second-col" }, [
-            _c(
-              "div",
-              {
-                staticClass: "row white-block",
-                staticStyle: { "margin-right": "0", "margin-left": "0" }
-              },
-              [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("img", { attrs: { src: "", alt: "ach-icon" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-header" }, [
-                  _c("span", [_vm._v("Ach-header")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-pattern" }, [
-                  _c("span", [_vm._v("Ach-pattern")])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 greet-second-col" }, [
-            _c(
-              "div",
-              {
-                staticClass: "row white-block",
-                staticStyle: { "margin-right": "0", "margin-left": "0" }
-              },
-              [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("img", { attrs: { src: "", alt: "ach-icon" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-header" }, [
-                  _c("span", [_vm._v("Ach-header")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-pattern" }, [
-                  _c("span", [_vm._v("Ach-pattern")])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 greet-second-col" }, [
-            _c(
-              "div",
-              {
-                staticClass: "row white-block",
-                staticStyle: { "margin-right": "0", "margin-left": "0" }
-              },
-              [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("img", { attrs: { src: "", alt: "ach-icon" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-header" }, [
-                  _c("span", [_vm._v("Ach-header")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-pattern" }, [
-                  _c("span", [_vm._v("Ach-pattern")])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 greet-second-col" }, [
-            _c(
-              "div",
-              {
-                staticClass: "row white-block",
-                staticStyle: { "margin-right": "0", "margin-left": "0" }
-              },
-              [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("img", { attrs: { src: "", alt: "ach-icon" } })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-header" }, [
-                  _c("span", [_vm._v("Ach-header")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12 ach-pattern" }, [
-                  _c("span", [_vm._v("Ach-pattern")])
-                ])
-              ]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "container-fluid",
-          staticStyle: {
-            "margin-top": "2%",
-            background: "rgb(36,36,36)",
-            padding: "1%"
-          }
-        },
-        [
-          _c("div", { staticClass: "row justify-content-center" }, [
-            _c("div", { staticClass: "col-md-12 bottom-info" }, [
-              _vm._v("Puzzle For Two")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-12 bottom-info" }, [
-              _vm._v("©2019")
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col content-info content-info-small" },
+                [_vm._v("Играть вместе всегда приятнее")]
+              )
             ])
-          ])
-        ]
-      )
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col greet-holder" }, [
+        _c("a", { attrs: { href: "#" } }, [
+          _vm._v("Приветствуем в PuzzleForTwo")
+        ])
+      ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col greet-info" }, [
+        _c("i", [
+          _vm._v(
+            "Не просто возможность собирать пазлы, это возможность собирать пазлы в компании\n                        людей, которые находятся от вас на расстоянии. Создавайте аккаунт, приглашайте\n                        друзей и начинайте играть. Получайте достижения,отслеживайте статистику других\n                        игроков, заводите новых друзей, станьте настоящим спидпазлером"
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col greet-img" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-header" }, [
+      _c("span", [_vm._v("Играйте вместе")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-pattern" }, [
+      _c("span", [_vm._v("Играть в любую игру в компании всегда веселее")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-header" }, [
+      _c("span", [_vm._v("Просматривайте прогресс")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-pattern" }, [
+      _c("span", [_vm._v("Система достижений не даст вам заскучать")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-header" }, [
+      _c("span", [_vm._v("Настраивайте игру")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-pattern" }, [
+      _c("span", [
+        _vm._v("Загружайте свои изображения и собирайте из них пазлы")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-header" }, [
+      _c("span", [_vm._v("Заводите друзей")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-pattern" }, [
+      _c("span", [
+        _vm._v("Понравилось играть вместе? Добавьте друг друга в друзья")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-header" }, [
+      _c("span", [_vm._v("Общайтесь")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-pattern" }, [
+      _c("span", [_vm._v("Делитесь своими мыслями через внутриигровой чат")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-header" }, [
+      _c("span", [_vm._v("Поддержка")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 ach-pattern" }, [
+      _c("span", [
+        _vm._v("Мы готовы оперативно помочь с любой вашей проблемой")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "container-fluid",
+        staticStyle: {
+          "margin-top": "2%",
+          background: "rgb(36,36,36)",
+          padding: "1%"
+        }
+      },
+      [
+        _c("div", { staticClass: "row justify-content-center" }, [
+          _c("div", { staticClass: "col-md-12 bottom-info" }, [
+            _vm._v("Puzzle For Two")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12 bottom-info" }, [_vm._v("©2019")])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true

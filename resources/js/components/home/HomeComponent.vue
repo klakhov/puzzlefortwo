@@ -30,96 +30,108 @@
                 </div>
             </div>
             <div class="row" style="margin-top:5%;">
-                <div class="col-4 greet-first-col">
-                    <img src="" alt="" width="90px" height="60px">
-                    <span>Тимплей</span>
+                <div class="col-4 container greet-first-col pt-4 pb-4">
+                    <div class="row justify-content-center align-items-center" >
+                        <img :src="this.teamplay" alt="" class="col-auto" width="120px" height="120px">
+                        <div class="col-auto greet-title">
+                           Тимплей
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4 greet-first-col" style="background-color:rgb(43,42,41)">
-                    <img src="" alt="" width="60px" height="60px">
-                    <span>Достижения</span>
+                <div class="col-4 container greet-first-col pt-4 pb-4"style="background-color:rgb(43,42,41)">
+                    <div class="row justify-content-center align-items-center" >
+                        <img :src="this.cup" alt="" class="col-auto" width="120px" height="120px">
+                        <div class="col-auto greet-title">
+                            Достижения
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4 greet-first-col">
-                    <img src="" alt="" width="60px" height="60px">
-                    <span>Настройки</span>
+                <div class="col-4 container greet-first-col pt-4 pb-4">
+                    <div class="row justify-content-center align-items-center" >
+                        <img :src="this.preferences" alt="" class="col-auto" width="120px" height="120px">
+                        <div class="col-auto greet-title">
+                            Настройки
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row gray-row">
                 <div class="col-md-12 greet-second-info">НАШИ ПРЕИМУЩЕСТВА</div>
-                <div class="col-md-4 greet-second-col">
-                    <div class="row white-block" style="margin-right:0;margin-left:0">
-                        <div class="col-12">
-                            <img src="" alt="ach-icon">
+                <div class="col-md-4 greet-second-col container">
+                    <div class="row justify-content-center white-block pt-5 pb-5" style="margin-right:0;margin-left:0">
+                        <div class="col-auto">
+                            <img :src="this.play" alt="ach-icon" width="80px" height="80px">
                         </div>
                         <div class="col-12 ach-header">
-                            <span>Ach-header</span>
+                            <span>Играйте вместе</span>
                         </div>
                         <div class="col-12 ach-pattern">
-                            <span>Ach-pattern</span>
+                            <span>Играть в любую игру в компании всегда веселее</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 greet-second-col">
-                    <div class="row white-block" style="margin-right:0;margin-left:0">
-                        <div class="col-12">
-                            <img src="" alt="ach-icon">
+                <div class="col-md-4 greet-second-col container">
+                    <div class="row justify-content-center white-block pt-5 pb-5" style="margin-right:0;margin-left:0">
+                        <div class="col-auto">
+                            <img :src="this.progress" alt="ach-icon" width="80px" height="80px">
                         </div>
                         <div class="col-12 ach-header">
-                            <span>Ach-header</span>
+                            <span>Просматривайте прогресс</span>
                         </div>
                         <div class="col-12 ach-pattern">
-                            <span>Ach-pattern</span>
+                            <span>Система достижений не даст вам заскучать</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 greet-second-col">
-                    <div class="row white-block" style="margin-right:0;margin-left:0">
-                        <div class="col-12">
-                            <img src="" alt="ach-icon">
+                <div class="col-md-4 greet-second-col container">
+                    <div class="row justify-content-center white-block pt-5 pb-5" style="margin-right:0;margin-left:0">
+                        <div class="col-auto">
+                            <img :src="this.settings" alt="ach-icon" width="80px" height="80px">
                         </div>
                         <div class="col-12 ach-header">
-                            <span>Ach-header</span>
+                            <span>Настраивайте игру</span>
                         </div>
                         <div class="col-12 ach-pattern">
-                            <span>Ach-pattern</span>
+                            <span>Загружайте свои изображения и собирайте из них пазлы</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 greet-second-col">
-                    <div class="row white-block" style="margin-right:0;margin-left:0">
-                        <div class="col-12">
-                            <img src="" alt="ach-icon">
+                <div class="col-md-4 greet-second-col container">
+                    <div class="row justify-content-center white-block pt-5 pb-5" style="margin-right:0;margin-left:0">
+                        <div class="col-auto">
+                            <img :src="this.friends" alt="ach-icon" width="80px" height="80px">
                         </div>
                         <div class="col-12 ach-header">
-                            <span>Ach-header</span>
+                            <span>Заводите друзей</span>
                         </div>
                         <div class="col-12 ach-pattern">
-                            <span>Ach-pattern</span>
+                            <span>Понравилось играть вместе? Добавьте друг друга в друзья</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 greet-second-col">
-                    <div class="row white-block" style="margin-right:0;margin-left:0">
-                        <div class="col-12">
-                            <img src="" alt="ach-icon">
+                <div class="col-md-4 greet-second-col container">
+                    <div class="row justify-content-center white-block pt-5 pb-5" style="margin-right:0;margin-left:0">
+                        <div class="col-auto">
+                            <img :src="this.communication" alt="ach-icon" width="80px" height="80px">
                         </div>
                         <div class="col-12 ach-header">
-                            <span>Ach-header</span>
+                            <span>Общайтесь</span>
                         </div>
                         <div class="col-12 ach-pattern">
-                            <span>Ach-pattern</span>
+                            <span>Делитесь своими мыслями через внутриигровой чат</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 greet-second-col">
-                    <div class="row white-block" style="margin-right:0;margin-left:0">
-                        <div class="col-12">
-                            <img src="" alt="ach-icon">
+                <div class="col-md-4 greet-second-col container">
+                    <div class="row justify-content-center white-block pt-5 pb-5" style="margin-right:0;margin-left:0">
+                        <div class="col-auto">
+                            <img :src="this.support" alt="ach-icon" width="80px" height="80px">
                         </div>
                         <div class="col-12 ach-header">
-                            <span>Ach-header</span>
+                            <span>Поддержка</span>
                         </div>
                         <div class="col-12 ach-pattern">
-                            <span>Ach-pattern</span>
+                            <span>Мы готовы оперативно помочь с любой вашей проблемой</span>
                         </div>
                     </div>
                 </div>
@@ -138,7 +150,16 @@
     export default {
         data:function(){
             return{
-                slideIndex:0
+                slideIndex:0,
+                cup: "/img/main-page/cup.png",
+                preferences: "/img/main-page/preferences.png",
+                teamplay: "/img/main-page/teamplay.png",
+                play:"/img/main-page/play.png",
+                progress:"/img/main-page/progress.png",
+                friends:"/img/main-page/friends.png",
+                settings:"/img/main-page/settings.png",
+                support:"/img/main-page/support.png",
+                communication: "/img/main-page/commuication.png"
             }
         },
         mounted(){

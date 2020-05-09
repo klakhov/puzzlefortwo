@@ -78,6 +78,7 @@
             }
         },
         mounted() {
+            console.log("chat created");
             let uid = $(location).attr('href').split('/').pop();
             let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             axios.get('/puzzle/info/room/'+uid+'?_token='+token)

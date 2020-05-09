@@ -12046,13 +12046,10 @@ button {
   height: 200px;
   background-color: black;
   color: white;
-  padding-top: 7.5%;
   font-size: 18px;
-  padding-left: 7.5%;
-  padding-right: 7%;
 }
 
-.greet-first-col > span {
+.greet-title {
   font-size: 22px;
 }
 
@@ -12254,7 +12251,7 @@ button {
 .ico-container {
   position: absolute;
   top: 90%;
-  left: 95%;
+  right: 2%;
   z-index: 100;
 }
 
