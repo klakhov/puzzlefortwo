@@ -1,3 +1,0 @@
-
-
-class MenuPlace extends Component {}
